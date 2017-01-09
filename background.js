@@ -6,7 +6,11 @@ const Protractor = {
         Protractor.isActive = true;
 
         chrome.browserAction.setIcon({
-            path : "iconActive.png",
+            path : {
+                "16": "images/icon16-inactive.png",
+                "48": "images/icon48-inactive.png",
+                "128":  "images/icon128-inactive.png"
+            },
             tabId: tab.id
         });
 
@@ -15,10 +19,7 @@ const Protractor = {
     onInactive: function(tab) {
         Protractor.isActive = false;
 
-        // console.warn(Protractor.manifest.icons)
-
         chrome.browserAction.setIcon({
-            // path : "icon16.png",
             path: Protractor.manifest.icons,
             tabId: tab.id
         });
