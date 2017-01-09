@@ -1,0 +1,41 @@
+{
+    "manifest_version": 2,
+    "name": "Protractor",
+    "version": "0.0.3",
+    "description": "Easily measure angles in your browser window.",
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128":  "icon128.png"
+    },
+    "browser_action": {
+        "default_icon": "icon16.png",
+        "default_badge": { "text": "aaa" },
+        "default_title": "Protractor"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "content_scripts": [{
+        "matches": ["https://*/*", "http://*/*", "file:///*"],
+        "js": ["content.js"]
+    }],
+    "offline_enabled": true,
+    "permissions": ["activeTab"]
+}
+
+/*
+circular design
+display deg on mouse move in center
+marker every 15 deg
+scale / close / lock
+4 guides. double click to lock/unlock
+UNIT TESTS: https://mochajs.org/
+
+options:
+    - outer thickness
+    - mark size
+    - radians / degrees / radians
+    - marker count
+*/
