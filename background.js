@@ -1,9 +1,10 @@
-const Protractor = {
-    isActive: false,
-    manifest: chrome.runtime.getManifest(),
+const Background = {
+    isActive: false
+};
 
+module.exports = {
     onActive: function(tab) {
-        Protractor.isActive = true;
+        Background.isActive = true;
 
         chrome.browserAction.setIcon({
             path : {
@@ -17,21 +18,21 @@ const Protractor = {
     },
 
     onInactive: function(tab) {
-        Protractor.isActive = false;
+        Background.isActive = false;
 
         chrome.browserAction.setIcon({
-            path: Protractor.manifest.icons,
+            path: chrome.runtime.getManifest().icons,
             tabId: tab.id
         });
     },
 
     handleClick: function(tab) {
-        Protractor.isActive
-            ? Protractor.onInactive(tab)
-            : Protractor.onActive(tab);
+        Background.isActive
+            ? Background.onInactive(tab)
+            : Background.onActive(tab);
 
-        chrome.tabs.sendMessage(tab.id, { active: Protractor.isActive });
+        chrome.tabs.sendMessage(tab.id, { active: Background.isActive });
     },
 };
 
-chrome.browserAction.onClicked.addListener(Protractor.handleClick);
+chrome.browserAction.onClicked.addListener(module.exports.handleClick);
