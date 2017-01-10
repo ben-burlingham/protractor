@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "tape test/*.test.js | faucet"
+    "test": "tape test/*.test.js | faucet",
+    "tape": "tape test/*.test.js"
   },
   "dependencies": {
     "faucet": "^0.0.1",
