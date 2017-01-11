@@ -1,0 +1,91 @@
+.protractor-container {
+    background-color: yellow;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
+    position: absolute;
+}
+
+.protractor-button-container {
+    background: green;
+    border: 0;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    width: 50%;
+}
+
+.protractor-button-close,
+.protractor-button-lock {
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
+    background-repeat: no-repeat;
+    background-size: 90px 30px;
+    border: 0;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: top;
+    width: 30px;
+}
+
+.protractor-button-close {
+    background-color: turquoise;
+    background-position: -60px 0;
+    font-size: 16px;
+    right: 0;
+    width: 30px;
+}
+
+.protractor-button-lock {
+    background-color: bisque;
+    background-position: 0 0;
+    font-size: 8px;
+    text-transform: uppercase;
+}
+
+.protractor-button-close:hover {
+    background-color: #ccc;
+}
+
+.protractor-button-lock:hover {
+    background-color: #ccc;
+    background-position: -30px 0;
+}
+
+.protractor-circle {
+    border: 2px solid red;
+    box-sizing: border-box;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.protractor-display {
+    background: rgba(100, 100, 100, 0.2);
+    border-radius: 3px;
+    font-size: 14px;
+    height: 20px;
+    left: 50%;
+    line-height: 20px;
+    margin: -10px 0 0 -40px;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 80px;
+    z-index: 100;
+}
+
+.protractor-marker {
+    position: absolute;
+    height: 10px;
+    width: 2px;
+    background: blue;
+    z-index: 2;
+}

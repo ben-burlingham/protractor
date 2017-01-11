@@ -10,6 +10,7 @@ Background = {
         });
 
         chrome.browserAction.setTitle({ title: 'Protractor (active)' });
+        chrome.tabs.sendMessage(tab.id, { isOn: true });
     },
 
     setOff: function(tab, cb) {
@@ -19,17 +20,14 @@ Background = {
         });
 
         chrome.browserAction.setTitle({ title: 'Protractor' });
+        chrome.tabs.sendMessage(tab.id, { isOn: false });
     },
 
     handleClick: function(tab) {
         chrome.browserAction.getTitle({}, str => {
-            const isOn = (str.indexOf('(active)') > -1);
-
-            isOn
+            (str.indexOf('(active)') > -1)
                 ? Background.setOff(tab)
                 : Background.setOn(tab);
-
-            chrome.tabs.sendMessage(tab.id, { isOn });
         });
     },
 };

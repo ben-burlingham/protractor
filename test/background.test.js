@@ -1,7 +1,7 @@
 chrome = require('sinon-chrome');
 
 const test = require('tape');
-require('../background');
+require('../scripts/background');
 // const sinon = require('sinon');
 
 const tab = {
@@ -22,6 +22,5 @@ test('turning on changes icons and title', t => {
 });
 
 test('turning off changes icons and title', t => {
-
     t.end();
 });

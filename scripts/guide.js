@@ -1,0 +1,3 @@
+Protractor.Marker = {
+
+};

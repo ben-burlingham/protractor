@@ -12,28 +12,17 @@
         "default_title": "Protractor"
     },
     "background": {
-        "scripts": ["background.js"],
+        "scripts": ["scripts/background.js"],
         "persistent": false
     },
     "content_scripts": [{
         "matches": ["https://*/*", "http://*/*", "file:///*"],
-        "js": ["content.js"]
+        "js": ["scripts/foreground.js", "scripts/ui.js", "scripts/marker.js" ],
+        "css": ["style/style.css"]
     }],
     "offline_enabled": true,
-    "permissions": ["activeTab"]
+    "permissions": ["activeTab"],
+    "web_accessible_resources": [
+        "images/*.svg"
+    ]
 }
-
-/*
-circular design
-display deg on mouse move in center
-marker every 15 deg
-scale / close / lock
-4 guides. double click to lock/unlock
-UNIT TESTS: https://mochajs.org/
-
-options:
-    - outer thickness
-    - mark size
-    - radians / degrees / radians
-    - marker count
-*/
