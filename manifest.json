@@ -17,7 +17,7 @@
     },
     "content_scripts": [{
         "matches": ["https://*/*", "http://*/*", "file:///*"],
-        "js": ["scripts/foreground.js", "scripts/ui.js", "scripts/marker.js" ],
+        "js": ["scripts/foreground.js", "scripts/ui.js", "scripts/marker.js", "scripts/handle.js", "scripts/guide.js" ],
         "css": ["style/style.css"]
     }],
     "offline_enabled": true,

@@ -1,7 +1,10 @@
 /*
 TODO
 prevent rebuild of container each time
-4 guides. double click to lock/unlock
+2 guides. double click to lock/unlock
+resize
+switch class on lock/unlock button so hover states show alternative
+split style sheets
 
 options page:
     - outer thickness
@@ -24,17 +27,17 @@ chrome.runtime.onMessage.addListener(
             buttonContainer.appendChild(Protractor.UI.buildButtonLock(sender.id));
             buttonContainer.appendChild(Protractor.UI.buildButtonClose(sender.id));
 
-            // Protractor.UI.buildGuides().forEach(element => {
-            //     container.appendChild(element);
-            // });
+            Protractor.UI.buildGuides(radius).forEach(element => {
+                container.appendChild(element);
+            });
 
             Protractor.UI.buildMarkers(radius).forEach(element => {
                 container.appendChild(element);
             });
 
-            // Protractor.UI.buildHandles().forEach(element => {
-            //     container.appendChild(element);
-            // });
+            Protractor.UI.buildHandles().forEach(element => {
+                container.appendChild(element);
+            });
 
             container.appendChild(Protractor.UI.buildCircle(radius));
             container.appendChild(Protractor.UI.buildDisplay());

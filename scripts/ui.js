@@ -47,6 +47,26 @@ Protractor.UI = {
         return div;
     },
 
+    buildGuides: (radius) => {
+        const guides = [];
+
+        for (let i = 0; i < 2; i++) {
+            guides.push(new Protractor.Guide(i, radius));
+        }
+
+        return guides;
+    },
+
+    buildHandles: () => {
+        const handles = [];
+
+        for (let i = 0; i < 2; i++) {
+            handles.push(new Protractor.Handle(i));
+        }
+
+        return handles;
+    },
+
     buildMarkers: (radius) => {
         const markers = [];
 
@@ -56,4 +76,5 @@ Protractor.UI = {
 
         return markers;
     },
+
 };
