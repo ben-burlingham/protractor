@@ -61,7 +61,7 @@ Protractor.UI = {
         const handles = [];
 
         for (let i = 0; i < 2; i++) {
-            handles.push(new Protractor.Handle(i));
+            handles.push(new Protractor.Handle(i, Protractor.UI.resize));
         }
 
         return handles;
@@ -77,4 +77,31 @@ Protractor.UI = {
         return markers;
     },
 
+    resize: (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        let offset = 0;
+
+        if (evt.movementX < 0 && evt.movementY < 0) {
+            offset = Math.min(evt.movementX, evt.movementY);
+        } else if (evt.movementX >= 0 && evt.movementY >= 0) {
+            offset = Math.max(evt.movementX, evt.movementY);
+        }
+        // else if (evt.movementX < 0) {
+        //     offset = (Math.abs(evt.movementX) < evt.movementY ? evt.movementY : evt.movementX);
+        // } else {
+        //     offset = (Math.abs(evt.movementY) < evt.movementX ? evt.movementX : evt.movementY);
+        // }
+
+        const container = document.querySelector('.protractor-container');
+        const circle = document.querySelector('.protractor-circle');
+
+        circle.style.borderRadius = `${container.offsetWidth / 2}px`
+
+        container.style.left = `${container.offsetLeft + offset}px`;
+        container.style.top = `${container.offsetTop + offset}px`;
+
+        container.style.width = `${container.offsetWidth - 2 * offset}px`;
+        container.style.height = `${container.offsetHeight - 2 * offset}px`;
+    },
 };
