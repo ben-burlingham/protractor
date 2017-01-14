@@ -1,9 +1,11 @@
 Protractor.Handle = function(i, resize) {
-    function dragstart () {
+    function dragstart (evt) {
+        evt.preventDefault();
         document.body.addEventListener('mousemove', resize);
     }
 
-    function dragend() {
+    function dragend(evt) {
+        evt.preventDefault();
         document.body.removeEventListener('mousemove', resize);
     }
 

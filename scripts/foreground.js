@@ -2,7 +2,11 @@
 TODO
 prevent rebuild of container each time
 2 guides. double click to lock/unlock
-resize
+lower resize handle
+window resize
+window scroll
+resize function rework
+consistent argument patterns
 switch class on lock/unlock button so hover states show alternative
 split style sheets
 

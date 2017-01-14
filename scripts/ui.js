@@ -13,11 +13,7 @@ Protractor.UI = {
     },
 
     buildCircle: (radius) => {
-        const div = document.createElement('div');
-        div.className = 'protractor-circle';
-
-        div.style.borderRadius = `${radius}px`;
-        return div;
+        return new Protractor.Circle({ radius, move: Protractor.UI.move });
     },
 
     buildButtonContainer: () => {
@@ -41,10 +37,7 @@ Protractor.UI = {
     },
 
     buildDisplay: (radius) => {
-        const div = document.createElement('div');
-        div.className = 'protractor-display';
-        div.innerHTML = "999.999 rad"
-        return div;
+        return new Protractor.Display({ move: Protractor.UI.move });
     },
 
     buildGuides: (radius) => {
@@ -75,6 +68,34 @@ Protractor.UI = {
         }
 
         return markers;
+    },
+
+    move: (evt) => {
+        evt.preventDefault();
+
+        const container = document.querySelector('.protractor-container');
+        const conBounds = container.getBoundingClientRect();
+        const docBounds = document.body.getBoundingClientRect();
+
+        const newX = conBounds.left + evt.movementX;
+        const newY = conBounds.top + evt.movementY;
+
+        if (newX < docBounds.left) {
+            container.style.left = `${docBounds.left}px`;
+        } else if ((newX + conBounds.width) > docBounds.right) {
+            container.style.left = `${docBounds.right - conBounds.width}px`;
+        } else {
+            container.style.left = `${newX}px`;
+        }
+
+        if (newY < docBounds.top) {
+            container.style.top = `${docBounds.top}px`;
+        } else if ((newY + conBounds.height) > docBounds.bottom) {
+            container.style.top = `${docBounds.bottom - conBounds.height}px`;
+        } else {
+            container.style.top = `${newY}px`;
+        }
+
     },
 
     resize: (evt) => {
