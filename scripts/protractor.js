@@ -1,4 +1,28 @@
-Protractor = function({ appId, radius }) {
+/*
+TODO
+pubsub for guide move, resize. try to contain side effects and remove node dep injection
+initial location centering
+guide double click to lock/unlock
+lower resize handle
+window resize
+window scroll
+resize function rework
+switch class on lock/unlock button so hover states show alternative
+improve active switching in background (str.indexOf('(active)'))
+
+options page:
+    - mark size
+    - radians / degrees / radians
+    - marker count
+    - precision
+    - guide snap
+    - background opacity
+    - static guide opacity
+*/
+
+Protractor = function({ appId }) {
+    const radius = 200;
+
     // Main container
     this.container = document.createElement('div');
     this.container.className = `${appId}-container`
@@ -13,6 +37,7 @@ Protractor = function({ appId, radius }) {
 
     this.closeBtn = document.createElement('button');
     this.closeBtn.className = `${appId}-button-close`;
+    this.closeBtn.addEventListener('click', this.hide.bind(this));
 
     this.lockBtn = document.createElement('button');
     this.lockBtn.className = `${appId}-button-lock`;
@@ -43,11 +68,16 @@ Protractor = function({ appId, radius }) {
     this.container.appendChild(this.guide0);
     this.container.appendChild(this.guide1);
 
-
-    this.show();
+    // TODO remove this
+    // this.show();
 };
 
 Protractor.prototype = {
+    hide: function() {
+        document.body.removeChild(this.container);
+        chrome.runtime.sendMessage({ isOn: false });
+    },
+
     setAppId: id => this.appId = id,
 
     show: function() {
