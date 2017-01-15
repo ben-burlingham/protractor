@@ -16,15 +16,23 @@
         "persistent": false
     },
     "content_scripts": [{
-        "matches": ["https://*/*", "http://*/*", "file:///*"],
-        "js": ["scripts/foreground.js", "scripts/ui.js", "scripts/circle.js",
-            "scripts/marker.js", "scripts/handle.js", "scripts/guide.js",
-            "scripts/display.js" ],
-        "css": ["style/style.css"]
+        "matches": [
+            "https://*/*",
+            "http://*/*",
+            "file:///*"
+        ],
+        "js": [
+            "scripts/protractor.js",
+            "scripts/circle.js",
+            "scripts/foreground.js"
+        ],
+        "css": [
+            "style/buttons.css",
+            "style/circle.css",
+            "style/container.css"
+        ]
     }],
     "offline_enabled": true,
     "permissions": ["activeTab"],
-    "web_accessible_resources": [
-        "images/*.svg"
-    ]
+    "web_accessible_resources": [ "images/*.svg" ]
 }

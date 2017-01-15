@@ -1,33 +1,29 @@
 Protractor.Guide = function(appId, container, display) {
-    Object.assign(this, {
-        appId,
-        container,
-        display,
-    });
+    Object.assign(this, { appId, container,  display });
 };
 
 Protractor.Guide.prototype = {
     build: function() {
         const div = document.createElement('div');
-        const moveRef = this.move.bind(this, div);
+        const ref = this.move.bind(this, div);
 
         div.className = "protractor-guide";
-        div.addEventListener('mousedown', this.dragstart.bind(this, moveRef));
-        document.body.addEventListener('mouseup', this.dragend.bind(this, moveRef));
+        div.addEventListener('mousedown', this.dragstart.bind(this, ref));
+        document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
 
         return div;
     },
 
-    dragstart: function(move, evt) {
+    dragstart: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        document.body.addEventListener('mousemove', move);
+        document.body.addEventListener('mousemove', ref);
     },
 
-    dragend: function(move, evt) {
+    dragend: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        document.body.removeEventListener('mousemove', move);
+        document.body.removeEventListener('mousemove', ref);
     },
 
     move: function(div, evt) {

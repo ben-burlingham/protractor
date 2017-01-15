@@ -1,0 +1,48 @@
+.__MSG_@@extension_id__-buttons {
+    border: 0;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    width: 50%;
+}
+
+.__MSG_@@extension_id__-button-close,
+.__MSG_@@extension_id__-button-lock {
+    background: 0;
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
+    background-repeat: no-repeat;
+    background-size: 100px 25px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    vertical-align: top;
+    width: 25px;
+}
+
+.__MSG_@@extension_id__-button-close {
+    background-position: -50px 0;
+    font-size: 16px;
+    right: 0;
+    width: 25px;
+}
+
+.__MSG_@@extension_id__-button-lock {
+    background-position: 0 0;
+    font-size: 8px;
+    text-transform: uppercase;
+}
+
+.__MSG_@@extension_id__-button-close:hover {
+    background-color: #ccc;
+}
+
+.__MSG_@@extension_id__-button-lock:hover {
+    background-color: #ccc;
+    background-position: -25px 0;
+}

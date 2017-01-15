@@ -1,0 +1,12 @@
+.__MSG_@@extension_id__-circle {
+    background: rgba(200, 200, 200, 0.05);
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+    cursor: move;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
