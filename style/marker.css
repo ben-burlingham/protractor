@@ -1,0 +1,17 @@
+.__MSG_@@extension_id__-marker {
+    background: 0;
+    border-bottom: 20px solid #ccc;
+    box-sizing: content-box;
+    height: 190px;
+    left: 50%;
+    position: absolute;
+    transform-origin: 0 0;
+    top: 50%;
+    width: 1px;
+    z-index: 2;
+}
+
+.__MSG_@@extension_id__-marker-full {
+    border-bottom: 160px solid #ccc;
+    height: 50px;
+}

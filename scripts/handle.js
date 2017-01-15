@@ -1,19 +1,17 @@
-Protractor.Handle = function(appId, container) {
+Protractor.Handle = function({ appId, container, i }) {
     Object.assign(this, { appId, container });
+
+    const ref = this.move.bind(this);
+    const div = document.createElement('div');
+    div.className = `${appId}-handle ${appId}-handle-${i}`;
+
+    div.addEventListener('mousedown', this.dragstart.bind(null, ref));
+    document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
+
+    return div;
 };
 
 Protractor.Handle.prototype = {
-    build: function(i) {
-        const div = document.createElement('div');
-        const ref = this.move.bind(this);
-
-        div.className = `protractor-handle protractor-handle-${i}`;
-        div.addEventListener('mousedown', this.dragstart.bind(this, ref));
-        document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
-
-        return div;
-    },
-
     dragstart: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -42,8 +40,7 @@ Protractor.Handle.prototype = {
         //     offset = (Math.abs(evt.movementY) < evt.movementX ? evt.movementX : evt.movementY);
         // }
 
-        const container = document.querySelector('.protractor-container');
-        const conBounds = container.getBoundingClientRect();
+        const conBounds = this.container.getBoundingClientRect();
         // const docBounds = document.body.getBoundingClientRect();
         //
         // if ((conBounds.width - 2 * offset) < 300 || (conBounds.height - 2 * offset) < 300) {
@@ -60,6 +57,7 @@ Protractor.Handle.prototype = {
         this.container.style.width = `${conBounds.width - 2 * offset}px`;
         this.container.style.height = `${conBounds.height - 2 * offset}px`;
 
+        // TODO pubsub
         // const circle = document.querySelector('.protractor-circle');
         // circle.style.borderRadius = `${(conBounds.width - 2 * offset) / 2}px`
     }

@@ -26,6 +26,7 @@ Protractor.Circle.prototype = {
     },
 
     move: function(evt) {
+        evt.stopPropagation();
         evt.preventDefault();
 
         const conBounds = this.container.getBoundingClientRect();

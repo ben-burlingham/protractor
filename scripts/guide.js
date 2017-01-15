@@ -1,19 +1,18 @@
-Protractor.Guide = function(appId, container, display) {
-    Object.assign(this, { appId, container,  display });
+Protractor.Guide = function({ appId, container, i }) {
+    const div = document.createElement('div');
+    const ref = this.move.bind(this);
+
+    // TODO handle this side effect / dep chain better
+    Object.assign(this, { appId, container, node: div });
+
+    div.className = `${appId}-guide ${appId}-guide-${i}`;
+    div.addEventListener('mousedown', this.dragstart.bind(this, ref));
+    document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
+
+    return div;
 };
 
 Protractor.Guide.prototype = {
-    build: function() {
-        const div = document.createElement('div');
-        const ref = this.move.bind(this, div);
-
-        div.className = "protractor-guide";
-        div.addEventListener('mousedown', this.dragstart.bind(this, ref));
-        document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
-
-        return div;
-    },
-
     dragstart: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -26,7 +25,9 @@ Protractor.Guide.prototype = {
         document.body.removeEventListener('mousemove', ref);
     },
 
-    move: function(div, evt) {
+    move: function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
         const bounds = this.container.getBoundingClientRect();
 
         const centerX = bounds.left + bounds.width / 2;
@@ -42,6 +43,6 @@ Protractor.Guide.prototype = {
             theta = Math.PI * 2 - theta;
         }
 
-        div.style.transform = `rotate(${theta * 180 / Math.PI}deg)`;
+        this.node.style.transform = `rotate(${theta * 180 / Math.PI}deg)`;
     },
 };

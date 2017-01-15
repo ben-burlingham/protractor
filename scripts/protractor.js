@@ -25,20 +25,26 @@ Protractor = function({ appId, radius }) {
     this.circle = new Protractor.Circle({ appId, container: this.container });
     this.container.appendChild(this.circle);
 
-    // buildMarkers: (radius) => {
-    //     const markers = [];
-    //
-    //     for (let deg = 0; deg < 360; deg += 15) {
-    //         markers.push(new Protractor.Marker({ radius, deg }));
-    //     }
-    //
-    //     return markers;
-    // },
+    for (let deg = 0; deg < 360; deg += 15) {
+        this.container.appendChild(new Protractor.Marker({ appId, deg }));
+    }
+
+    // Display, guides, handles
+    this.display = new Protractor.Display({ appId });
+    this.container.appendChild(this.display);
+
+    this.handle0 = new Protractor.Handle({ appId, container: this.container, i: 0 });
+    this.handle1 = new Protractor.Handle({ appId, container: this.container, i: 1 });
+    this.container.appendChild(this.handle0);
+    this.container.appendChild(this.handle1);
+
+    this.guide0 = new Protractor.Guide({ appId, container: this.container, i: 0 });
+    this.guide1 = new Protractor.Guide({ appId, container: this.container, i: 1 });
+    this.container.appendChild(this.guide0);
+    this.container.appendChild(this.guide1);
 
 
     this.show();
-
-    // Object.assign(this, { appId, container });
 };
 
 Protractor.prototype = {
