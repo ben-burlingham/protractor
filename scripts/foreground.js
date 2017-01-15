@@ -16,6 +16,8 @@ options page:
     - radians / degrees / radians
     - marker count
     - precision
+    - guide snap
+    - static guides
 */
 
 
@@ -27,13 +29,16 @@ chrome.runtime.onMessage.addListener(
             const radius = 200;
             const container = Protractor.UI.buildContainer(sender.id, radius);
             const buttonContainer = Protractor.UI.buildButtonContainer();
+            const display = new Protractor.Display({ move: Protractor.UI.move });
+
+            const guide1 = new Protractor.Guide(sender.id, container, display);
+            const guide2 = new Protractor.Guide(sender.id, container, display);
 
             buttonContainer.appendChild(Protractor.UI.buildButtonLock(sender.id));
             buttonContainer.appendChild(Protractor.UI.buildButtonClose(sender.id));
 
-            Protractor.UI.buildGuides(radius).forEach(element => {
-                container.appendChild(element);
-            });
+            container.appendChild(guide1.build.call(guide1));
+            container.appendChild(guide2.build.call(guide2));
 
             Protractor.UI.buildMarkers(radius).forEach(element => {
                 container.appendChild(element);
@@ -44,7 +49,7 @@ chrome.runtime.onMessage.addListener(
             });
 
             container.appendChild(Protractor.UI.buildCircle(radius));
-            container.appendChild(Protractor.UI.buildDisplay());
+            container.appendChild(display);
             container.appendChild(buttonContainer);
 
             document.body.appendChild(container);

@@ -1,5 +1,4 @@
 .protractor-container {
-    background: papayawhip;
     box-sizing: border-box;
     font-family: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
     position: absolute;
@@ -86,12 +85,12 @@
 
 .protractor-guide {
     background: rgba(100, 100, 100, 0.2);
-    height: 50%;
+    height: 1px;
     left: 50%;
     position: absolute;
     top: 50%;
     transform-origin: 0.5px 0;
-    width: 1px;
+    width: 50%;
     z-index: 99;
 }
 
@@ -100,15 +99,15 @@
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-repeat: no-repeat;
     background-size: 80px 20px;
-    border: 1px solid #aaa;
+    border: 1px solid #222;
     border-radius: 10px;
     content: ' ';
     height: 20px;
-    left: 0;
-    margin-left: -10px;
+    left: 100%;
+    margin-left: 5px;
     margin-top: -10px;
     position: absolute;
-    top: 100%;
+    top: 0;
     width: 20px;
 }
 
@@ -117,7 +116,7 @@
     height: 10px;
     margin-top: -5px;
     position: absolute;
-    width: 2px;
+    width: 1px;
     z-index: 2;
 }
 

@@ -36,20 +36,6 @@ Protractor.UI = {
         return btn;
     },
 
-    buildDisplay: (radius) => {
-        return new Protractor.Display({ move: Protractor.UI.move });
-    },
-
-    buildGuides: (radius) => {
-        const guides = [];
-
-        for (let i = 0; i < 2; i++) {
-            guides.push(new Protractor.Guide(i, radius));
-        }
-
-        return guides;
-    },
-
     buildHandles: () => {
         const handles = [];
 
@@ -95,7 +81,6 @@ Protractor.UI = {
         } else {
             container.style.top = `${newY}px`;
         }
-
     },
 
     resize: (evt) => {
