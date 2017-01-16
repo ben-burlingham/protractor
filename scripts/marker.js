@@ -1,9 +1,19 @@
 Marker = function({ appId, deg }) {
-    const div = document.createElement('div');
+    this.node = document.createElement('div');
+    this.node.className = `${appId}-marker`;
+    this.node.style.transform = `rotate(${deg - 90}deg)`
 
-    // TODO settings ${appId}-marker-full
-    div.className = `${appId}-marker`;
-    div.style.transform = `rotate(${deg - 90}deg)`
+    PubSub.subscribe(Channels.RESIZE, this);
 
-    return div;
+    return this.node;
+};
+
+Marker.prototype = {
+    onUpdate: function(chan, msg) {
+        if (chan === Channels.RESIZE) {
+            const pad = 40;
+            this.node.style.borderBottomWidth = `${this.node.parentNode.offsetHeight / 2 - pad}px`;
+            this.node.style.height = `${pad + 10}px`;
+        }
+    },
 };

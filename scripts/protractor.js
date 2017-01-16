@@ -9,7 +9,6 @@ switch class on lock/unlock button so hover states show alternative
 fade in/out on show/hide
 guide double click to lock/unlock
 rotate-able guide handles
-container: forcing defaults is causing a jump/hiccup at the smallest size
 
 options page:
     - mark size (${appId}-marker-full)
@@ -44,7 +43,7 @@ Protractor = function({ appId }) {
     this.container.appendChild(this.circle);
 
     for (let deg = 0; deg < 360; deg += 15) {
-        // this.container.appendChild(new Marker({ appId, deg }));
+        this.container.appendChild(new Marker({ appId, deg }));
     }
 
     // Display, guides, handles
