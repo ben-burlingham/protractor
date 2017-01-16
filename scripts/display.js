@@ -1,7 +1,5 @@
 Display = function({ appId }) {
-    Object.assign(this, { appId });
-
-    const ref = this.move.bind(this);
+    const ref = PubSub.emit.bind(null, Channels.MOVE);
     const div = document.createElement('div');
     div.className = `${appId}-display`;
     div.innerHTML = "999.999 rad";
@@ -24,8 +22,4 @@ Display.prototype = {
         evt.preventDefault();
         document.body.removeEventListener('mousemove', ref);
     },
-
-    move: function(evt) {
-        // TODO use pubsub here, reuse move methods from circle
-    }
 };

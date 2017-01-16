@@ -9,8 +9,8 @@ Container = function({ appId }) {
     this.node.style.height = `${radius * 2}px`;
     this.node.style.width = `${radius * 2}px`;
 
-    PubSub.subscribe('resize', this);
-    PubSub.subscribe('move', this);
+    PubSub.subscribe(Channels.RESIZE, this);
+    PubSub.subscribe(Channels.MOVE, this);
 
     return this.node;
 };
@@ -52,15 +52,19 @@ Container.prototype = {
         const bounds = this.node.getBoundingClientRect();
         const x = bounds.left + msg.offset;
         const y = bounds.top + msg.offset;
-        const w = bounds.width - 2 * msg.offset;
-        const h = bounds.height - 2 * msg.offset;
+        const s = bounds.width - 2 * msg.offset;
 
-        this.node.style.left = x > 0 ? `${x}px` : 0;
-        this.node.style.top = y > 0 ? `${y}px` : 0;
+        let correctedOffset = msg.offset;
 
-        if (x> 0 && y > 0) {
-            this.node.style.width = `${w}px`;
-            this.node.style.height = `${h}px`;
+        if (x < 0 || y < 0) {
+            correctedOffset = -1 * Math.min(bounds.left, bounds.top);
+        } else if (s <= 300) {
+            correctedOffset = (bounds.width - 300) / 2;
         }
+
+        this.node.style.left = `${bounds.left + correctedOffset}px`;
+        this.node.style.top = `${bounds.top + correctedOffset}px`;
+        this.node.style.width = `${bounds.width - 2 * correctedOffset}px`;
+        this.node.style.height = `${bounds.height - 2 * correctedOffset}px`;
     }
 };

@@ -1,5 +1,4 @@
 Circle = function({ appId }) {
-    Object.assign(this, { appId });
     PubSub.subscribe('resize', this);
 
     const ref = PubSub.emit.bind(null, Channels.MOVE);
@@ -29,11 +28,8 @@ Circle.prototype = {
 
     onUpdate: function(chan, msg) {
         if (chan === Channels.RESIZE) {
-            this.resize(msg);
+            this.node.style.borderRadius =
+                `${this.node.parentNode.offsetWidth / 2 + msg.offset}px`;
         }
     },
-
-    resize: function(msg) {
-        this.node.style.borderRadius = `${(this.node.offsetWidth / 2) - msg.offset}px`;
-    }
 };

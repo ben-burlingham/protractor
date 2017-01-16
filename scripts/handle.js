@@ -1,6 +1,4 @@
 Handle = function({ appId, i }) {
-    Object.assign(this, { appId });
-
     const ref = this.move.bind(this);
 
     this.node = document.createElement('div');
