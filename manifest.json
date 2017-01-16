@@ -22,7 +22,10 @@
             "file:///*"
         ],
         "js": [
+            "scripts/pubsub.js",
+            "scripts/channels.js",
             "scripts/protractor.js",
+            "scripts/container.js",
             "scripts/circle.js",
             "scripts/marker.js",
             "scripts/display.js",

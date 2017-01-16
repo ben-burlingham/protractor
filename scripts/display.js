@@ -1,4 +1,4 @@
-Protractor.Display = function({ appId }) {
+Display = function({ appId }) {
     Object.assign(this, { appId });
 
     const ref = this.move.bind(this);
@@ -12,7 +12,7 @@ Protractor.Display = function({ appId }) {
     return div;
 };
 
-Protractor.Display.prototype = {
+Display.prototype = {
     dragstart: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();

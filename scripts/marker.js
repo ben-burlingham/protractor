@@ -1,4 +1,4 @@
-Protractor.Marker = function({ appId, deg }) {
+Marker = function({ appId, deg }) {
     const div = document.createElement('div');
 
     // TODO settings ${appId}-marker-full

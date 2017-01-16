@@ -1,4 +1,4 @@
-Protractor.Guide = function({ appId, container, i }) {
+Guide = function({ appId, container, i }) {
     const div = document.createElement('div');
     const ref = this.move.bind(this);
 
@@ -12,7 +12,7 @@ Protractor.Guide = function({ appId, container, i }) {
     return div;
 };
 
-Protractor.Guide.prototype = {
+Guide.prototype = {
     dragstart: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();

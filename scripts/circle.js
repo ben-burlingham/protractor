@@ -1,18 +1,20 @@
-Protractor.Circle = function({ appId, container }) {
-    Object.assign(this, { appId, container });
+Circle = function({ appId }) {
+    Object.assign(this, { appId });
+    PubSub.subscribe('resize', this);
 
-    const ref = this.move.bind(this);
-    const div = document.createElement('div');
-    div.className = `${appId}-circle`;
+    const ref = PubSub.emit.bind(null, Channels.MOVE);
+    this.node = document.createElement('div');
+    this.node.className = `${appId}-circle`;
+    this.node.style.borderRadius = '200px';
 
-    div.addEventListener('mousedown', this.dragstart.bind(null, ref));
+    this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
     document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 
-    return div;
+    return this.node;
 };
 
-Protractor.Circle.prototype = {
+Circle.prototype = {
     dragstart: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -25,30 +27,13 @@ Protractor.Circle.prototype = {
         document.body.removeEventListener('mousemove', ref);
     },
 
-    move: function(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-
-        const conBounds = this.container.getBoundingClientRect();
-        const docBounds = document.body.getBoundingClientRect();
-
-        const newX = conBounds.left + evt.movementX;
-        const newY = conBounds.top + evt.movementY;
-
-        if (newX < docBounds.left) {
-            this.container.style.left = `${docBounds.left}px`;
-        } else if ((newX + conBounds.width) > docBounds.right) {
-            this.container.style.left = `${docBounds.right - conBounds.width}px`;
-        } else {
-            this.container.style.left = `${newX}px`;
-        }
-
-        if (newY < docBounds.top) {
-            this.container.style.top = `${docBounds.top}px`;
-        } else if ((newY + conBounds.height) > docBounds.bottom) {
-            this.container.style.top = `${docBounds.bottom - conBounds.height}px`;
-        } else {
-            this.container.style.top = `${newY}px`;
+    onUpdate: function(chan, msg) {
+        if (chan === Channels.RESIZE) {
+            this.resize(msg);
         }
     },
+
+    resize: function(msg) {
+        this.node.style.borderRadius = `${(this.node.offsetWidth / 2) - msg.offset}px`;
+    }
 };
