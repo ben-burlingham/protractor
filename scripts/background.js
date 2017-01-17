@@ -1,4 +1,6 @@
 Background = {
+    active: false,
+
     setOn: function(tab) {
         chrome.browserAction.setIcon({
             path : {
@@ -9,7 +11,7 @@ Background = {
             tabId: tab.id
         });
 
-        chrome.browserAction.setTitle({ title: 'Protractor (active)' });
+        Background.active = true;
     },
 
     setOff: function(tab, cb) {
@@ -18,12 +20,12 @@ Background = {
             tabId: tab.id
         });
 
-        chrome.browserAction.setTitle({ title: 'Protractor' });
+        Background.active = false;
     },
 
     handleClick: function(tab) {
         chrome.browserAction.getTitle({}, str => {
-            if (str.indexOf('(active)') > -1) {
+            if (Background.active) {
                 Background.setOff(tab);
                 chrome.tabs.sendMessage(tab.id, { isOn: false  });
             } else {
