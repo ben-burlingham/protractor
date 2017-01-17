@@ -7,7 +7,7 @@ Display = function({ appId }) {
     this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
 
-    this.guideThetas = { 0: 0, 1: 0 };
+    this.guideThetas = { 0: Math.PI / 4, 1: 3 * Math.PI / 4 };
 
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
 
@@ -39,7 +39,7 @@ Display.prototype = {
             //     this.node.innerHTML = formattedTheta - this.guideThetas[0];
             // }
 
-            console.warn(this.guideThetas);
+            // console.warn(this.guideThetas);
         }
     }
 };

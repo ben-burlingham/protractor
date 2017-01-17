@@ -3,6 +3,10 @@ Guide = function({ appId, i }) {
     this.index = i;
     const ref = this.move.bind(this);
 
+    this.handle = document.createElement('div');
+    this.handle.className = `${appId}-guide-handle`;
+    this.node.appendChild(this.handle);
+
     this.node.className = `${appId}-guide ${appId}-guide-${i}`;
     this.node.addEventListener('mousedown', this.dragstart.bind(this, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
@@ -42,6 +46,7 @@ Guide.prototype = {
         }
 
         this.node.style.transform = `rotate(${theta * 180 / Math.PI}deg)`;
+        this.handle.style.transform = `rotate(${-theta * 180 / Math.PI}deg)`
         PubSub.emit(Channels.GUIDE_MOVE, { index: this.index, theta });
     },
 };

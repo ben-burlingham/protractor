@@ -8,7 +8,6 @@ improve active switching in background (str.indexOf('(active)'))
 switch class on lock/unlock button so hover states show alternative
 fade in/out on show/hide
 guide double click to lock/unlock
-rotate-able guide handles
 
 options page:
     - mark size (${appId}-marker-full)
