@@ -1,6 +1,6 @@
 /*
 TODO
-pubsub for guide move, resize. try to contain side effects and remove node dep injection
+colored arc!
 window resize
 window scroll
 small document size
@@ -55,10 +55,10 @@ Protractor = function({ appId }) {
     this.container.appendChild(this.handle0);
     this.container.appendChild(this.handle1);
 
-    // this.guide0 = new Guide({ appId, i: 0 });
-    // this.guide1 = new Guide({ appId, i: 1 });
-    // this.container.appendChild(this.guide0);
-    // this.container.appendChild(this.guide1);
+    this.guide0 = new Guide({ appId, i: 0 });
+    this.guide1 = new Guide({ appId, i: 1 });
+    this.container.appendChild(this.guide0);
+    this.container.appendChild(this.guide1);
 
     // TODO remove this
     this.show();
