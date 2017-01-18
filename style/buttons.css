@@ -10,12 +10,14 @@
 }
 
 .__MSG_@@extension_id__-button-close,
-.__MSG_@@extension_id__-button-lock {
+.__MSG_@@extension_id__-button-lock,
+.__MSG_@@extension_id__-button-locked {
     background: 0;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-repeat: no-repeat;
     background-size: 100px 25px;
     border: 0;
+    border-radius: 3px;
     cursor: pointer;
     display: inline-block;
     height: 25px;
@@ -33,16 +35,22 @@
 }
 
 .__MSG_@@extension_id__-button-lock {
-    background-position: 0 0;
-    font-size: 8px;
-    text-transform: uppercase;
-}
-
-.__MSG_@@extension_id__-button-close:hover {
-    background-color: #ccc;
-}
-
-.__MSG_@@extension_id__-button-lock:hover {
-    background-color: #ccc;
     background-position: -25px 0;
+
+}
+
+.__MSG_@@extension_id__-button-locked {
+    background-position: 0 0;
+}
+
+.__MSG_@@extension_id__-button-close:hover,
+.__MSG_@@extension_id__-button-lock:hover,
+.__MSG_@@extension_id__-button-locked:hover {
+    background-color: #eee;
+}
+
+.__MSG_@@extension_id__-button-close:focus,
+.__MSG_@@extension_id__-button-lock:focus,
+.__MSG_@@extension_id__-button-locked:focus {
+    outline: 0;
 }

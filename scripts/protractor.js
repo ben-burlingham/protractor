@@ -4,8 +4,6 @@ colored arc!
 window resize
 window scroll
 small document size
-switch class on lock/unlock button so hover states show alternative
-fade in/out on show/hide
 guide double click to lock/unlock
 
 options page:
@@ -21,6 +19,7 @@ options page:
 Protractor = function({ appId }) {
     // Main container, buttons container, close button, lock button
     this.container = new Container({ appId });
+    this.appId = appId;
 
     this.buttons = document.createElement('div');
     this.buttons.className = `${appId}-buttons`;
@@ -29,8 +28,7 @@ Protractor = function({ appId }) {
     this.closeBtn.className = `${appId}-button-close`;
     this.closeBtn.addEventListener('click', this.hide.bind(this));
 
-    this.lockBtn = document.createElement('button');
-    this.lockBtn.className = `${appId}-button-lock`;
+    this.lockBtn = new ButtonLock({ appId });
 
     this.buttons.appendChild(this.lockBtn);
     this.buttons.appendChild(this.closeBtn);
@@ -64,13 +62,27 @@ Protractor = function({ appId }) {
 
 Protractor.prototype = {
     hide: function() {
-        document.body.removeChild(this.container);
-        chrome.runtime.sendMessage({ isOn: false });
+        const self = this;
+
+        function afterAnimate() {
+            document.body.removeChild(self.container);
+            chrome.runtime.sendMessage({ isOn: false });
+        }
+
+        this.container.className = this.container.className
+            .split(' ').concat(`${this.appId}-container-hidden`).join(' ');
+
+        setTimeout(afterAnimate, 500);
     },
 
-    setAppId: id => this.appId = id,
-
     show: function() {
+        const self = this;
+        const className = this.container.className.split(' ');
+        const i = className.findIndex(v => v.search(/hidden/) !== -1);
+
         document.body.appendChild(this.container);
+
+        self.container.className =
+            className.slice(0, i).concat(className.slice(i + 1)).join(' ');
     }
 };

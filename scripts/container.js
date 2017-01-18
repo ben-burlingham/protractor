@@ -3,14 +3,17 @@ Container = function({ appId }) {
     const radius = 200;
 
     this.node = document.createElement('div');
-    this.node.className = `${appId}-container`
+    this.node.className = `${appId}-container`;
     this.node.style.left = `${docBounds.width / 2 - radius}px`;
     this.node.style.top = `100px`;
     this.node.style.height = `${radius * 2}px`;
     this.node.style.width = `${radius * 2}px`;
 
+    this.locked = false;
+
     PubSub.subscribe(Channels.RESIZE, this);
     PubSub.subscribe(Channels.MOVE, this);
+    PubSub.subscribe(Channels.LOCK_ALL, this);
 
     return this.node;
 };
@@ -20,12 +23,17 @@ Container.prototype = {
         switch(chan) {
             case Channels.MOVE: this.move(msg); break;
             case Channels.RESIZE: this.resize(msg); break;
+            case Channels.LOCK_ALL: this.locked = msg.locked; break;
         }
     },
 
     move: function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
+
+        if (this.locked) {
+            return;
+        }
 
         const bounds = this.node.getBoundingClientRect();
         const newX = bounds.left + evt.movementX;

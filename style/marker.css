@@ -5,7 +5,7 @@
     height: 190px;
     left: 50%;
     position: absolute;
-    transform-origin: 0 0;
+    transform-origin: 0.5px 0;
     top: 50%;
     width: 1px;
     z-index: 2;

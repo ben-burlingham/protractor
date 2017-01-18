@@ -28,6 +28,7 @@
             "scripts/container.js",
             "scripts/circle.js",
             "scripts/marker.js",
+            "scripts/button-lock.js",
             "scripts/display.js",
             "scripts/handle.js",
             "scripts/guide.js",
