@@ -15,6 +15,12 @@ Guide = function({ appId, i }) {
 };
 
 Guide.prototype = {
+    snapConstants: {
+        interval: Math.PI / 12,
+        lowerBound: 0.03,
+        upperBound: Math.PI / 12 - 0.03
+    },
+
     dragstart: function(ref, evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -43,6 +49,14 @@ Guide.prototype = {
             theta = Math.PI - theta;
         } else if (evt.clientY < centerY) {
             theta = Math.PI * 2 - theta;
+        }
+
+        const delta = theta % this.snapConstants.interval;
+
+        if (delta < this.snapConstants.lowerBound) {
+            theta -= delta;
+        } else if (delta > this.snapConstants.upperBound) {
+            theta += (this.snapConstants.interval - delta);
         }
 
         this.node.style.transform = `rotate(${theta * 180 / Math.PI}deg)`;
