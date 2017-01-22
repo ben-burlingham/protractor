@@ -1,13 +1,17 @@
 Guide = function({ appId, i }) {
     this.node = document.createElement('div');
+    this.appId = appId;
     this.index = i;
+    this.locked = false;
     const ref = this.move.bind(this);
 
     this.handle = document.createElement('div');
     this.handle.className = `${appId}-guide-handle`;
+    this.handle.title = "Double click to lock/unlock";
     this.node.appendChild(this.handle);
 
     this.node.className = `${appId}-guide ${appId}-guide-${i}`;
+    this.node.addEventListener('click', this.click.bind(this));
     this.node.addEventListener('mousedown', this.dragstart.bind(this, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
 
@@ -21,14 +25,41 @@ Guide.prototype = {
         upperBound: Math.PI / 12 - 0.03
     },
 
+    click: function() {
+        function resetDoubleClick() {
+            clearTimeout(this.doubleClickTimer);
+            this.doubleClickTimer = null;
+        }
+
+        if (this.doubleClickTimer) {
+            resetDoubleClick.call(this);
+            this.doubleClick();
+        } else {
+            this.doubleClickTimer = setTimeout(resetDoubleClick.bind(this), 500)
+        }
+    },
+
+    doubleClick: function() {
+        if (this.locked) {
+            const classes = this.node.className.split(' ');
+            const index = classes.indexOf(`${this.appId}-guide-locked`);
+
+            classes.splice(index, 1);
+            this.node.className = classes.join(' ');
+            this.locked = false;
+        } else {
+            this.node.className = this.node.className.split(' ')
+                .concat(`${this.appId}-guide-locked`).join(' ');
+            this.locked = true;
+        }
+    },
+
     dragstart: function(ref, evt) {
-        evt.stopPropagation();
         evt.preventDefault();
         document.body.addEventListener('mousemove', ref);
     },
 
     dragend: function(ref, evt) {
-        evt.stopPropagation();
         evt.preventDefault();
         document.body.removeEventListener('mousemove', ref);
     },
@@ -36,6 +67,11 @@ Guide.prototype = {
     move: function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
+
+        if (this.locked) {
+            return;
+        }
+
         const bounds = this.node.parentNode.getBoundingClientRect();
 
         const centerX = bounds.left + bounds.width / 2;

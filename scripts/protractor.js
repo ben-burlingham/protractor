@@ -1,13 +1,13 @@
 /*
 TODO
-colored arc!
-window resize
-lower resize handle
+colored arc
+display update
 guide double click to lock/unlock
+drag badness
 
 options page:
     - mark size (${appId}-marker-full)
-    - radians / degrees / radians
+    - radians / degrees
     - marker count
     - precision
     - guide snap
