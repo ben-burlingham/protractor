@@ -2,7 +2,6 @@
 TODO
 colored arc!
 window resize
-window scroll
 small document size
 guide double click to lock/unlock
 

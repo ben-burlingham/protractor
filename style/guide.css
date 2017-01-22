@@ -20,6 +20,9 @@
 
 .__MSG_@@extension_id__-guide-handle {
     background-color: rgba(230, 230, 230, 1);
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
+    background-repeat: no-repeat;
+    background-size: 80px 20px;
     border: 1px solid #222;
     border-radius: 10px;
     cursor: move;
@@ -30,4 +33,17 @@
     position: absolute;
     top: 0;
     width: 20px;
+}
+
+.__MSG_@@extension_id__-guide-handle..__MSG_@@extension_id__-guide-handle-locked {
+    background-position: -20px 0;
+    border: 0;
+}
+
+.__MSG_@@extension_id__-guide-0 .__MSG_@@extension_id__-guide-handle {
+    transform: rotate(45deg);
+}
+
+.__MSG_@@extension_id__-guide-1 .__MSG_@@extension_id__-guide-handle {
+    transform: rotate(135deg);
 }

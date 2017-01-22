@@ -4,6 +4,7 @@
     opacity: 1;
     position: absolute;
     transition: opacity 0.5s ease;
+    z-index: 1000000;
 }
 
 .__MSG_@@extension_id__-container-hidden {

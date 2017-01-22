@@ -36,8 +36,8 @@ Container.prototype = {
         }
 
         const bounds = this.node.getBoundingClientRect();
-        const newX = bounds.left + evt.movementX;
-        const newY = bounds.top + evt.movementY;
+        const newX = document.body.scrollLeft + bounds.left + evt.movementX;
+        const newY = document.body.scrollTop + bounds.top + evt.movementY;
 
         if (newX < 0) {
             this.node.style.left = 0;
