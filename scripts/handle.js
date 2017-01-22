@@ -1,5 +1,6 @@
 Handle = function({ appId, i }) {
     const ref = this.move.bind(this);
+    this.index = i;
 
     this.node = document.createElement('div');
     this.node.className = `${appId}-handle ${appId}-handle-${i}`;
@@ -29,14 +30,17 @@ Handle.prototype = {
         evt.preventDefault();
         let offset = 0;
 
-        if (evt.movementX < 0 && evt.movementY < 0) {
-            offset = Math.min(evt.movementX, evt.movementY);
-        } else if (evt.movementX >= 0 && evt.movementY >= 0) {
-            offset = Math.max(evt.movementX, evt.movementY);
-        } else if (evt.movementX < 0) {
-            offset = (Math.abs(evt.movementX) < evt.movementY ? evt.movementY : evt.movementX);
+        const moveX = (this.index === 1 ? evt.movementX * -1 : evt.movementX);
+        const moveY = (this.index === 1 ? evt.movementY * -1 : evt.movementY);
+
+        if (moveX < 0 && moveY < 0) {
+            offset = Math.min(moveX, moveY);
+        } else if (moveX >= 0 && moveY >= 0) {
+            offset = Math.max(moveX, moveY);
+        } else if (moveX < 0) {
+            offset = (Math.abs(moveX) < moveY ? moveY : moveX);
         } else {
-            offset = (Math.abs(evt.movementY) < evt.movementX ? evt.movementX : evt.movementY);
+            offset = (Math.abs(moveY) < moveX ? moveX : moveY);
         }
 
         PubSub.emit(Channels.RESIZE, { offset })

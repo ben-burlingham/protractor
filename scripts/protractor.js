@@ -2,7 +2,7 @@
 TODO
 colored arc!
 window resize
-small document size
+lower resize handle
 guide double click to lock/unlock
 
 options page:
