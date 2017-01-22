@@ -1,16 +1,39 @@
 .__MSG_@@extension_id__-display {
     background: rgba(230, 230, 230, 1);
     border-radius: 3px;
+    box-sizing: border-box;
     cursor: move;
     font-size: 14px;
-    height: 20px;
+    height: 34px;
     left: 50%;
-    line-height: 20px;
     margin: 15px 0 0 -40px;
-    padding: 5px;
+    padding: 2px;
     position: absolute;
     text-align: center;
     top: 50%;
     width: 80px;
     z-index: 100;
+}
+
+.__MSG_@@extension_id__-display:before {
+    content: attr(data-guide-0);
+    left: 2px;
+    text-align: left;
+}
+
+.__MSG_@@extension_id__-display:after {
+    content: attr(data-guide-1);
+    right: 2px;
+    text-align: right;
+}
+
+.__MSG_@@extension_id__-display:before,
+.__MSG_@@extension_id__-display:after {
+    bottom: 2px;
+    color: #999;
+    font-size: 11px;
+    height: 10px;
+    line-height: 10px;
+    position: absolute;
+    width: 40px;
 }

@@ -2,12 +2,12 @@ Display = function({ appId }) {
     const ref = PubSub.emit.bind(null, Channels.MOVE);
     this.node = document.createElement('div');
     this.node.className = `${appId}-display`;
-    this.node.innerHTML = "999.999 rad";
+    this.node.innerHTML = "90˚";
 
     this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
 
-    this.guideThetas = { 0: Math.PI / 4, 1: 3 * Math.PI / 4 };
+    this.guideThetas = { 0: 45, 1: 135 };
 
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
 
@@ -29,17 +29,19 @@ Display.prototype = {
 
     onUpdate: function(chan, msg) {
         if (chan === Channels.GUIDE_MOVE) {
-            const formattedTheta = Math.abs(Math.round(msg.theta * 180 / Math.PI) - 360) % 360;
+            this.guideThetas[msg.index] = 360 - msg.theta * 180 / Math.PI;
 
-            // if (msg.index === 0) {
-            //     this.guideThetas[0] = formattedTheta;
-            //     this.node.innerHTML = formattedTheta - this.guideThetas[1];
-            // } else if (msg.index === 1) {
-            //     this.guideThetas[1] = formattedTheta;
-            //     this.node.innerHTML = formattedTheta - this.guideThetas[0];
-            // }
+            const max = Math.max(this.guideThetas[0], this.guideThetas[1]);
+            const min = Math.min(this.guideThetas[0], this.guideThetas[1]);
+            const delta = max - min;
 
-            // console.warn(this.guideThetas);
+            const corrected = (delta > 180 ? 360 - delta : delta);
+            const text = `${Math.abs(corrected).toFixed(2)}`;
+
+            this.node.setAttribute('data-guide-0', `${this.guideThetas[0].toFixed(2)}˚`);
+            this.node.setAttribute('data-guide-1', `${this.guideThetas[1].toFixed(2)}˚`);
+
+            this.node.innerHTML = text + '˚';
         }
     }
 };

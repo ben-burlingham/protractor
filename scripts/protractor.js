@@ -2,7 +2,6 @@
 TODO
 colored arc
 display update
-guide double click to lock/unlock
 drag badness
 
 options page:
