@@ -1,8 +1,6 @@
 /*
 TODO
 colored arc
-display update
-drag badness
 
 options page:
     - mark size (${appId}-marker-full)
@@ -53,6 +51,25 @@ Protractor = function({ appId }) {
     this.guide1 = new Guide({ appId, i: 1 });
     this.container.appendChild(this.guide0);
     this.container.appendChild(this.guide1);
+
+    const svg = document.createElement('svg');
+    const arc = document.createElement('circle');
+    arc.setAttribute('cx', 50);
+    arc.setAttribute('cy', 50);
+    arc.setAttribute('r', 50);
+    // arc.setAttribute('d', "M 200 175 A 25 25 0 0 0 182.322 217.678");
+    //   <circle cx="50" cy="50" r="50"></circle>
+    // arc.setAttribute('fill', 'yellow');
+    // arc.setAttribute('stroke', 'blue');
+    // arc.setAttribute('stroke-width', '5');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    svg.setAttribute('version', '1.1');
+    svg.setAttribute('width', 400)
+    svg.setAttribute('height', 400);
+    svg.className = 'testing-svg'
+
+    svg.appendChild(arc);
+    this.container.appendChild(svg);
 
     // TODO remove this
     this.show();

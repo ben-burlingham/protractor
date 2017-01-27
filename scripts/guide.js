@@ -14,6 +14,7 @@ Guide = function({ appId, i }) {
     this.node.addEventListener('click', this.click.bind(this));
     this.node.addEventListener('mousedown', this.dragstart.bind(this, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
+    document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 
     return this.node;
 };
@@ -55,11 +56,13 @@ Guide.prototype = {
     },
 
     dragstart: function(ref, evt) {
+        evt.stopPropagation();
         evt.preventDefault();
         document.body.addEventListener('mousemove', ref);
     },
 
     dragend: function(ref, evt) {
+        evt.stopPropagation();
         evt.preventDefault();
         document.body.removeEventListener('mousemove', ref);
     },

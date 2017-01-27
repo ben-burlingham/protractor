@@ -41,6 +41,7 @@
             "style/display.css",
             "style/handle.css",
             "style/guide.css",
+            "style/arc.css",
             "style/container.css"
         ]
     }],

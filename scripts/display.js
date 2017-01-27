@@ -6,6 +6,7 @@ Display = function({ appId }) {
 
     this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
+    document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 
     this.guideThetas = { 0: 45, 1: 135 };
 
