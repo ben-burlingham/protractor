@@ -10,6 +10,6 @@
     z-index: 1;
 }
 
-.__MSG_@@extension_id__-circle .__MSG_@@extension_id__-circle-locked {
+.__MSG_@@extension_id__-circle.__MSG_@@extension_id__-circle-locked {
     cursor: not-allowed;
 }

@@ -7,7 +7,7 @@ Arc = function({ appId, settings }) {
     const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, this.radius);
 
     this.node = document.createElementNS(ns, 'svg');
-    this.node.setAttribute('class', `${this.appId}-arc`);
+    this.node.setAttribute('class', `${appId}-arc`);
     this.node.setAttribute('height', settings.radius * 2);
     this.node.setAttribute('width', settings.radius * 2);
 

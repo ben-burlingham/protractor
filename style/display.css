@@ -15,6 +15,12 @@
     z-index: 100;
 }
 
+.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked,
+.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked:before,
+.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked:after {
+    cursor: not-allowed;
+}
+
 .__MSG_@@extension_id__-display:before {
     content: attr(data-sub0);
     left: 2px;

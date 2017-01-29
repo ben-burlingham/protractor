@@ -1,4 +1,5 @@
 Display = function({ appId, settings }) {
+    this.appId = appId;
     this.settings = settings;
 
     const ref = PubSub.emit.bind(null, Channels.CONTAINER_MOVE);
@@ -20,6 +21,7 @@ Display = function({ appId, settings }) {
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
     document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 
+    PubSub.subscribe(Channels.CONTAINER_LOCK, this);
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
 
     return this.node;
@@ -72,6 +74,18 @@ Display.prototype = {
             this.node.innerHTML = text;
             this.node.setAttribute('data-sub0', sub0);
             this.node.setAttribute('data-sub1', sub1);
+        }
+
+        if (chan === Channels.CONTAINER_LOCK) {
+            const classes = this.node.className.split(' ');
+            const lockedClass = `${this.appId}-display-locked`;
+
+            if (msg.locked === true) {
+                this.node.className = classes.concat(lockedClass).join(' ');
+            } else {
+                classes.splice(classes.indexOf(lockedClass), 1);
+                this.node.className = classes.join(' ');
+            }
         }
     }
 };

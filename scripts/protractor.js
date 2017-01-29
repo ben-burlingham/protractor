@@ -1,10 +1,8 @@
 /*
 TODO
-hover behavior on resize handle
-not global classes
-not allowed cursor on circle and display if locked
 larger display text, maybe THETA0 delta THETA0
-different color guides that correspond to display text
+different color guides that correspond to display text: #8F8F67, #75759A, #919214
+kayak.com
 
 options page:
     - READY long markers

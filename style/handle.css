@@ -4,9 +4,15 @@
     background-repeat: no-repeat;
     background-size: 120px 30px;
     height: 20px;
+    opacity: 0.5;
     position: absolute;
+    transition: opacity 0.3s ease;
     width: 20px;
     z-index: 101;
+}
+
+.__MSG_@@extension_id__-handle:hover {
+    opacity: 1;
 }
 
 .__MSG_@@extension_id__-handle-0 {
