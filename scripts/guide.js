@@ -1,4 +1,4 @@
-Guide = function({ appId, initialState, i }) {
+Guide = function({ appId, settings, i }) {
     this.node = document.createElement('div');
     this.appId = appId;
     this.index = i;
@@ -12,7 +12,7 @@ Guide = function({ appId, initialState, i }) {
 
     this.node.className = `${appId}-guide`;
 
-    const deg = initialState[`theta${i}`] * 180 / Math.PI;
+    const deg = settings[`theta${i}`] * 180 / Math.PI;
     this.node.style.transform = `rotate(${-1 * deg}deg)`;
 
     this.node.addEventListener('click', this.click.bind(this));

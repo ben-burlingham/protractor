@@ -16,13 +16,13 @@
 }
 
 .__MSG_@@extension_id__-display:before {
-    content: attr(data-guide-0);
+    content: attr(data-sub0);
     left: 2px;
     text-align: left;
 }
 
 .__MSG_@@extension_id__-display:after {
-    content: attr(data-guide-1);
+    content: attr(data-sub1);
     right: 2px;
     text-align: right;
 }

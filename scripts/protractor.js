@@ -1,30 +1,30 @@
 /*
 TODO
-arc resize
+arc flip
 hover behavior on drag handle
-pass initial state
 not global classes
 not allowed cursor on circle if locked
 resize broken
-stop inverting degrees, use negative
+larger display text
 
 options page:
     - mark size (${appId}-marker-full)
-    - radians / degrees
+    - radians / degrees (ready)
     - marker count
-    - precision
-    - guide snap
+    - precision (ready)
+    - guide snap (ready)
     - background opacity
     - static guide opacity
     - arc opacity
 */
 
 Protractor = function({ appId }) {
-    const initialState = {
+    const settings = {
+        precision: 2,
+        radius: 200,
         theta0: Math.PI / 4,
         theta1: 3 * Math.PI / 4,
-        radius: 200,
-        precision: 2,
+        units: 'deg'
     };
 
     // Main container, buttons container, close button, lock button
@@ -53,15 +53,15 @@ Protractor = function({ appId }) {
     }
 
     // Display, guides, arc
-    this.display = new Display({ appId, initialState });
+    this.display = new Display({ appId, settings });
     this.container.appendChild(this.display);
 
-    this.guide0 = new Guide({ appId, initialState, i: 0 });
-    this.guide1 = new Guide({ appId, initialState, i: 1 });
+    this.guide0 = new Guide({ appId, settings, i: 0 });
+    this.guide1 = new Guide({ appId, settings, i: 1 });
     this.container.appendChild(this.guide0);
     this.container.appendChild(this.guide1);
 
-    this.arc = new Arc({ appId, initialState });
+    this.arc = new Arc({ appId, settings });
     this.container.appendChild(this.arc);
 
     // Handle
