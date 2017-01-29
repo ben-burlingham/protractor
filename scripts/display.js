@@ -20,7 +20,6 @@ Display = function({ appId, settings }) {
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
     document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 
-
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
 
     return this.node;

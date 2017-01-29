@@ -1,6 +1,5 @@
 /*
 TODO
-arc flip
 hover behavior on drag handle
 not global classes
 not allowed cursor on circle if locked
@@ -9,13 +8,13 @@ larger display text
 
 options page:
     - mark size (${appId}-marker-full)
-    - radians / degrees (ready)
     - marker count
-    - precision (ready)
-    - guide snap (ready)
     - background opacity
     - static guide opacity
     - arc opacity
+    - READY precision
+    - READY guide snap
+    - READY radians / degrees
 */
 
 Protractor = function({ appId }) {

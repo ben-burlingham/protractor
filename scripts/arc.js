@@ -31,8 +31,14 @@ Arc.prototype = {
     buildPaths: function(theta0, theta1, radius) {
         const rX = this.settings.radius;
         const rY = this.settings.radius;
-        const flip = 0
-        // const flip = (theta1 - theta0) < Math.PI ? 0 : 1;
+
+        const t0 = Math.round(theta0 * 180 / Math.PI);
+        const t1 = Math.round(theta1 * 180 / Math.PI);
+        const delta = theta1 - theta0;
+
+        const flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
+            ? 1
+            : 0;
 
         const startX = rX + rX * Math.cos(theta0);
         const startY = rY - rY * Math.sin(theta0);
