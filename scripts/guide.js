@@ -13,6 +13,16 @@ Guide = function({ appId, settings, i }) {
 
     this.node.className = `${appId}-guide`;
 
+    if (i === 0) {
+        this.node.style.backgroundColor = settings.guide0Fill;
+        this.node.style.borderRightColor = settings.guide0Fill;
+        this.handle.style.borderColor = settings.guide0Fill;
+    } else {
+        this.node.style.backgroundColor = settings.guide1Fill;
+        this.node.style.borderRightColor = settings.guide1Fill;
+        this.handle.style.borderColor = settings.guide1Fill;
+    }
+
     const deg = settings[`theta${i}`] * 180 / Math.PI;
     this.node.style.transform = `rotate(${-1 * deg}deg)`;
 

@@ -5,17 +5,33 @@ Display = function({ appId, settings }) {
     const ref = PubSub.emit.bind(null, Channels.CONTAINER_MOVE);
     this.node = document.createElement('div');
     this.node.className = `${appId}-display`;
+
+    this.delta = document.createElement('div');
+    this.delta.className = `${appId}-display-delta`;
+
+    this.sub0 = document.createElement('div');
+    this.sub0.className = `${appId}-display-sub0`;
+    this.sub0.style.color = settings.guide0Fill;
+
+    this.sub1 = document.createElement('div');
+    this.sub1.className = `${appId}-display-sub1`;
+    this.sub1.style.color = settings.guide1Fill;
+
     this.guideThetas = [settings.theta0, settings.theta1];
 
-    const { sub0, sub1, text } = this.buildFormattedStrings(
+    const { sub0, sub1, delta } = this.buildFormattedStrings(
         ...this.guideThetas,
         this.settings.units,
         this.settings.precision
     );
 
-    this.node.innerHTML = text;
-    this.node.setAttribute('data-sub0', sub0);
-    this.node.setAttribute('data-sub1', sub1);
+    this.delta.innerHTML = delta;
+    this.sub0.innerHTML = sub0;
+    this.sub1.innerHTML = sub1;
+
+    this.node.appendChild(this.delta);
+    this.node.appendChild(this.sub0);
+    this.node.appendChild(this.sub1);
 
     this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
@@ -41,12 +57,10 @@ Display.prototype = {
     },
 
     buildFormattedStrings: function(theta0, theta1, units, precision) {
-        const max = Math.max(...this.guideThetas);
-        const min = Math.min(...this.guideThetas);
-        const delta = max - min;
-        const corrected = (delta > Math.PI ? 2 * Math.PI - delta : delta);
+        const diff = Math.max(theta0, theta1) - Math.min(theta0, theta1);
+        const corrected = (diff > Math.PI ? 2 * Math.PI - diff : diff);
 
-        const text = units === 'deg'
+        const delta = units === 'deg'
             ? `${Math.abs(corrected * 180 / Math.PI).toFixed(precision)}˚`
             : `${Math.abs(corrected).toFixed(precision)}`;
 
@@ -58,22 +72,22 @@ Display.prototype = {
             ? `${(theta1 * 180 / Math.PI).toFixed(precision)}˚`
             : `${theta1.toFixed(precision)}`;
 
-        return { text, sub0, sub1 };
+        return { delta, sub0, sub1 };
     },
 
     onUpdate: function(chan, msg) {
         if (chan === Channels.GUIDE_MOVE) {
             this.guideThetas[msg.index] = msg.theta;
 
-            const { sub0, sub1, text } = this.buildFormattedStrings(
+            const { sub0, sub1, delta } = this.buildFormattedStrings(
                 ...this.guideThetas,
                 this.settings.units,
                 this.settings.precision
             );
 
-            this.node.innerHTML = text;
-            this.node.setAttribute('data-sub0', sub0);
-            this.node.setAttribute('data-sub1', sub1);
+            this.delta.innerHTML = delta;
+            this.sub0.innerHTML = sub0;
+            this.sub1.innerHTML = sub1;
         }
 
         if (chan === Channels.CONTAINER_LOCK) {

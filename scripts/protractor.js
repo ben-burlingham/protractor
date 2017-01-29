@@ -1,7 +1,5 @@
 /*
 TODO
-larger display text, maybe THETA0 delta THETA0
-different color guides that correspond to display text: #8F8F67, #75759A, #919214
 kayak.com
 
 options page:
@@ -16,8 +14,10 @@ options page:
 
 Protractor = function({ appId }) {
     const settings = {
-        arcFill: 'rgba(50, 243, 198, 0.3)',
+        arcFill: 'rgba(50, 243, 150, 0.1)',
         circleFill: 'rgba(200, 200, 200, 0.03)',
+        guide0Fill: '#2EC656',
+        guide1Fill: 'blue',
         markerInterval: Math.PI / 10,
         longMarker: false,
         precision: 2,
