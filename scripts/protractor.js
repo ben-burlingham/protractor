@@ -1,6 +1,6 @@
 /*
 TODO
-kayak.com
+icons
 
 options page:
     - READY long markers
@@ -34,10 +34,7 @@ Protractor = function({ appId }) {
     this.buttons = document.createElement('div');
     this.buttons.className = `${appId}-buttons`;
 
-    this.closeBtn = document.createElement('button');
-    this.closeBtn.className = `${appId}-button-close`;
-    this.closeBtn.addEventListener('click', this.hide.bind(this));
-
+    this.closeBtn = new ButtonClose({ appId, hide: this.hide.bind(this) });
     this.lockBtn = new ButtonLock({ appId });
 
     this.buttons.appendChild(this.lockBtn);

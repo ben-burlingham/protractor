@@ -29,6 +29,7 @@
             "scripts/circle.js",
             "scripts/marker.js",
             "scripts/arc.js",
+            "scripts/button-close.js",
             "scripts/button-lock.js",
             "scripts/display.js",
             "scripts/handle.js",

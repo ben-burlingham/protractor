@@ -1,5 +1,5 @@
 ButtonLock = function({ appId }) {
-    this.node = document.createElement('button');
+    this.node = document.createElement('div');
     this.node.className = `${appId}-button-lock`;
 
     this.node.addEventListener('click', (evt) => {
