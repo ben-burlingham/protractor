@@ -1,7 +1,7 @@
 Display = function({ appId, settings }) {
     this.settings = settings;
 
-    const ref = PubSub.emit.bind(null, Channels.MOVE);
+    const ref = PubSub.emit.bind(null, Channels.CONTAINER_MOVE);
     this.node = document.createElement('div');
     this.node.className = `${appId}-display`;
     this.guideThetas = [settings.theta0, settings.theta1];

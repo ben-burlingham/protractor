@@ -2,7 +2,6 @@
     background: 0;
     border-bottom: 20px solid #ccc;
     box-sizing: border-box;
-    height: 210px;
     left: 50%;
     position: absolute;
     transform-origin: 0.5px 0;
@@ -22,7 +21,6 @@
 }*/
 
 .__MSG_@@extension_id__-marker-long {
-    border-bottom: 20px solid #ccc;
     border-top: 190px solid rgba(210, 210, 210, 0.5);
     height: 210px;
 }

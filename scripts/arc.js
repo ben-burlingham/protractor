@@ -1,10 +1,10 @@
 Arc = function({ appId, settings }) {
     const ns = 'http://www.w3.org/2000/svg';
 
-    this.settings = settings;
     this.guideThetas = [settings.theta0, settings.theta1];
+    this.radius = settings.radius;
 
-    const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, settings);
+    const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, this.radius);
 
     this.node = document.createElementNS(ns, 'svg');
     this.node.setAttribute('class', `${this.appId}-arc`);
@@ -24,6 +24,7 @@ Arc = function({ appId, settings }) {
     this.node.appendChild(this.arc);
     this.node.appendChild(this.triangle);
 
+    PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
 
     return this.node;
@@ -31,11 +32,9 @@ Arc = function({ appId, settings }) {
 
 Arc.prototype = {
     buildPaths: function(theta0, theta1, radius) {
-        const rX = this.settings.radius;
-        const rY = this.settings.radius;
+        const rX = radius;
+        const rY = radius;
 
-        const t0 = Math.round(theta0 * 180 / Math.PI);
-        const t1 = Math.round(theta1 * 180 / Math.PI);
         const delta = theta1 - theta0;
 
         const flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
@@ -58,11 +57,20 @@ Arc.prototype = {
         if (chan === Channels.GUIDE_MOVE) {
             this.guideThetas[msg.index] = msg.theta;
 
-            const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas);
+            const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, this.radius);
             this.arc.setAttribute('d', arcPath);
             this.triangle.setAttribute('d', trianglePath);
         }
 
-        // if (chan === Channels.RESIZE) {
+        if (chan === Channels.CONTAINER_RESIZE) {
+            const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, msg.radius);
+
+            this.node.setAttribute('height', msg.radius * 2);
+            this.node.setAttribute('width', msg.radius * 2);
+            this.radius = msg.radius;
+
+            this.arc.setAttribute('d', arcPath);
+            this.triangle.setAttribute('d', trianglePath);
+        }
     }
 };

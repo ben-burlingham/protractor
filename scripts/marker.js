@@ -4,18 +4,17 @@ Marker = function({ appId, settings, rad }) {
     this.node = document.createElement('div');
     this.node.className = `${appId}-marker ${long}`;
     this.node.style.transform = `rotate(${rad * 180 / Math.PI - 90}deg)`
+    this.node.style.height = `${settings.radius + 10}px`;
 
-    PubSub.subscribe(Channels.RESIZE, this);
+    PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
 
     return this.node;
 };
 
 Marker.prototype = {
     onUpdate: function(chan, msg) {
-        if (chan === Channels.RESIZE) {
-            const pad = 40;
-            this.node.style.borderBottomWidth = `${this.node.parentNode.offsetHeight / 2 - pad}px`;
-            this.node.style.height = `${pad + 10}px`;
+        if (chan === Channels.CONTAINER_RESIZE) {
+            this.node.style.height = `${msg.radius + 10}px`;
         }
     },
 };

@@ -1,9 +1,8 @@
 /*
 TODO
-resize broken
 hover behavior on resize handle
 not global classes
-not allowed cursor on circle if locked
+not allowed cursor on circle and display if locked
 larger display text, maybe THETA0 delta THETA0
 different color guides that correspond to display text
 
@@ -68,8 +67,8 @@ Protractor = function({ appId }) {
     this.container.appendChild(this.arc);
 
     // Handle
-    this.handle0 = new Handle({ appId, i: 0 });
-    this.handle1 = new Handle({ appId, i: 1 });
+    this.handle0 = new Handle({ appId, settings, i: 0 });
+    this.handle1 = new Handle({ appId, settings, i: 1 });
     this.container.appendChild(this.handle0);
     this.container.appendChild(this.handle1);
 

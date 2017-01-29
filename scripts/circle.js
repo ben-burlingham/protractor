@@ -1,7 +1,5 @@
 Circle = function({ appId, settings }) {
-    PubSub.subscribe('resize', this);
-
-    const ref = PubSub.emit.bind(null, Channels.MOVE);
+    const ref = PubSub.emit.bind(null, Channels.CONTAINER_MOVE);
     this.node = document.createElement('div');
     this.node.className = `${appId}-circle`;
     this.node.style.borderRadius = `${settings.radius}px`;
@@ -10,6 +8,8 @@ Circle = function({ appId, settings }) {
     this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
     document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
+
+    PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
 
     return this.node;
 };
@@ -28,9 +28,8 @@ Circle.prototype = {
     },
 
     onUpdate: function(chan, msg) {
-        if (chan === Channels.RESIZE) {
-            this.node.style.borderRadius =
-                `${this.node.parentNode.offsetWidth / 2 + msg.offset}px`;
+        if (chan === Channels.CONTAINER_RESIZE) {
+            this.node.style.borderRadius = `${msg.radius}px`;
         }
     },
 };

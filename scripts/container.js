@@ -11,9 +11,9 @@ Container = function({ appId }) {
 
     this.locked = false;
 
-    PubSub.subscribe(Channels.RESIZE, this);
-    PubSub.subscribe(Channels.MOVE, this);
-    PubSub.subscribe(Channels.LOCK_ALL, this);
+    PubSub.subscribe(Channels.HANDLE_MOVE, this);
+    PubSub.subscribe(Channels.CONTAINER_MOVE, this);
+    PubSub.subscribe(Channels.CONTAINER_LOCK, this);
 
     return this.node;
 };
@@ -21,9 +21,9 @@ Container = function({ appId }) {
 Container.prototype = {
     onUpdate: function(chan, msg) {
         switch(chan) {
-            case Channels.MOVE: this.move(msg); break;
-            case Channels.RESIZE: this.resize(msg); break;
-            case Channels.LOCK_ALL: this.locked = msg.locked; break;
+            case Channels.CONTAINER_LOCK: this.locked = msg.locked; break;
+            case Channels.CONTAINER_MOVE: this.move(msg); break;
+            case Channels.HANDLE_MOVE: this.resize(msg); break;
         }
     },
 
@@ -74,5 +74,7 @@ Container.prototype = {
         this.node.style.top = `${bounds.top + correctedOffset}px`;
         this.node.style.width = `${bounds.width - 2 * correctedOffset}px`;
         this.node.style.height = `${bounds.height - 2 * correctedOffset}px`;
+
+        PubSub.emit(Channels.CONTAINER_RESIZE, { radius: (this.node.offsetWidth / 2) });
     }
 };

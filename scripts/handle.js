@@ -1,4 +1,4 @@
-Handle = function({ appId, i }) {
+Handle = function({ appId, settings, i }) {
     const ref = this.move.bind(this);
     this.index = i;
 
@@ -43,6 +43,6 @@ Handle.prototype = {
             offset = (Math.abs(moveY) < moveX ? moveX : moveY);
         }
 
-        PubSub.emit(Channels.RESIZE, { offset })
+        PubSub.emit(Channels.HANDLE_MOVE, { offset });
     }
 };
