@@ -1,4 +1,4 @@
-Guide = function({ appId, i }) {
+Guide = function({ appId, initialState, i }) {
     this.node = document.createElement('div');
     this.appId = appId;
     this.index = i;
@@ -10,7 +10,11 @@ Guide = function({ appId, i }) {
     this.handle.title = "Double click to lock/unlock";
     this.node.appendChild(this.handle);
 
-    this.node.className = `${appId}-guide ${appId}-guide-${i}`;
+    this.node.className = `${appId}-guide`;
+
+    const deg = initialState[`theta${i}`] * 180 / Math.PI;
+    this.node.style.transform = `rotate(${-1 * deg}deg)`;
+
     this.node.addEventListener('click', this.click.bind(this));
     this.node.addEventListener('mousedown', this.dragstart.bind(this, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
@@ -80,13 +84,13 @@ Guide.prototype = {
         const centerX = bounds.left + bounds.width / 2;
         const centerY = bounds.top + bounds.height / 2;
 
-        let theta = Math.atan(Math.abs(centerY - evt.clientY) / Math.abs(centerX - evt.clientX));
+        let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
 
-        if (evt.clientX < centerX && evt.clientY < centerY) {
+        if (evt.clientX < centerX && evt.clientY > centerY) {
             theta = Math.PI + theta;
         } else if (evt.clientX < centerX) {
             theta = Math.PI - theta;
-        } else if (evt.clientY < centerY) {
+        } else if (evt.clientY > centerY) {
             theta = Math.PI * 2 - theta;
         }
 
@@ -98,8 +102,7 @@ Guide.prototype = {
             theta += (this.snapConstants.interval - delta);
         }
 
-        this.node.style.transform = `rotate(${theta * 180 / Math.PI}deg)`;
-        this.handle.style.transform = `rotate(${-theta * 180 / Math.PI}deg)`
+        this.node.style.transform = `rotate(${-1 * theta * 180 / Math.PI}deg)`;
         PubSub.emit(Channels.GUIDE_MOVE, { index: this.index, theta });
     },
 };

@@ -10,14 +10,6 @@
     z-index: 99;
 }
 
-.__MSG_@@extension_id__-guide-0 {
-    transform: rotate(-45deg);
-}
-
-.__MSG_@@extension_id__-guide-1 {
-    transform: rotate(-135deg);
-}
-
 .__MSG_@@extension_id__-guide.__MSG_@@extension_id__-guide-locked {
     background: #c31212;
     border-right-color: #c31212;
@@ -44,14 +36,4 @@
     background-position: -1px -1px;
     border-color: #c31212;
     cursor: not-allowed;
-}
-
-.__MSG_@@extension_id__-guide-0 .__MSG_@@extension_id__-guide-handle,
-.__MSG_@@extension_id__-guide-0 .__MSG_@@extension_id__-guide-display {
-    transform: rotate(45deg);
-}
-
-.__MSG_@@extension_id__-guide-1 .__MSG_@@extension_id__-guide-handle,
-.__MSG_@@extension_id__-guide-1 .__MSG_@@extension_id__-guide-display {
-    transform: rotate(135deg);
 }
