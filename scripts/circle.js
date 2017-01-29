@@ -1,10 +1,11 @@
-Circle = function({ appId }) {
+Circle = function({ appId, settings }) {
     PubSub.subscribe('resize', this);
 
     const ref = PubSub.emit.bind(null, Channels.MOVE);
     this.node = document.createElement('div');
     this.node.className = `${appId}-circle`;
-    this.node.style.borderRadius = '200px';
+    this.node.style.borderRadius = `${settings.radius}px`;
+    this.node.style.backgroundColor = settings.circleFill;
 
     this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));

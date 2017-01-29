@@ -1,8 +1,8 @@
 .__MSG_@@extension_id__-marker {
     background: 0;
-    border-bottom: 15px solid #ccc;
-    box-sizing: content-box;
-    height: 190px;
+    border-bottom: 20px solid #ccc;
+    box-sizing: border-box;
+    height: 210px;
     left: 50%;
     position: absolute;
     transform-origin: 0.5px 0;
@@ -11,7 +11,18 @@
     z-index: 2;
 }
 
-.__MSG_@@extension_id__-marker-full {
-    border-bottom: 160px solid #ccc;
-    height: 50px;
+/*.__MSG_@@extension_id__-marker:after {
+    background: violet;
+    content: 'a';
+    font-size: 10px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    width: 20px;
+}*/
+
+.__MSG_@@extension_id__-marker-long {
+    border-bottom: 20px solid #ccc;
+    border-top: 190px solid rgba(210, 210, 210, 0.5);
+    height: 210px;
 }

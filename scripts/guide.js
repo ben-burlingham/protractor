@@ -1,6 +1,7 @@
 Guide = function({ appId, settings, i }) {
     this.node = document.createElement('div');
     this.appId = appId;
+    this.settings = settings;
     this.index = i;
     this.locked = false;
     const ref = this.move.bind(this);
@@ -24,12 +25,6 @@ Guide = function({ appId, settings, i }) {
 };
 
 Guide.prototype = {
-    snapConstants: {
-        interval: Math.PI / 12,
-        lowerBound: 0.03,
-        upperBound: Math.PI / 12 - 0.03
-    },
-
     click: function() {
         function resetDoubleClick() {
             clearTimeout(this.doubleClickTimer);
@@ -94,12 +89,15 @@ Guide.prototype = {
             theta = Math.PI * 2 - theta;
         }
 
-        const delta = theta % this.snapConstants.interval;
+        const interval = this.settings.markerInterval;
+        const delta = theta % interval;
+        const lowerBound = 0.03;
+        const upperBound = this.settings.markerInterval - 0.03;
 
-        if (delta < this.snapConstants.lowerBound) {
+        if (delta < lowerBound) {
             theta -= delta;
-        } else if (delta > this.snapConstants.upperBound) {
-            theta += (this.snapConstants.interval - delta);
+        } else if (delta > upperBound) {
+            theta += (interval - delta);
         }
 
         this.node.style.transform = `rotate(${-1 * theta * 180 / Math.PI}deg)`;

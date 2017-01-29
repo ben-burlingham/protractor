@@ -1,17 +1,17 @@
 /*
 TODO
-hover behavior on drag handle
+resize broken
+hover behavior on resize handle
 not global classes
 not allowed cursor on circle if locked
-resize broken
-larger display text
+larger display text, maybe THETA0 delta THETA0
+different color guides that correspond to display text
 
 options page:
-    - mark size (${appId}-marker-full)
-    - marker count
-    - background opacity
-    - static guide opacity
-    - arc opacity
+    - READY long markers
+    - READY marker count
+    - READY circle opacity
+    - READY arc opacity
     - READY precision
     - READY guide snap
     - READY radians / degrees
@@ -19,6 +19,10 @@ options page:
 
 Protractor = function({ appId }) {
     const settings = {
+        arcFill: 'rgba(50, 243, 198, 0.3)',
+        circleFill: 'rgba(200, 200, 200, 0.03)',
+        markerInterval: Math.PI / 10,
+        longMarker: false,
         precision: 2,
         radius: 200,
         theta0: Math.PI / 4,
@@ -44,11 +48,11 @@ Protractor = function({ appId }) {
     this.container.appendChild(this.buttons);
 
     // Circle, markers
-    this.circle = new Circle({ appId });
+    this.circle = new Circle({ appId, settings });
     this.container.appendChild(this.circle);
 
-    for (let deg = 0; deg < 360; deg += 15) {
-        this.container.appendChild(new Marker({ appId, deg }));
+    for (let rad = 0; rad < 2 * Math.PI; rad += settings.markerInterval) {
+        this.container.appendChild(new Marker({ appId, settings, rad }));
     }
 
     // Display, guides, arc

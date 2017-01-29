@@ -1,7 +1,9 @@
-Marker = function({ appId, deg }) {
+Marker = function({ appId, settings, rad }) {
+    const long = settings.longMarker ? `${appId}-marker-long` : "";
+
     this.node = document.createElement('div');
-    this.node.className = `${appId}-marker`;
-    this.node.style.transform = `rotate(${deg - 90}deg)`
+    this.node.className = `${appId}-marker ${long}`;
+    this.node.style.transform = `rotate(${rad * 180 / Math.PI - 90}deg)`
 
     PubSub.subscribe(Channels.RESIZE, this);
 

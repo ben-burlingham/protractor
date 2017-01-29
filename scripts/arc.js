@@ -13,10 +13,12 @@ Arc = function({ appId, settings }) {
 
     this.arc = document.createElementNS(ns, 'path');
     this.arc.setAttribute('d', arcPath);
+    this.arc.style.fill = settings.arcFill;
     this.arc.setAttribute('class', `${appId}-path`);
 
     this.triangle = document.createElementNS(ns, 'path');
     this.triangle.setAttribute('d', trianglePath);
+    this.triangle.style.fill = settings.arcFill;
     this.triangle.setAttribute('class', `${appId}-path`);
 
     this.node.appendChild(this.arc);
