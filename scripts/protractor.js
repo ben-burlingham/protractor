@@ -1,6 +1,5 @@
 /*
 TODO
-icons
 firefox
 settings page
 
