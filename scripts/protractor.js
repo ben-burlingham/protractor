@@ -1,6 +1,8 @@
 /*
 TODO
 icons
+firefox
+settings page
 
 options page:
     - READY long markers

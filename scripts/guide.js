@@ -65,13 +65,11 @@ Guide.prototype = {
     },
 
     dragstart: function(ref, evt) {
-        evt.stopPropagation();
         evt.preventDefault();
         document.body.addEventListener('mousemove', ref);
     },
 
     dragend: function(ref, evt) {
-        evt.stopPropagation();
         evt.preventDefault();
         document.body.removeEventListener('mousemove', ref);
     },

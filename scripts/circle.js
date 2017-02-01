@@ -17,14 +17,14 @@ Circle = function({ appId, settings }) {
 };
 
 Circle.prototype = {
+    // Document level listener - never stop propagation!
     dragstart: function(ref, evt) {
-        evt.stopPropagation();
         evt.preventDefault();
         document.body.addEventListener('mousemove', ref);
     },
 
+    // Document level listener - never stop propagation!
     dragend: function(ref, evt) {
-        evt.stopPropagation();
         evt.preventDefault();
         document.body.removeEventListener('mousemove', ref);
     },
