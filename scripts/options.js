@@ -52,12 +52,26 @@ function updateValues() {
 document.addEventListener('DOMContentLoaded', () => {
     updateValues();
 
+    // const form = document['options-form'].units;
+    // form['units'][0].checked = true;
+
+    function debounce(fn) {
+        let throttleTimer = null;
+
+        return function() {
+            if (throttleTimer === null) {
+                throttleTimer = setTimeout(() => { throttleTimer = null; }, 200);
+                fn(...arguments);
+            }
+        }
+    }
+
     document.getElementById('precision-slider')
-        .addEventListener('input', throttle(onPrecisionChange));
+        .addEventListener('input', debounce(onPrecisionChange));
     document.getElementById('marker-spacing-slider')
-        .addEventListener('input', throttle(onMarkerSpacingChange));
+        .addEventListener('input', debounce(onMarkerSpacingChange));
     document.getElementById('circle-opacity-slider')
-        .addEventListener('input', throttle(onCircleOpacityChange));
+        .addEventListener('input', debounce(onCircleOpacityChange));
     document.getElementById('arc-opacity-slider')
-        .addEventListener('input', throttle(onArcOpacityChange));
+        .addEventListener('input', debounce(onArcOpacityChange));
 });

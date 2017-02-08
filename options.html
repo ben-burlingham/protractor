@@ -7,19 +7,19 @@
 <body>
     <div class='title'>Protractor Settings</div>
 
-    <div class="container">
+    <form name='options-form' class="container">
         <div class="option">
             <div class="option-title">
                 Units
             </div>
 
             <label class='radio-label'>
-                <input type="radio" name='units'>
+                <input type="radio" name='units' value='rad'>
                 Radians
             </label>
 
             <label class='radio-label'>
-                <input type="radio" name='units'>
+                <input type="radio" name='units' value='deg'>
                 Degrees
             </label>
         </div>
@@ -39,12 +39,12 @@
             </div>
 
             <label class='radio-label'>
-                <input type="radio">
+                <input type="radio" name='marker-length' value='center'>
                 To Center
             </label>
 
             <label class='radio-label'>
-                <input type="radio">
+                <input type="radio" name='marker-length' value='outside'>
                 Outside Only
             </label>
         </div>
@@ -64,12 +64,12 @@
             </div>
 
             <label class='radio-label'>
-                <input type="radio">
+                <input type="radio" name='marker-spacing' value='1'>
                 On
             </label>
 
             <label class='radio-label'>
-                <input type="radio">
+                <input type="radio" name='marker-spacing' value='0'>
                 Off
             </label>
         </div>
@@ -92,6 +92,6 @@
             <input type="range" min=1 max=100 id='arc-opacity-slider' />
             <div class="range-value" id='arc-opacity-value'></div>
         </div>
-    </div>
+    </form>
 </body>
 </html>
