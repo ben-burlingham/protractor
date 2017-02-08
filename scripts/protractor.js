@@ -1,16 +1,7 @@
 /*
 TODO
-firefox
-settings page
-
-options page:
-    - READY long markers
-    - READY marker count
-    - READY circle opacity
-    - READY arc opacity
-    - READY precision
-    - READY guide snap
-    - READY radians / degrees
+readme
+better icon
 */
 
 Protractor = function({ appId }) {
@@ -69,7 +60,7 @@ Protractor = function({ appId }) {
     this.container.appendChild(this.handle1);
 
     // TODO remove this
-    this.show();
+    // this.show();
 };
 
 Protractor.prototype = {

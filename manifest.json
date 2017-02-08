@@ -49,6 +49,7 @@
         ]
     }],
     "offline_enabled": true,
-    "permissions": ["activeTab"],
+    "options_page": "options.html",
+    "permissions": ["activeTab", "storage"],
     "web_accessible_resources": [ "images/*.svg" ]
 }

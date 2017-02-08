@@ -1,0 +1,97 @@
+<html>
+<head>
+	<title>Protractor Options</title>
+	<script type="text/javascript" src="scripts/options.js"></script>
+    <link rel="stylesheet" href="style/options.css">
+</head>
+<body>
+    <div class='title'>Protractor Settings</div>
+
+    <div class="container">
+        <div class="option">
+            <div class="option-title">
+                Units
+            </div>
+
+            <label class='radio-label'>
+                <input type="radio" name='units'>
+                Radians
+            </label>
+
+            <label class='radio-label'>
+                <input type="radio" name='units'>
+                Degrees
+            </label>
+        </div>
+
+        <div class="option">
+            <div class="option-title">
+                Precision
+            </div>
+
+            <input type="range" min=0 max=6 id='precision-slider' />
+            <div class="range-value" id='precision-value'></div>
+        </div>
+
+        <div class="option">
+            <div class="option-title">
+                Marker Length
+            </div>
+
+            <label class='radio-label'>
+                <input type="radio">
+                To Center
+            </label>
+
+            <label class='radio-label'>
+                <input type="radio">
+                Outside Only
+            </label>
+        </div>
+
+        <div class="option">
+            <div class="option-title">
+                Marker Spacing
+            </div>
+
+            <input type="range" min=0 max=10 id='marker-spacing-slider' />
+            <div class="range-value" id='marker-spacing-value'></div>
+        </div>
+
+        <div class="option">
+            <div class="option-title">
+                Snap guides to markers
+            </div>
+
+            <label class='radio-label'>
+                <input type="radio">
+                On
+            </label>
+
+            <label class='radio-label'>
+                <input type="radio">
+                Off
+            </label>
+        </div>
+
+
+        <div class="option">
+            <div class="option-title">
+                Circle Opacity
+            </div>
+
+            <input type="range" min=1 max=100 id='circle-opacity-slider' />
+            <div class="range-value" id='circle-opacity-value'></div>
+        </div>
+
+        <div class="option">
+            <div class="option-title">
+                Arc Opacity
+            </div>
+
+            <input type="range" min=1 max=100 id='arc-opacity-slider' />
+            <div class="range-value" id='arc-opacity-value'></div>
+        </div>
+    </div>
+</body>
+</html>
