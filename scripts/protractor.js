@@ -2,7 +2,6 @@
 TODO
 readme
 better icon
-marker snapping
 remove-show-remove-show not working
 opacity / fill
 */
@@ -21,7 +20,7 @@ Protractor.prototype = {
             guide0Fill: '#2EC656',
             guide1Fill: 'blue',
             markerSnap: options.markerSnap,
-            markerSpacing: options.markerSpacing,
+            markerInterval: options.markerInterval,
             longMarker: (options.markerLength === 'center'),
             precision: options.precision,
             radius: 200,
@@ -47,7 +46,7 @@ Protractor.prototype = {
         this.circle = new Circle({ appId, settings });
         this.container.appendChild(this.circle);
 
-        for (let rad = 0; rad < 2 * Math.PI; rad += settings.markerSpacing) {
+        for (let rad = 0; rad < 2 * Math.PI; rad += settings.markerInterval) {
             this.container.appendChild(new Marker({ appId, settings, rad }));
         }
 
@@ -95,8 +94,8 @@ Protractor.prototype = {
                 arcOpacity: 80,
                 circleOpacity: 50,
                 markerLength: 'center',
-                markerSnap: 1,
-                markerSpacing: 4,
+                markerSnap: true,
+                markerInterval: 4,
                 precision: 1,
                 units: 'deg'
             }, this.build.bind(this));

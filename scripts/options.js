@@ -1,9 +1,9 @@
 const timers = {
-    markerSpacing: null,
+    markerInterval: null,
     precision: null,
 };
 
-const spacings = [
+const intervals = [
     Math.PI / 12,
     Math.PI / 6,
     Math.PI / 4,
@@ -20,9 +20,9 @@ function updatePrecision(precision) {
         .innerHTML = `${precision} digit${precision === 1 ? '' : 's'}`;
 }
 
-function updateMarkerSpacing(i, units) {
-    const deg = spacings[i] * 180 / Math.PI;
-    const rad = spacings[i];
+function updateMarkerInterval(i, units) {
+    const deg = intervals[i] * 180 / Math.PI;
+    const rad = intervals[i];
 
     const str = (units === 'deg'
         ? `${Math.round(deg * 100) / 100}&deg;`
@@ -50,17 +50,17 @@ function onPrecisionChange(evt) {
     timers.precision = setTimeout(chrome.storage.sync.set.bind(null, { precision }), 200);
 }
 
-function onMarkerSpacingChange(evt) {
+function onMarkerIntervalChange(evt) {
     const val = parseInt(evt.target.value);
     const units = document['options-form'].units.value;
-    updateMarkerSpacing(val, units);
+    updateMarkerInterval(val, units);
 
     function save() {
-        chrome.storage.sync.set({ markerSpacing: spacings[val] });
+        chrome.storage.sync.set({ markerInterval: intervals[val] });
     }
 
-    clearTimeout(timers.markerSpacing);
-    timers.markerSpacing = setTimeout(save, 200);
+    clearTimeout(timers.markerInterval);
+    timers.markerInterval = setTimeout(save, 200);
 }
 
 function onCircleOpacityChange(evt) {
@@ -79,8 +79,8 @@ function onUnitsChange(evt) {
     const units = evt.target.value;
     chrome.storage.sync.set({ units });
 
-    chrome.storage.sync.get({ markerSpacing: null },
-        ({ markerSpacing }) => updateMarkerSpacing(markerSpacing, units));
+    chrome.storage.sync.get({ markerInterval: null },
+        ({ markerInterval }) => updateMarkerInterval(markerInterval, units));
 }
 
 function onMarkerLengthChange(evt) {
@@ -99,15 +99,15 @@ function restore() {
         circleOpacity: 50,
         markerLength: 'center',
         markerSnap: true,
-        markerSpacing: 4,
+        markerInterval: 4,
         precision: 1,
         units: 'deg'
-    }, ({ precision, markerLength, markerSnap, markerSpacing, circleOpacity, arcOpacity, units }) => {
+    }, ({ precision, markerLength, markerSnap, markerInterval, circleOpacity, arcOpacity, units }) => {
         updatePrecision(precision);
         document.getElementById('precision-slider').value = precision;
 
-        const i = spacings.indexOf(markerSpacing);
-        updateMarkerSpacing(i, units);
+        const i = intervals.indexOf(markerInterval);
+        updateMarkerInterval(i, units);
         document.getElementById('marker-spacing-slider').value = i;
 
         // updateCircleOpacity(circleOpacity);
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .addEventListener('input', onPrecisionChange);
 
     document.getElementById('marker-spacing-slider')
-        .addEventListener('input', onMarkerSpacingChange);
+        .addEventListener('input', onMarkerIntervalChange);
 
     // document.getElementById('circle-opacity-slider')
     //     .addEventListener('input', debounce(onCircleOpacityChange, 200));
