@@ -97,15 +97,17 @@ Guide.prototype = {
             theta = Math.PI * 2 - theta;
         }
 
-        const interval = this.settings.markerInterval;
-        const delta = theta % interval;
-        const lowerBound = 0.03;
-        const upperBound = this.settings.markerInterval - 0.03;
+        if (JSON.parse(this.settings.markerSnap.toLowerCase())) {
+            const interval = this.settings.markerInterval;
+            const delta = theta % interval;
+            const lowerBound = 0.03;
+            const upperBound = this.settings.markerInterval - 0.03;
 
-        if (delta < lowerBound) {
-            theta -= delta;
-        } else if (delta > upperBound) {
-            theta += (interval - delta);
+            if (delta < lowerBound) {
+                theta -= delta;
+            } else if (delta > upperBound) {
+                theta += (interval - delta);
+            }
         }
 
         this.node.style.transform = `rotate(${-1 * theta * 180 / Math.PI}deg)`;

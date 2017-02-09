@@ -29,7 +29,7 @@
                 Precision
             </div>
 
-            <input type="range" min=0 max=6 id='precision-slider' />
+            <input type="range" min=0 max=4 id='precision-slider' />
             <div class="range-value" id='precision-value'></div>
         </div>
 
@@ -39,12 +39,12 @@
             </div>
 
             <label class='radio-label'>
-                <input type="radio" name='marker-length' value='center'>
+                <input type="radio" name='markerLength' value='center'>
                 To Center
             </label>
 
             <label class='radio-label'>
-                <input type="radio" name='marker-length' value='outside'>
+                <input type="radio" name='markerLength' value='outside'>
                 Outside Only
             </label>
         </div>
@@ -54,7 +54,7 @@
                 Marker Spacing
             </div>
 
-            <input type="range" min=0 max=10 id='marker-spacing-slider' />
+            <input type="range" min=0 max=6 id='marker-spacing-slider' />
             <div class="range-value" id='marker-spacing-value'></div>
         </div>
 
@@ -64,12 +64,12 @@
             </div>
 
             <label class='radio-label'>
-                <input type="radio" name='marker-spacing' value='1'>
+                <input type="radio" name='markerSnap' value='true'>
                 On
             </label>
 
             <label class='radio-label'>
-                <input type="radio" name='marker-spacing' value='0'>
+                <input type="radio" name='markerSnap' value='false'>
                 Off
             </label>
         </div>
@@ -77,20 +77,46 @@
 
         <div class="option">
             <div class="option-title">
-                Circle Opacity
+                Circle Fill
             </div>
 
-            <input type="range" min=1 max=100 id='circle-opacity-slider' />
-            <div class="range-value" id='circle-opacity-value'></div>
+            <label class='rgba-label'>
+                R <input type="number" min=0 max=255 id='circle-fill-r' />
+            </label>
+
+            <label class='rgba-label'>
+                G <input type="number" min=0 max=255 id='circle-fill-g' />
+            </label>
+
+            <label class='rgba-label'>
+                B <input type="number" min=0 max=255 id='circle-fill-b' />
+            </label>
+
+            <label class='rgba-label'>
+                A <input type="number" min=0 max=1 step=0.01 id='circle-fill-a' />
+            </label>
         </div>
 
         <div class="option">
             <div class="option-title">
-                Arc Opacity
+                Arc Fill
             </div>
 
-            <input type="range" min=1 max=100 id='arc-opacity-slider' />
-            <div class="range-value" id='arc-opacity-value'></div>
+            <label class='rgba-label'>
+                R <input type="number" min=0 max=255 id='arc-fill-r' />
+            </label>
+
+            <label class='rgba-label'>
+                G <input type="number" min=0 max=255 id='arc-fill-g' />
+            </label>
+
+            <label class='rgba-label'>
+                B <input type="number" min=0 max=255 id='arc-fill-b' />
+            </label>
+
+            <label class='rgba-label'>
+                A <input type="number" min=0 max=1 step=0.01 id='arc-fill-a' />
+            </label>
         </div>
     </form>
 </body>
