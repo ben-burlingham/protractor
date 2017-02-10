@@ -1,4 +1,6 @@
 const timers = {
+    arcFill: null,
+    circleFill: null,
     markerInterval: null,
     precision: null,
 };
@@ -63,16 +65,34 @@ function onMarkerIntervalChange(evt) {
     timers.markerInterval = setTimeout(save, 200);
 }
 
-function onCircleOpacityChange(evt) {
-    const circleOpacity = parseInt(evt.target.value);
-    chrome.storage.sync.set({ circleOpacity });
-    updateCircleOpacity();
+function onCircleFillChange(evt) {
+    function save() {
+        const form = document['options-form'];
+        const r = form.circleFillR.value;
+        const g = form.circleFillG.value;
+        const b = form.circleFillB.value;
+        const a = form.circleFillA.value;
+
+        chrome.storage.sync.set({ circleFill: `rgba(${r},${g},${b},${a})` });
+    }
+
+    clearTimeout(timers.circleFill);
+    timers.circleFill = setTimeout(save, 200);
 }
 
-function onArcOpacityChange(evt) {
-    const arcOpacity = parseInt(evt.target.value);
-    chrome.storage.sync.set({ arcOpacity });
-    updateArcOpacity();
+function onArcFillChange(evt) {
+    function save() {
+        const form = document['options-form'];
+        const r = form.arcFillR.value;
+        const g = form.arcFillG.value;
+        const b = form.arcFillB.value;
+        const a = form.arcFillA.value;
+
+        chrome.storage.sync.set({ arcFill: `rgba(${r},${g},${b},${a})` });
+    }
+
+    clearTimeout(timers.arcFill);
+    timers.arcFill = setTimeout(save, 200);
 }
 
 function onUnitsChange(evt) {
@@ -95,14 +115,14 @@ function onMarkerSnapChange(evt) {
 
 function restore() {
     chrome.storage.sync.get({
-        arcOpacity: 80,
-        circleOpacity: 50,
+        arcFill: `rgba(50,243,150,0.1)`,
+        circleFill: `rgba(200,200,200,0.03)`,
         markerLength: 'center',
         markerSnap: true,
         markerInterval: 4,
         precision: 1,
         units: 'deg'
-    }, ({ precision, markerLength, markerSnap, markerInterval, circleOpacity, arcOpacity, units }) => {
+    }, ({ precision, markerLength, markerSnap, markerInterval, circleFill, arcFill, units }) => {
         updatePrecision(precision);
         document.getElementById('precision-slider').value = precision;
 
@@ -110,12 +130,23 @@ function restore() {
         updateMarkerInterval(i, units);
         document.getElementById('marker-spacing-slider').value = i;
 
-        // updateCircleOpacity(circleOpacity);
-        // updateArcOpacity(arcOpacity);
+        const form = document['options-form'];
+        form.units.value = units;
+        form.markerLength.value = markerLength;
+        form.markerSnap.value = markerSnap;
 
-        document['options-form'].units.value = units;
-        document['options-form'].markerLength.value = markerLength;
-        document['options-form'].markerSnap.value = markerSnap;
+        const arc = arcFill.substring(5, arcFill.length - 1).split(',');
+        const circle = circleFill.substring(5, circleFill.length - 1).split(',');
+
+        form.arcFillR.value = arc[0];
+        form.arcFillG.value = arc[1];
+        form.arcFillB.value = arc[2];
+        form.arcFillA.value = arc[3];
+
+        form.circleFillR.value = circle[0];
+        form.circleFillG.value = circle[1];
+        form.circleFillB.value = circle[2];
+        form.circleFillA.value = circle[3];
     });
 }
 
@@ -133,12 +164,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // document.getElementById('arc-opacity-slider')
     //     .addEventListener('input', debounce(onArcOpacityChange, 200));
 
-    document['options-form'].units[0].addEventListener('change', onUnitsChange);
-    document['options-form'].units[1].addEventListener('change', onUnitsChange);
+    const form = document['options-form'];
 
-    document['options-form'].markerLength[0].addEventListener('change', onMarkerLengthChange);
-    document['options-form'].markerLength[1].addEventListener('change', onMarkerLengthChange);
+    form.units[0].addEventListener('change', onUnitsChange);
+    form.units[1].addEventListener('change', onUnitsChange);
 
-    document['options-form'].markerSnap[0].addEventListener('change', onMarkerSnapChange);
-    document['options-form'].markerSnap[1].addEventListener('change', onMarkerSnapChange);
+    form.markerLength[0].addEventListener('change', onMarkerLengthChange);
+    form.markerLength[1].addEventListener('change', onMarkerLengthChange);
+
+    form.markerSnap[0].addEventListener('change', onMarkerSnapChange);
+    form.markerSnap[1].addEventListener('change', onMarkerSnapChange);
+
+    form.circleFillR.addEventListener('input', onCircleFillChange);
+    form.circleFillG.addEventListener('input', onCircleFillChange);
+    form.circleFillB.addEventListener('input', onCircleFillChange);
+    form.circleFillA.addEventListener('input', onCircleFillChange);
+
+    form.arcFillR.addEventListener('change', onArcFillChange);
+    form.arcFillG.addEventListener('change', onArcFillChange);
+    form.arcFillB.addEventListener('change', onArcFillChange);
+    form.arcFillA.addEventListener('change', onArcFillChange);
 });

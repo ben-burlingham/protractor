@@ -3,7 +3,8 @@ TODO
 readme
 better icon
 remove-show-remove-show not working
-opacity / fill
+DRY options
+validations in number elements
 */
 
 Protractor = function({ appId }) {
@@ -15,8 +16,8 @@ Protractor.prototype = {
         const appId = this.appId;
 
         const settings = {
-            arcFill: 'rgba(50, 243, 150, 0.1)',
-            circleFill: 'rgba(200, 200, 200, 0.03)',
+            arcFill: options.arcFill,
+            circleFill: options.circleFill,
             guide0Fill: '#2EC656',
             guide1Fill: 'blue',
             markerSnap: options.markerSnap,
@@ -91,8 +92,8 @@ Protractor.prototype = {
     show: function() {
         if (this.container === undefined) {
             chrome.storage.sync.get({
-                arcOpacity: 80,
-                circleOpacity: 50,
+                arcFill: 'rgba(50, 243, 150, 0.1)',
+                circleFill: 'rgba(200, 200, 200, 0.03)',
                 markerLength: 'center',
                 markerSnap: true,
                 markerInterval: 4,
