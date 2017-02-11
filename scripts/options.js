@@ -33,16 +33,6 @@ function updateMarkerInterval(i, units) {
     document.getElementById('marker-spacing-value').innerHTML = str;
 }
 
-function updateCircleOpacity(circleOpacity) {
-    document.getElementById('circle-opacity-slider').value = circleOpacity;
-    document.getElementById('circle-opacity-value').innerHTML = `${circleOpacity}%`;
-}
-
-function updateArcOpacity(arcOpacity) {
-    document.getElementById('arc-opacity-slider').value = arcOpacity;
-    document.getElementById('arc-opacity-value').innerHTML = `${arcOpacity}%`;
-}
-
 //===== Event listeners
 function onPrecisionChange(evt) {
     const precision = parseInt(evt.target.value);
@@ -68,31 +58,41 @@ function onMarkerIntervalChange(evt) {
 function onCircleFillChange(evt) {
     function save() {
         const form = document['options-form'];
-        const r = form.circleFillR.value;
-        const g = form.circleFillG.value;
-        const b = form.circleFillB.value;
-        const a = form.circleFillA.value;
+        const r = Math.max(0, Math.min(form.circleFillR.value, 255));
+        const g = Math.max(0, Math.min(form.circleFillG.value, 255));
+        const b = Math.max(0, Math.min(form.circleFillB.value, 255));
+        const a = Math.max(0, Math.min(form.circleFillA.value, 1));
+
+        form.circleFillR.value = r;
+        form.circleFillG.value = g;
+        form.circleFillB.value = b;
+        form.circleFillA.value = a;
 
         chrome.storage.sync.set({ circleFill: `rgba(${r},${g},${b},${a})` });
     }
 
     clearTimeout(timers.circleFill);
-    timers.circleFill = setTimeout(save, 200);
+    timers.circleFill = setTimeout(save, 500);
 }
 
 function onArcFillChange(evt) {
     function save() {
         const form = document['options-form'];
-        const r = form.arcFillR.value;
-        const g = form.arcFillG.value;
-        const b = form.arcFillB.value;
-        const a = form.arcFillA.value;
+        const r = Math.max(0, Math.min(form.arcFillR.value, 255));
+        const g = Math.max(0, Math.min(form.arcFillG.value, 255));
+        const b = Math.max(0, Math.min(form.arcFillB.value, 255));
+        const a = Math.max(0, Math.min(form.arcFillA.value, 1));
+
+        form.arcFillR.value = r;
+        form.arcFillG.value = g;
+        form.arcFillB.value = b;
+        form.arcFillA.value = a;
 
         chrome.storage.sync.set({ arcFill: `rgba(${r},${g},${b},${a})` });
     }
 
     clearTimeout(timers.arcFill);
-    timers.arcFill = setTimeout(save, 200);
+    timers.arcFill = setTimeout(save, 500);
 }
 
 function onUnitsChange(evt) {
@@ -158,11 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('marker-spacing-slider')
         .addEventListener('input', onMarkerIntervalChange);
-
-    // document.getElementById('circle-opacity-slider')
-    //     .addEventListener('input', debounce(onCircleOpacityChange, 200));
-    // document.getElementById('arc-opacity-slider')
-    //     .addEventListener('input', debounce(onArcOpacityChange, 200));
 
     const form = document['options-form'];
 

@@ -4,7 +4,6 @@ readme
 better icon
 remove-show-remove-show not working
 DRY options
-validations in number elements
 */
 
 Protractor = function({ appId }) {
