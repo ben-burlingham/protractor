@@ -1,13 +1,15 @@
 /*
 TODO
-readme
 better icon
-remove-show-remove-show not working
 DRY options
+add page scroll to show()
+guide color
 */
 
 Protractor = function({ appId }) {
     this.appId = appId;
+    this.isShowing = false;
+    this.timer = null;
 };
 
 Protractor.prototype = {
@@ -31,6 +33,7 @@ Protractor.prototype = {
 
         // Main container, buttons container, close button, lock button
         this.container = new Container({ appId });
+        this.container.id = `container-${appId}`;
 
         this.buttons = document.createElement('div');
         this.buttons.className = `${appId}-buttons`;
@@ -69,26 +72,39 @@ Protractor.prototype = {
         this.container.appendChild(this.handle1);
 
         document.body.appendChild(this.container);
-
-        // TODO remove this
-        // this.show();
+        this.isShowing - true;
     },
 
     hide: function() {
         const self = this;
 
         function afterAnimate() {
-            document.body.removeChild(self.container);
-            chrome.runtime.sendMessage({ isOn: false });
+            if (self.isShowing === false) {
+                document.body.removeChild(self.container);
+                chrome.runtime.sendMessage({ isOn: false });
+            }
         }
 
         this.container.className = this.container.className
             .split(' ').concat(`${this.appId}-container-hidden`).join(' ');
 
-        setTimeout(afterAnimate, 500);
+        clearTimeout(this.timer);
+        this.timer = setTimeout(afterAnimate, 500);
+        this.isShowing = false;
     },
 
     show: function() {
+        const className = this.container.className.split(' ');
+        const i = className.findIndex(v => v.search(/hidden/) !== -1);
+        this.container.className =
+            className.slice(0, i).concat(className.slice(i + 1)).join(' ');
+
+        document.body.appendChild(this.container);
+        clearTimeout(this.timer);
+        this.isShowing = true;
+    },
+
+    toggle: function(msg, sender, sendResponse) {
         if (this.container === undefined) {
             chrome.storage.sync.get({
                 arcFill: 'rgba(50, 243, 150, 0.1)',
@@ -99,11 +115,10 @@ Protractor.prototype = {
                 precision: 1,
                 units: 'deg'
             }, this.build.bind(this));
+        } else if (msg.isOn === false) {
+            this.hide();
         } else {
-            const className = this.container.className.split(' ');
-            const i = className.findIndex(v => v.search(/hidden/) !== -1);
-            this.container.className =
-                className.slice(0, i).concat(className.slice(i + 1)).join(' ');
+            this.show();
         }
     }
 };
