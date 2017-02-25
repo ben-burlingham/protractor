@@ -97,7 +97,7 @@ Guide.prototype = {
             theta = Math.PI * 2 - theta;
         }
 
-        if (JSON.parse(this.settings.markerSnap.toLowerCase())) {
+        if (this.settings.markerSnap === true) {
             const interval = this.settings.markerInterval;
             const delta = theta % interval;
             const lowerBound = 0.03;

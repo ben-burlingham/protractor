@@ -107,7 +107,7 @@ Protractor.prototype = {
                 guide1Fill: 'rgba(0,0,255,1)',
                 markerLength: 'center',
                 markerSnap: true,
-                markerInterval: 4,
+                markerInterval: Math.PI / 6,
                 precision: 1,
                 units: 'deg'
             }, this.build.bind(this));

@@ -24,15 +24,15 @@ function updatePrecision(precision) {
         .innerHTML = `${precision} digit${precision === 1 ? '' : 's'}`;
 }
 
-function updateMarkerInterval(i, units) {
-    const deg = intervals[i] * 180 / Math.PI;
-    const rad = intervals[i];
+function updateMarkerInterval(interval, units) {
+    const deg = interval * 180 / Math.PI;
+    const rad = interval;
 
     const str = (units === 'deg'
         ? `${Math.round(deg * 100) / 100}&deg;`
         : `${Math.round(rad * 100) / 100} rad`);
 
-    document.getElementById('marker-spacing-value').innerHTML = str;
+    document.getElementById('marker-interval-value').innerHTML = str;
 }
 
 //===== Event listeners
@@ -45,12 +45,12 @@ function onPrecisionChange(evt) {
 }
 
 function onMarkerIntervalChange(evt) {
-    const val = parseInt(evt.target.value);
+    const markerInterval = intervals[parseInt(evt.target.value)];
     const units = document['options-form'].units.value;
-    updateMarkerInterval(val, units);
+    updateMarkerInterval(markerInterval, units);
 
     function save() {
-        chrome.storage.sync.set({ markerInterval: intervals[val] });
+        chrome.storage.sync.set({ markerInterval });
     }
 
     clearTimeout(timers.markerInterval);
@@ -163,23 +163,20 @@ function restore() {
         guide1Fill: 'rgba(0,0,255,1)',
         markerLength: 'center',
         markerSnap: true,
-        markerInterval: 4,
+        markerInterval: Math.PI / 6,
         precision: 1,
         units: 'deg'
     }, ({ precision, markerLength, markerSnap, markerInterval, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
         updatePrecision(precision);
         document.getElementById('precision-slider').value = precision;
 
-        const i = intervals.indexOf(markerInterval);
-        updateMarkerInterval(i, units);
-        document.getElementById('marker-spacing-slider').value = i;
+        updateMarkerInterval(markerInterval, units);
+        document.getElementById('marker-interval-slider').value = markerInterval;
 
         const form = document['options-form'];
         form.units.value = units;
         form.markerLength.value = markerLength;
         form.markerSnap.value = markerSnap;
-
-        console.warn(guide0Fill, guide1Fill)
 
         const arc = arcFill.substring(5, arcFill.length - 1).split(',');
         const circle = circleFill.substring(5, circleFill.length - 1).split(',');
@@ -214,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('precision-slider')
         .addEventListener('input', onPrecisionChange);
 
-    document.getElementById('marker-spacing-slider')
+    document.getElementById('marker-interval-slider')
         .addEventListener('input', onMarkerIntervalChange);
 
     const form = document['options-form'];
