@@ -1,10 +1,3 @@
-/*
-TODO
-better icon
-DRY options
-add page scroll to show()
-*/
-
 Protractor = function({ appId }) {
     this.appId = appId;
     this.isShowing = false;
@@ -19,7 +12,7 @@ Protractor.prototype = {
             arcFill: options.arcFill,
             circleFill: options.circleFill,
             guide0Fill: options.guide0Fill,
-            guide1Fill: options.guide1Fill, 
+            guide1Fill: options.guide1Fill,
             markerSnap: options.markerSnap,
             markerInterval: options.markerInterval,
             longMarker: (options.markerLength === 'center'),
@@ -70,8 +63,7 @@ Protractor.prototype = {
         this.container.appendChild(this.handle0);
         this.container.appendChild(this.handle1);
 
-        document.body.appendChild(this.container);
-        this.isShowing - true;
+        this.show();
     },
 
     hide: function() {
@@ -97,6 +89,9 @@ Protractor.prototype = {
         const i = className.findIndex(v => v.search(/hidden/) !== -1);
         this.container.className =
             className.slice(0, i).concat(className.slice(i + 1)).join(' ');
+
+        this.container.style.left = `${document.body.scrollLeft + (document.body.offsetWidth / 2) - 200}px`;
+        this.container.style.top = `${document.body.scrollTop + 100}px`;
 
         document.body.appendChild(this.container);
         clearTimeout(this.timer);
