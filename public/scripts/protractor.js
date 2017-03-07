@@ -1,7 +1,19 @@
 Protractor = function({ appId }) {
     this.appId = appId;
-    this.isShowing = false;
+    // this.isShowing = false;
     this.timer = null;
+
+    chrome.storage.sync.get({
+        arcFill: 'rgba(50, 243, 150, 0.1)',
+        circleFill: 'rgba(200, 200, 200, 0.03)',
+        guide0Fill: 'rgba(46,198,86,1)',
+        guide1Fill: 'rgba(0,0,255,1)',
+        markerLength: 'center',
+        markerSnap: true,
+        markerInterval: Math.PI / 6,
+        precision: 1,
+        units: 'deg'
+    }, this.build.bind(this));
 };
 
 Protractor.prototype = {
@@ -30,7 +42,7 @@ Protractor.prototype = {
         this.buttons = document.createElement('div');
         this.buttons.className = `${appId}-buttons`;
 
-        this.closeBtn = new ButtonClose({ appId, hide: this.hide.bind(this) });
+        this.closeBtn = new ButtonClose({ appId });
         this.lockBtn = new ButtonLock({ appId });
 
         this.buttons.appendChild(this.lockBtn);
@@ -67,54 +79,15 @@ Protractor.prototype = {
     },
 
     hide: function() {
-        const self = this;
-
-        function afterAnimate() {
-            if (self.isShowing === false) {
-                document.body.removeChild(self.container);
-                chrome.runtime.sendMessage({ isOn: false });
-            }
-        }
-
-        this.container.className = this.container.className
-            .split(' ').concat(`${this.appId}-container-hidden`).join(' ');
-
-        clearTimeout(this.timer);
-        this.timer = setTimeout(afterAnimate, 500);
-        this.isShowing = false;
+        document.body.removeChild(this.container);
     },
 
     show: function() {
-        const className = this.container.className.split(' ');
-        const i = className.findIndex(v => v.search(/hidden/) !== -1);
-        this.container.className =
-            className.slice(0, i).concat(className.slice(i + 1)).join(' ');
-
         this.container.style.left = `${document.body.scrollLeft + (document.body.offsetWidth / 2) - 200}px`;
         this.container.style.top = `${document.body.scrollTop + 100}px`;
 
         document.body.appendChild(this.container);
         clearTimeout(this.timer);
         this.isShowing = true;
-    },
-
-    toggle: function(msg, sender, sendResponse) {
-        if (this.container === undefined) {
-            chrome.storage.sync.get({
-                arcFill: 'rgba(50, 243, 150, 0.1)',
-                circleFill: 'rgba(200, 200, 200, 0.03)',
-                guide0Fill: 'rgba(46,198,86,1)',
-                guide1Fill: 'rgba(0,0,255,1)',
-                markerLength: 'center',
-                markerSnap: true,
-                markerInterval: Math.PI / 6,
-                precision: 1,
-                units: 'deg'
-            }, this.build.bind(this));
-        } else if (msg.isOn === false) {
-            this.hide();
-        } else {
-            this.show();
-        }
     }
 };
