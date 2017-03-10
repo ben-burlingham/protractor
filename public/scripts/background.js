@@ -43,9 +43,14 @@ Background = {
                     if (n >= Background.js.length) {
                         chrome.tabs.executeScript(tab.id, {
                             code: "window.Protractor = new Protractor({ appId: chrome.runtime.id });"
-                        }, () => {
-                            Background.blocking[tab.id] = false;
-                        });
+                        }, chrome.browserAction.setIcon({
+                            path : {
+                                "16": "images/icon16-off.png",
+                                "48": "images/icon48-off.png",
+                                "128":  "images/icon128-off.png"
+                            },
+                            tabId: tab.id
+                        }, () => { Background.blocking[tab.id] = false; }));
                     } else {
                         chrome.tabs.executeScript(tab.id, { file: Background.js[n] }, initJS.bind(null, n + 1));
                     }
@@ -54,38 +59,27 @@ Background = {
                 Background.css.forEach(file => chrome.tabs.insertCSS(null, { file }));
                 initJS(0);
             } else {
-
                 chrome.tabs.executeScript(tab.id, {
                     code: "window.Protractor.toggle();"
-                }, () => {
-                    Background.blocking[tab.id] = false;
-                })
+                }, (isHidden) => {
+                    if (isHidden[0]) {
+                        chrome.browserAction.setIcon({
+                            path : {
+                                "16": "images/icon16-off.png",
+                                "48": "images/icon48-off.png",
+                                "128":  "images/icon128-off.png"
+                            },
+                            tabId: tab.id
+                        }, () => { Background.blocking[tab.id] = false; })
+                    } else {
+                        chrome.browserAction.setIcon({
+                            path: chrome.runtime.getManifest().icons,
+                            tabId: tab.id
+                        }, () => { Background.blocking[tab.id] = false; });
+                    }
+                });
             }
         });
-
-    //     } else if (Background.blocking[tab.id] === true) {
-    //         Background.blocking[tab.id] = false;
-    //
-    //         chrome.browserAction.setIcon({
-    //                 path: chrome.runtime.getManifest().icons,
-    //                 tabId: tab.id
-    //             },
-    //             chrome.tabs.executeScript.bind(null, tab.id, { code: "P.hide();" })
-    //         );
-    //     } else {
-    //         Background.blocking[tab.id] = true;
-    //
-    //         chrome.browserAction.setIcon({
-    //                 path : {
-    //                     "16": "images/icon16-off.png",
-    //                     "48": "images/icon48-off.png",
-    //                     "128":  "images/icon128-off.png"
-    //                 },
-    //                 tabId: tab.id
-    //             },
-    //             chrome.tabs.executeScript.bind(null, tab.id, { code: "P.show();" })
-    //         );
-        // }
     },
 };
 

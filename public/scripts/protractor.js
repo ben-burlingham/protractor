@@ -92,6 +92,8 @@ Protractor.prototype = {
     },
 
     toggle: function() {
-        this.container.parentNode ? this.hide() : this.show();
+        const hidden = (this.container.parentNode === null);
+        hidden ? this.show() : this.hide();
+        return hidden;
     },
 };
