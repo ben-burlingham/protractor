@@ -89,5 +89,9 @@ Protractor.prototype = {
         document.body.appendChild(this.container);
         clearTimeout(this.timer);
         this.isShowing = true;
-    }
+    },
+
+    toggle: function() {
+        this.container.parentNode ? this.hide() : this.show();
+    },
 };

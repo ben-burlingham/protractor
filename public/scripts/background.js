@@ -1,5 +1,5 @@
 Background = {
-    active: {},
+    blocking: {},
 
     css: [
         "style/buttons.css",
@@ -29,43 +29,63 @@ Background = {
     ],
 
     handleClick: function(tab) {
-        if (Background.active[tab.id] === undefined) {
-            Background.active[tab.id] = true;
-            function initJS(n, values) {
-                if (n >= Background.js.length) {
-                    chrome.tabs.executeScript(tab.id, {
-                        code: "const P = new Protractor({ appId: chrome.runtime.id });"
-                    });
-                } else {
-                    chrome.tabs.executeScript(tab.id, { file: Background.js[n] }, initJS.bind(null, n + 1));
-                }
-            }
-
-            Background.css.forEach(file => chrome.tabs.insertCSS(null, { file }));
-            initJS(0);
-        } else if (Background.active[tab.id] === true) {
-            Background.active[tab.id] = false;
-
-            chrome.browserAction.setIcon({
-                    path: chrome.runtime.getManifest().icons,
-                    tabId: tab.id
-                },
-                chrome.tabs.executeScript.bind(null, tab.id, { code: "P.hide();" })
-            );
-        } else {
-            Background.active[tab.id] = true;
-
-            chrome.browserAction.setIcon({
-                    path : {
-                        "16": "images/icon16-off.png",
-                        "48": "images/icon48-off.png",
-                        "128":  "images/icon128-off.png"
-                    },
-                    tabId: tab.id
-                },
-                chrome.tabs.executeScript.bind(null, tab.id, { code: "P.show();" })
-            );
+        if (Background.blocking[tab.id] === true) {
+            return;
         }
+
+        Background.blocking[tab.id] = true;
+
+        chrome.tabs.executeScript(tab.id, {
+            code: "window.Protractor"
+        }, (results) => {
+            if (results[0] === null) {
+                function initJS(n, values) {
+                    if (n >= Background.js.length) {
+                        chrome.tabs.executeScript(tab.id, {
+                            code: "window.Protractor = new Protractor({ appId: chrome.runtime.id });"
+                        }, () => {
+                            Background.blocking[tab.id] = false;
+                        });
+                    } else {
+                        chrome.tabs.executeScript(tab.id, { file: Background.js[n] }, initJS.bind(null, n + 1));
+                    }
+                }
+
+                Background.css.forEach(file => chrome.tabs.insertCSS(null, { file }));
+                initJS(0);
+            } else {
+
+                chrome.tabs.executeScript(tab.id, {
+                    code: "window.Protractor.toggle();"
+                }, () => {
+                    Background.blocking[tab.id] = false;
+                })
+            }
+        });
+
+    //     } else if (Background.blocking[tab.id] === true) {
+    //         Background.blocking[tab.id] = false;
+    //
+    //         chrome.browserAction.setIcon({
+    //                 path: chrome.runtime.getManifest().icons,
+    //                 tabId: tab.id
+    //             },
+    //             chrome.tabs.executeScript.bind(null, tab.id, { code: "P.hide();" })
+    //         );
+    //     } else {
+    //         Background.blocking[tab.id] = true;
+    //
+    //         chrome.browserAction.setIcon({
+    //                 path : {
+    //                     "16": "images/icon16-off.png",
+    //                     "48": "images/icon48-off.png",
+    //                     "128":  "images/icon128-off.png"
+    //                 },
+    //                 tabId: tab.id
+    //             },
+    //             chrome.tabs.executeScript.bind(null, tab.id, { code: "P.show();" })
+    //         );
+        // }
     },
 };
 
@@ -74,7 +94,3 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
 });
 
 chrome.browserAction.onClicked.addListener(Background.handleClick);
-
-chrome.tabs.onUpdated.addListener((tabId) => {
-    Background.active[tabId] = undefined;
-});
