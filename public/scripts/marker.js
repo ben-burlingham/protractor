@@ -15,6 +15,7 @@ Marker.prototype = {
     onUpdate: function(chan, msg) {
         if (chan === Channels.CONTAINER_RESIZE) {
             this.node.style.height = `${msg.radius + 10}px`;
+            this.node.style.borderTopWidth = `${msg.radius - 10}px`;;
         }
     },
 };

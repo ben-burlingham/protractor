@@ -66,8 +66,8 @@ Container.prototype = {
 
         if (x < 0 || y < 0) {
             correctedOffset = -1 * Math.min(bounds.left, bounds.top);
-        } else if (s <= 300) {
-            correctedOffset = (bounds.width - 300) / 2;
+        } else if (s <= 200) {
+            correctedOffset = (bounds.width - 200) / 2;
         }
 
         this.node.style.left = `${bounds.left + correctedOffset}px`;

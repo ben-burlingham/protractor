@@ -10,17 +10,6 @@
     z-index: 2;
 }
 
-/*.__MSG_@@extension_id__-marker:after {
-    background: violet;
-    content: 'a';
-    font-size: 10px;
-    height: 20px;
-    position: absolute;
-    right: 0;
-    width: 20px;
-}*/
-
 .__MSG_@@extension_id__-marker-long {
     border-top: 190px solid rgba(210, 210, 210, 0.5);
-    height: 210px;
 }
