@@ -83,8 +83,8 @@ Protractor.prototype = {
     },
 
     show: function() {
-        this.container.style.left = `${document.body.scrollLeft + (document.body.offsetWidth / 2) - 200}px`;
-        this.container.style.top = `${document.body.scrollTop + 100}px`;
+        this.container.style.left = `${window.scrollX + (document.body.offsetWidth / 2) - 200}px`;
+        this.container.style.top = `${window.scrollY + 100}px`;
 
         document.body.appendChild(this.container);
         clearTimeout(this.timer);

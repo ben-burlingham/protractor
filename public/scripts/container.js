@@ -4,8 +4,8 @@ Container = function({ appId }) {
 
     this.node = document.createElement('div');
     this.node.className = `${appId}-container`;
-    this.node.style.left = `${docBounds.width / 2 - radius}px`;
-    this.node.style.top = `100px`;
+
+    // .top and .left set in Protractor.show()
     this.node.style.height = `${radius * 2}px`;
     this.node.style.width = `${radius * 2}px`;
 
@@ -36,8 +36,8 @@ Container.prototype = {
         }
 
         const bounds = this.node.getBoundingClientRect();
-        const newX = document.body.scrollLeft + bounds.left + evt.movementX;
-        const newY = document.body.scrollTop + bounds.top + evt.movementY;
+        const newX = window.scrollX + bounds.left + evt.movementX;
+        const newY = window.scrollY + bounds.top + evt.movementY;
 
         if (newX < 0) {
             this.node.style.left = 0;
