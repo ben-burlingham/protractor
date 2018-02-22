@@ -10,6 +10,18 @@
     z-index: 2;
 }
 
+.__MSG_@@extension_id__-marker-label {
+    background: #efefef;
+    border-radius: 2px;
+    font-size: 13px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: -15px;
+    margin-top: 15px;
+    text-align: center;
+    width: 30px;
+}
+
 .__MSG_@@extension_id__-marker-long {
     border-top: 190px solid rgba(210, 210, 210, 0.5);
 }

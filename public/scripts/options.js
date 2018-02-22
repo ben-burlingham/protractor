@@ -145,6 +145,11 @@ function onUnitsChange(evt) {
         ({ markerInterval }) => updateMarkerInterval(markerInterval, units));
 }
 
+function onMarkerLabelsChange(evt) {
+    const markerLabels = evt.target.value;
+    chrome.storage.sync.set({ markerLabels });
+}
+
 function onMarkerLengthChange(evt) {
     const markerLength = evt.target.value;
     chrome.storage.sync.set({ markerLength });
@@ -161,12 +166,13 @@ function restore() {
         circleFill: `rgba(200,200,200,0.03)`,
         guide0Fill: 'rgba(46,198,86,1)',
         guide1Fill: 'rgba(0,0,255,1)',
+        markerLabels: false,
         markerLength: 'center',
         markerSnap: true,
         markerInterval: Math.PI / 6,
         precision: 1,
         units: 'deg'
-    }, ({ precision, markerLength, markerSnap, markerInterval, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
+    }, ({ precision, markerLabels, markerLength, markerSnap, markerInterval, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
         updatePrecision(precision);
         document.getElementById('precision-slider').value = precision;
 
@@ -175,6 +181,7 @@ function restore() {
 
         const form = document['options-form'];
         form.units.value = units;
+        form.markerLabels.value = markerLabels;
         form.markerLength.value = markerLength;
         form.markerSnap.value = markerSnap;
 
@@ -218,6 +225,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.units[0].addEventListener('change', onUnitsChange);
     form.units[1].addEventListener('change', onUnitsChange);
+
+    form.markerLabels[0].addEventListener('change', onMarkerLabelsChange);
+    form.markerLabels[1].addEventListener('change', onMarkerLabelsChange);
 
     form.markerLength[0].addEventListener('change', onMarkerLengthChange);
     form.markerLength[1].addEventListener('change', onMarkerLengthChange);
