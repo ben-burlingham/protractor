@@ -6,8 +6,11 @@ Display = function({ appId, settings }) {
     this.node = document.createElement('div');
     this.node.className = `${appId}-display`;
 
-    this.delta = document.createElement('div');
-    this.delta.className = `${appId}-display-delta`;
+    this.deltaA = document.createElement('div');
+    this.deltaA.className = `${appId}-display-delta-a`;
+
+    this.deltaB = document.createElement('div');
+    this.deltaB.className = `${appId}-display-delta-b`;
 
     this.sub0 = document.createElement('div');
     this.sub0.className = `${appId}-display-sub0`;
@@ -19,17 +22,19 @@ Display = function({ appId, settings }) {
 
     this.guideThetas = [settings.theta0, settings.theta1];
 
-    const { sub0, sub1, delta } = this.buildFormattedStrings(
+    const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
         ...this.guideThetas,
         this.settings.units,
         this.settings.precision
     );
 
-    this.delta.innerHTML = delta;
+    this.deltaA.innerHTML = deltaA;
+    this.deltaB.innerHTML = deltaB;
     this.sub0.innerHTML = sub0;
     this.sub1.innerHTML = sub1;
 
-    this.node.appendChild(this.delta);
+    this.node.appendChild(this.deltaA);
+    this.node.appendChild(this.deltaB);
     this.node.appendChild(this.sub0);
     this.node.appendChild(this.sub1);
 
@@ -57,11 +62,16 @@ Display.prototype = {
 
     buildFormattedStrings: function(theta0, theta1, units, precision) {
         const diff = Math.max(theta0, theta1) - Math.min(theta0, theta1);
-        const corrected = (diff > Math.PI ? 2 * Math.PI - diff : diff);
+        const a = diff % (Math.PI * 2);
+        const b = Math.PI * 2 - a;
 
-        const delta = units === 'deg'
-            ? `${Math.abs(corrected * 180 / Math.PI).toFixed(precision)}˚`
-            : `${Math.abs(corrected).toFixed(precision)}`;
+        const deltaA = units === 'deg'
+            ? `${Math.abs(a * 180 / Math.PI).toFixed(precision)}˚`
+            : `${Math.abs(a).toFixed(precision)}`;
+
+        const deltaB = units === 'deg'
+            ? `${Math.abs(b * 180 / Math.PI).toFixed(precision)}˚`
+            : `${Math.abs(b).toFixed(precision)}`;
 
         const sub0 = units === 'deg'
             ? `${(theta0 * 180 / Math.PI).toFixed(precision)}˚`
@@ -71,20 +81,21 @@ Display.prototype = {
             ? `${(theta1 * 180 / Math.PI).toFixed(precision)}˚`
             : `${theta1.toFixed(precision)}`;
 
-        return { delta, sub0, sub1 };
+        return { deltaA, deltaB, sub0, sub1 };
     },
 
     onUpdate: function(chan, msg) {
         if (chan === Channels.GUIDE_MOVE) {
             this.guideThetas[msg.index] = msg.theta;
 
-            const { sub0, sub1, delta } = this.buildFormattedStrings(
+            const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
                 ...this.guideThetas,
                 this.settings.units,
                 this.settings.precision
             );
 
-            this.delta.innerHTML = delta;
+            this.deltaA.innerHTML = deltaA;
+            this.deltaB.innerHTML = deltaB;
             this.sub0.innerHTML = sub0;
             this.sub1.innerHTML = sub1;
         }
