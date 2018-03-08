@@ -70,8 +70,8 @@ Container.prototype = {
             correctedOffset = (bounds.width - 200) / 2;
         }
 
-        this.node.style.left = `${bounds.left + correctedOffset}px`;
-        this.node.style.top = `${bounds.top + correctedOffset}px`;
+        this.node.style.left = `${window.scrollX + bounds.left + correctedOffset}px`;
+        this.node.style.top = `${window.scrollY + bounds.top + correctedOffset}px`;
         this.node.style.width = `${bounds.width - 2 * correctedOffset}px`;
         this.node.style.height = `${bounds.height - 2 * correctedOffset}px`;
 
