@@ -1,0 +1,16 @@
+TESTING RUBRIC
+==============
+
+Labels
+    Display at ends of long markers
+    Display at ends of short markers
+
+DISPLAY
+    Check maximum precision
+    Check minimum precision
+
+RESIZING
+    Scroll down, resize
+
+MARKERS
+    Double click to lock and unlock
