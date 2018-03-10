@@ -1,9 +1,12 @@
 TESTING RUBRIC
 ==============
 
-Labels
+LABELS
     Display at ends of long markers
     Display at ends of short markers
+    Labels move with container resize
+    Check maximum precision
+    Check minimum precision
 
 DISPLAY
     Check maximum precision
