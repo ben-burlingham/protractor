@@ -4,9 +4,8 @@ Label = function({ appId, settings, rad }) {
     if (settings.units === "deg") {
         value = `${Math.round(value * 180 / Math.PI)}°`;
     } else {
-        value = Math.round(value * 100, 2) / 100;
+        value = value.toFixed(settings.precision);
     }
-
 
     this.rad = rad;
 

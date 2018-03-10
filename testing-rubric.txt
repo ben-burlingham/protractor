@@ -5,8 +5,9 @@ LABELS
     Display at ends of long markers
     Display at ends of short markers
     Labels move with container resize
-    Check maximum precision
-    Check minimum precision
+    Check maximum precision: rad, deg
+    Check minimum precision: rad, deg
+    Can turn off/on
 
 DISPLAY
     Check maximum precision
