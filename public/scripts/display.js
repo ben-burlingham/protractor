@@ -5,6 +5,7 @@ Display = function({ appId, settings }) {
     const ref = PubSub.emit.bind(null, Channels.CONTAINER_MOVE);
     this.node = document.createElement('div');
     this.node.className = `${appId}-display`;
+    this.node.style.background = settings.displayFill;
 
     this.deltaA = document.createElement('div');
     this.deltaA.className = `${appId}-display-delta-a`;

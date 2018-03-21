@@ -1,6 +1,7 @@
 const timers = {
     arcFill: null,
     circleFill: null,
+    displayFill: null,
     guide0Fill: null,
     guide1Fill: null,
     markerInterval: null,
@@ -55,6 +56,26 @@ function onMarkerIntervalChange(evt) {
 
     clearTimeout(timers.markerInterval);
     timers.markerInterval = setTimeout(save, 200);
+}
+
+function onDisplayFillChange(evt) {
+    function save() {
+        const form = document['options-form'];
+        const r = Math.max(0, Math.min(form.displayFillR.value, 255));
+        const g = Math.max(0, Math.min(form.displayFillG.value, 255));
+        const b = Math.max(0, Math.min(form.displayFillB.value, 255));
+        const a = Math.max(0, Math.min(form.displayFillA.value, 1));
+
+        form.displayFillR.value = r;
+        form.displayFillG.value = g;
+        form.displayFillB.value = b;
+        form.displayFillA.value = a;
+
+        chrome.storage.sync.set({ displayFill: `rgba(${r},${g},${b},${a})` });
+    }
+
+    clearTimeout(timers.displayFill);
+    timers.displayFill = setTimeout(save, 500);
 }
 
 function onCircleFillChange(evt) {
@@ -164,6 +185,7 @@ function restore() {
     chrome.storage.sync.get({
         arcFill: `rgba(50,243,150,0.1)`,
         circleFill: `rgba(200,200,200,0.03)`,
+        displayFill: `rgba(240,240,240,0.95)`,
         guide0Fill: 'rgba(46,198,86,1)',
         guide1Fill: 'rgba(0,0,255,1)',
         markerLabels: false,
@@ -172,7 +194,7 @@ function restore() {
         markerInterval: Math.PI / 6,
         precision: 1,
         units: 'deg'
-    }, ({ precision, markerLabels, markerLength, markerSnap, markerInterval, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
+    }, ({ precision, markerLabels, markerLength, markerSnap, markerInterval, displayFill, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
         updatePrecision(precision);
         document.getElementById('precision-slider').value = precision;
 
@@ -187,6 +209,7 @@ function restore() {
 
         const arc = arcFill.substring(5, arcFill.length - 1).split(',');
         const circle = circleFill.substring(5, circleFill.length - 1).split(',');
+        const display = displayFill.substring(5, displayFill.length - 1).split(',');
         const guide0 = guide0Fill.substring(5, guide0Fill.length - 1).split(',');
         const guide1 = guide1Fill.substring(5, guide1Fill.length - 1).split(',');
 
@@ -199,6 +222,11 @@ function restore() {
         form.circleFillG.value = circle[1];
         form.circleFillB.value = circle[2];
         form.circleFillA.value = circle[3];
+
+        form.displayFillR.value = display[0];
+        form.displayFillG.value = display[1];
+        form.displayFillB.value = display[2];
+        form.displayFillA.value = display[3];
 
         form.guide0FillR.value = guide0[0];
         form.guide0FillG.value = guide0[1];
@@ -234,6 +262,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.markerSnap[0].addEventListener('change', onMarkerSnapChange);
     form.markerSnap[1].addEventListener('change', onMarkerSnapChange);
+
+    form.displayFillR.addEventListener('input', onDisplayFillChange);
+    form.displayFillG.addEventListener('input', onDisplayFillChange);
+    form.displayFillB.addEventListener('input', onDisplayFillChange);
+    form.displayFillA.addEventListener('input', onDisplayFillChange);
 
     form.circleFillR.addEventListener('input', onCircleFillChange);
     form.circleFillG.addEventListener('input', onCircleFillChange);
