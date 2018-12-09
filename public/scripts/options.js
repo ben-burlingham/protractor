@@ -4,6 +4,7 @@ const timers = {
     displayFill: null,
     guide0Fill: null,
     guide1Fill: null,
+    markerFill: null,
     markerInterval: null,
     precision: null,
 };
@@ -158,6 +159,24 @@ function onGuide1FillChange(evt) {
     timers.guide1Fill = setTimeout(save, 500);
 }
 
+function onMarkerFillChange(evt) {
+    function save() {
+        const form = document['options-form'];
+        const r = Math.max(0, Math.min(form.markerFillR.value, 255));
+        const g = Math.max(0, Math.min(form.markerFillG.value, 255));
+        const b = Math.max(0, Math.min(form.markerFillB.value, 255));
+
+        form.markerFillR.value = r;
+        form.markerFillG.value = g;
+        form.markerFillB.value = b;
+
+        chrome.storage.sync.set({ markerFill: `rgba(${r},${g},${b},1)` });
+    }
+
+    clearTimeout(timers.markerFill);
+    timers.markerFill = setTimeout(save, 500);
+}
+
 function onUnitsChange(evt) {
     const units = evt.target.value;
     chrome.storage.sync.set({ units });
@@ -188,13 +207,14 @@ function restore() {
         displayFill: `rgba(240,240,240,0.95)`,
         guide0Fill: 'rgba(46,198,86,1)',
         guide1Fill: 'rgba(0,0,255,1)',
+        markerFill: 'rgba(160,160,160,1)',
         markerLabels: false,
         markerLength: 'center',
         markerSnap: true,
         markerInterval: Math.PI / 6,
         precision: 1,
         units: 'deg'
-    }, ({ precision, markerLabels, markerLength, markerSnap, markerInterval, displayFill, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
+    }, ({ precision, markerFill, markerLabels, markerLength, markerSnap, markerInterval, displayFill, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
         updatePrecision(precision);
         document.getElementById('precision-slider').value = precision;
 
@@ -212,6 +232,7 @@ function restore() {
         const display = displayFill.substring(5, displayFill.length - 1).split(',');
         const guide0 = guide0Fill.substring(5, guide0Fill.length - 1).split(',');
         const guide1 = guide1Fill.substring(5, guide1Fill.length - 1).split(',');
+        const marker = markerFill.substring(5, markerFill.length - 1).split(',');
 
         form.arcFillR.value = arc[0];
         form.arcFillG.value = arc[1];
@@ -237,6 +258,10 @@ function restore() {
         form.guide1FillG.value = guide1[1];
         form.guide1FillB.value = guide1[2];
         form.guide1FillA.value = guide1[3];
+
+        form.markerFillR.value = marker[0];
+        form.markerFillG.value = marker[1];
+        form.markerFillB.value = marker[2];
     });
 }
 
@@ -287,4 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
     form.guide1FillG.addEventListener('change', onGuide1FillChange);
     form.guide1FillB.addEventListener('change', onGuide1FillChange);
     form.guide1FillA.addEventListener('change', onGuide1FillChange);
+
+    form.markerFillR.addEventListener('change', onMarkerFillChange);
+    form.markerFillG.addEventListener('change', onMarkerFillChange);
+    form.markerFillB.addEventListener('change', onMarkerFillChange);
 });

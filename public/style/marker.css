@@ -1,6 +1,5 @@
 .__MSG_@@extension_id__-marker {
-    background: 0;
-    border-bottom: 20px solid #ccc;
+    background: 0;;
     box-sizing: border-box;
     left: 50%;
     position: absolute;
@@ -20,8 +19,4 @@
     margin-top: 15px;
     text-align: center;
     width: 30px;
-}
-
-.__MSG_@@extension_id__-marker-long {
-    border-top: 190px solid rgba(210, 210, 210, 0.5);
 }
