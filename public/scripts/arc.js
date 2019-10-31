@@ -26,6 +26,7 @@ Arc = function({ appId, settings }) {
 
     PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
+    PubSub.subscribe(Channels.ROTATE_MOVE, this);
 
     return this.node;
 };
@@ -53,6 +54,10 @@ Arc.prototype = {
 
     },
 
+    onRotate: function(msg) {
+        this.node.style.transform = `rotate(${-1 * msg.phi * 180 / Math.PI}deg)`;
+    },
+
     onUpdate: function(chan, msg) {
         if (chan === Channels.GUIDE_MOVE) {
             this.guideThetas[msg.index] = msg.theta;
@@ -71,6 +76,10 @@ Arc.prototype = {
 
             this.arc.setAttribute('d', arcPath);
             this.triangle.setAttribute('d', trianglePath);
+        }
+
+        if (chan === Channels.ROTATE_MOVE) {
+            this.onRotate(msg);
         }
     }
 };

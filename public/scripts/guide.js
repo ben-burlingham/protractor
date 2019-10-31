@@ -28,8 +28,11 @@ Guide = function({ appId, settings, i }) {
 
     this.node.addEventListener('click', this.click.bind(this));
     this.node.addEventListener('mousedown', this.dragstart.bind(this, ref));
+
     document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
     document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
+
+    PubSub.subscribe(Channels.ROTATE_MOVE, this);
 
     return this.node;
 };
@@ -112,5 +115,18 @@ Guide.prototype = {
 
         this.node.style.transform = `rotate(${-1 * theta * 180 / Math.PI}deg)`;
         PubSub.emit(Channels.GUIDE_MOVE, { index: this.index, theta });
+    },
+
+    onRotate: function(msg) {
+        console.log(msg)
+
+        const theta = 1;
+        this.node.style.transform = `rotate(${-1 * msg.phi * 180 / Math.PI}deg)`;
+    },
+
+    onUpdate: function(chan, msg) {
+        if (chan === Channels.ROTATE_MOVE) {
+            this.onRotate(msg);
+        }
     },
 };

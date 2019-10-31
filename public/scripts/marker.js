@@ -14,15 +14,24 @@ Marker = function({ appId, settings, rad }) {
     }
 
     PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
+    PubSub.subscribe(Channels.ROTATE_MOVE, this);
 
     return this.node;
 };
 
 Marker.prototype = {
+    onRotate: function(msg) {
+        this.node.style.transform = `rotate(${-1 * msg.phi * 180 / Math.PI}deg)`;
+    },
+
     onUpdate: function(chan, msg) {
         if (chan === Channels.CONTAINER_RESIZE) {
             this.node.style.height = `${msg.radius + 10}px`;
             this.node.style.borderTopWidth = `${msg.radius - 10}px`;
+        }
+
+        if (chan === Channels.ROTATE_MOVE) {
+            this.onRotate(msg);
         }
     },
 };

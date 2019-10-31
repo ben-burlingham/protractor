@@ -12,11 +12,12 @@
 .__MSG_@@extension_id__-button-close,
 .__MSG_@@extension_id__-button-lock,
 .__MSG_@@extension_id__-button-locked,
-.__MSG_@@extension_id__-button-rotate {
+.__MSG_@@extension_id__-button-rotate,
+.__MSG_@@extension_id__-button-rotated {
     background: 0;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-repeat: no-repeat;
-    background-size: 125px 25px;
+    background-size: 175px 25px;
     border: 0;
     border-radius: 3px;
     cursor: pointer;
@@ -45,19 +46,25 @@
 }
 
 .__MSG_@@extension_id__-button-rotate {
+    background-position: -125px 0;
+}
+
+.__MSG_@@extension_id__-button-rotated {
     background-position: -100px 0;
 }
 
 .__MSG_@@extension_id__-button-close:hover,
 .__MSG_@@extension_id__-button-lock:hover,
 .__MSG_@@extension_id__-button-locked:hover,
-.__MSG_@@extension_id__-button-rotate:hover  {
+.__MSG_@@extension_id__-button-rotate:hover,
+.__MSG_@@extension_id__-button-rotated:hover  {
     background-color: #eee;
 }
 
 .__MSG_@@extension_id__-button-close:focus,
 .__MSG_@@extension_id__-button-lock:focus,
 .__MSG_@@extension_id__-button-locked:focus,
-.__MSG_@@extension_id__-button-rotate:focus {
+.__MSG_@@extension_id__-button-rotate:focus
+.__MSG_@@extension_id__-button-rotated:focus {
     outline: 0;
 }

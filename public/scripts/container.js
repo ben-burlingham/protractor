@@ -15,9 +15,11 @@ Container = function({ appId }) {
     this.shiftIsPressed = false;
     this.locked = false;
 
-    PubSub.subscribe(Channels.HANDLE_MOVE, this);
     PubSub.subscribe(Channels.CONTAINER_MOVE, this);
     PubSub.subscribe(Channels.CONTAINER_LOCK, this);
+    PubSub.subscribe(Channels.CONTAINER_ROTATE, this);
+    PubSub.subscribe(Channels.HANDLE_MOVE, this);
+    PubSub.subscribe(Channels.ROTATE_MOVE, this);
 
     return this.node;
 };
@@ -115,5 +117,5 @@ Container.prototype = {
         this.node.style.height = `${bounds.height - 2 * correctedOffset}px`;
 
         PubSub.emit(Channels.CONTAINER_RESIZE, { radius: (this.node.offsetWidth / 2) });
-    }
+    },
 };

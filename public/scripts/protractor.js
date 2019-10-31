@@ -84,6 +84,12 @@ Protractor.prototype = {
         this.container.appendChild(this.handle0);
         this.container.appendChild(this.handle1);
 
+        // Rotate
+        this.rotate0 = new Rotate({ appId, settings, i: 0 });
+        this.rotate1 = new Rotate({ appId, settings, i: 1 });
+        this.container.appendChild(this.rotate0);
+        this.container.appendChild(this.rotate1);
+
         this.show();
     },
 

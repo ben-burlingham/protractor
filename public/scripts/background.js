@@ -10,6 +10,7 @@ Background = {
         "style/display.css",
         "style/handle.css",
         "style/guide.css",
+        "style/rotate.css",
         "style/arc.css",
         "style/container.css"
     ],
@@ -28,7 +29,8 @@ Background = {
         "scripts/button-rotate.js",
         "scripts/display.js",
         "scripts/handle.js",
-        "scripts/guide.js"
+        "scripts/guide.js",
+        "scripts/rotate.js"
     ],
 
     handleClick: function(tab) {
