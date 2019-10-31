@@ -50,8 +50,10 @@ Protractor.prototype = {
 
         this.closeBtn = new ButtonClose({ appId });
         this.lockBtn = new ButtonLock({ appId });
+        this.rotateBtn = new ButtonRotate({ appId });
 
         this.buttons.appendChild(this.lockBtn);
+        this.buttons.appendChild(this.rotateBtn);
         this.buttons.appendChild(this.closeBtn);
         this.container.appendChild(this.buttons);
 
