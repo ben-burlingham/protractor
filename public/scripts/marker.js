@@ -1,6 +1,8 @@
 Marker = function({ appId, settings, rad }) {
     const long = settings.longMarker ? `${appId}-marker-long` : "";
 
+    this.rotation = 0;
+
     this.node = document.createElement('div');
     this.node.className = `${appId}-marker ${long}`;
     this.node.style.transform = `rotate(${rad * 180 / Math.PI - 90}deg)`
@@ -14,14 +16,15 @@ Marker = function({ appId, settings, rad }) {
     }
 
     PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
-    PubSub.subscribe(Channels.ROTATE_MOVE, this);
+    // PubSub.subscribe(Channels.ROTATE_MOVE, this);
 
     return this.node;
 };
 
 Marker.prototype = {
     onRotate: function(msg) {
-        this.node.style.transform = `rotate(${-1 * msg.phi * 180 / Math.PI}deg)`;
+        this.rotation += msg.phi;
+        this.node.style.transform = `rotate(${this.rotation}deg)`;
     },
 
     onUpdate: function(chan, msg) {

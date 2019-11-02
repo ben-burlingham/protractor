@@ -55,7 +55,7 @@ Arc.prototype = {
     },
 
     onRotate: function(msg) {
-        this.node.style.transform = `rotate(${-1 * msg.phi * 180 / Math.PI}deg)`;
+        this.node.style.transform = `rotate(${msg.phi}deg)`;
     },
 
     onUpdate: function(chan, msg) {

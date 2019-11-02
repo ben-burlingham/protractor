@@ -40,6 +40,7 @@ Display = function({ appId, settings }) {
     this.node.appendChild(this.sub1);
 
     this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
+
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
     document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 

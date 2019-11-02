@@ -8,6 +8,7 @@ Label = function({ appId, settings, rad }) {
     }
 
     this.rad = rad;
+    this.rotation = 0;
 
     this.node = document.createElement('div');
     this.node.className = `${appId}-label`;
@@ -16,7 +17,7 @@ Label = function({ appId, settings, rad }) {
     this.setPosition(settings.radius);
 
     PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
-    PubSub.subscribe(Channels.ROTATE_MOVE, this);
+    // PubSub.subscribe(Channels.ROTATE_MOVE, this);
 
     if (settings.markerLabels === false) {
         this.node.style.display = 'none';
@@ -27,7 +28,8 @@ Label = function({ appId, settings, rad }) {
 
 Label.prototype = {
     onRotate: function(msg) {
-        //this.node.style.transform = `rotate(${-1 * msg.phi * 180 / Math.PI}deg)`;
+        this.rotation += msg.phi;
+        this.node.style.transform = `rotate(${this.rotation}deg)`;
     },
 
     onUpdate: function(chan, msg) {

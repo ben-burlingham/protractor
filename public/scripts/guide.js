@@ -4,6 +4,10 @@ Guide = function({ appId, settings, i }) {
     this.settings = settings;
     this.index = i;
     this.locked = false;
+
+    this.phi = 0;
+    this.theta = 0;
+
     const ref = this.move.bind(this);
 
     this.handle = document.createElement('div');
@@ -113,15 +117,18 @@ Guide.prototype = {
             }
         }
 
-        this.node.style.transform = `rotate(${-1 * theta * 180 / Math.PI}deg)`;
+        this.theta = -1 * theta * 180 / Math.PI;
+        this.transform();
         PubSub.emit(Channels.GUIDE_MOVE, { index: this.index, theta });
     },
 
-    onRotate: function(msg) {
-        console.log(msg)
+    transform: function() {
+        this.node.style.transform = `rotate(${this.theta + this.phi}deg)`;
+    },
 
-        const theta = 1;
-        this.node.style.transform = `rotate(${-1 * msg.phi * 180 / Math.PI}deg)`;
+    onRotate: function(msg) {
+        this.phi = msg.phi;
+        this.transform();
     },
 
     onUpdate: function(chan, msg) {

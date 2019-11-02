@@ -1,5 +1,4 @@
 Container = function({ appId }) {
-    const docBounds = document.body.getBoundingClientRect();
     const radius = 200;
 
     this.node = document.createElement('div');
@@ -8,9 +7,6 @@ Container = function({ appId }) {
     // .top and .left set in Protractor.show()
     this.node.style.height = `${radius * 2}px`;
     this.node.style.width = `${radius * 2}px`;
-
-    // document.addEventListener('keydown', this.keydown.bind(this));
-    // document.addEventListener('keyup', this.keyup.bind(this));
 
     this.shiftIsPressed = false;
     this.locked = false;
@@ -32,41 +28,6 @@ Container.prototype = {
             case Channels.HANDLE_MOVE: this.resize(msg); break;
         }
     },
-
-    // keydown: function(evt) {
-    //     if (this.locked) {
-    //         return;
-    //     }
-    //
-    //     if (evt.keyCode == 16) {
-    //         this.shiftIsPressed = true;
-    //         return;
-    //     }
-    //
-    //     let d = 1;
-    //     if (this.shiftIsPressed) {
-    //         d = 5;
-    //     }
-    //
-    //     if (evt.keyCode == 37) {
-    //         this.move(new MouseEvent('mousemove', { movementX: -d, movementY: 0 }));
-    //     }
-    //     else if (evt.keyCode == 38) {
-    //         this.move(new MouseEvent('mousemove', { movementX: 0, movementY: -d }));
-    //     }
-    //     else if (evt.keyCode == 39) {
-    //         this.move(new MouseEvent('mousemove', { movementX: d, movementY: 0 }));
-    //     }
-    //     else if (evt.keyCode == 40) {
-    //         this.move(new MouseEvent('mousemove', { movementX: 0, movementY: d }));
-    //     }
-    // },
-    //
-    // keyup: function(evt) {
-    //     if (evt.keyCode == 16) {
-    //         this.shiftIsPressed = false;
-    //     }
-    // },
 
     move: function(evt) {
         evt.stopPropagation();
