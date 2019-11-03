@@ -11,8 +11,8 @@ Rotate = function({ appId, settings, i }) {
     document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
     document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 
-    PubSub.subscribe(Channels.CONTAINER_ROTATE, this);
-    PubSub.subscribe(Channels.CONTAINER_MOVE, this);
+    // PubSub.subscribe(Channels.CONTAINER_ROTATE, this);
+    // PubSub.subscribe(Channels.CONTAINER_MOVE, this);
 
     return this.node;
 };
@@ -62,6 +62,9 @@ Rotate.prototype = {
         console.log(centerX, y, width, height);
 
         // TODO broadcast container bounds (on show?) and consume in guide, rotate
+        // TODO labels to inside
+        // TODO doesn't work on youtube
+        // TODO doesn't work on images/pdf
         // TODO container sizing bug
         // TODO nudge button
         // TODO resize button

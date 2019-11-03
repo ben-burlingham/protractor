@@ -44,6 +44,7 @@ Protractor.prototype = {
         // Main container, buttons container, close button, lock button
         this.container = new Container({ appId });
         this.container.id = `container-${appId}`;
+        // this.container.style.background = 'rgba(255, 0, 0, 0.2)'
 
         this.buttons = document.createElement('div');
         this.buttons.className = `${appId}-buttons`;
@@ -55,15 +56,15 @@ Protractor.prototype = {
         this.buttons.appendChild(this.lockBtn);
         this.buttons.appendChild(this.rotateBtn);
         this.buttons.appendChild(this.closeBtn);
-        this.container.appendChild(this.buttons);
+        // this.container.appendChild(this.buttons);
 
         // Circle, markers
         this.circle = new Circle({ appId, settings });
         this.container.appendChild(this.circle);
 
         for (let rad = 0; rad < 2 * Math.PI; rad += settings.markerInterval) {
-            this.container.appendChild(new Marker({ appId, settings, rad }));
-            this.container.appendChild(new Label({ appId, settings, rad }));
+            // this.container.appendChild(new Marker({ appId, settings, rad }));
+            // this.container.appendChild(new Label({ appId, settings, rad }));
         }
 
         // Display, guides, arc
@@ -72,23 +73,23 @@ Protractor.prototype = {
 
         this.guide0 = new Guide({ appId, settings, i: 0 });
         this.guide1 = new Guide({ appId, settings, i: 1 });
-        this.container.appendChild(this.guide0);
-        this.container.appendChild(this.guide1);
+        // this.container.appendChild(this.guide0);
+        // this.container.appendChild(this.guide1);
 
         this.arc = new Arc({ appId, settings });
-        this.container.appendChild(this.arc);
+        // this.container.appendChild(this.arc);
 
         // Handle
         this.handle0 = new Handle({ appId, settings, i: 0 });
         this.handle1 = new Handle({ appId, settings, i: 1 });
-        this.container.appendChild(this.handle0);
-        this.container.appendChild(this.handle1);
+        // this.container.appendChild(this.handle0);
+        // this.container.appendChild(this.handle1);
 
         // Rotate
         this.rotate0 = new Rotate({ appId, settings, i: 0 });
         this.rotate1 = new Rotate({ appId, settings, i: 1 });
-        this.container.appendChild(this.rotate0);
-        this.container.appendChild(this.rotate1);
+        // this.container.appendChild(this.rotate0);
+        // this.container.appendChild(this.rotate1);
 
         this.show();
     },

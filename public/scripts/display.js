@@ -39,10 +39,6 @@ Display = function({ appId, settings }) {
     this.node.appendChild(this.sub0);
     this.node.appendChild(this.sub1);
 
-    this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
-
-    document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
-    document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
 
     PubSub.subscribe(Channels.CONTAINER_LOCK, this);
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
@@ -51,17 +47,6 @@ Display = function({ appId, settings }) {
 };
 
 Display.prototype = {
-    dragstart: function(ref, evt) {
-        // evt.stopPropagation();
-        evt.preventDefault();
-        document.body.addEventListener('mousemove', ref);
-    },
-
-    dragend: function(ref, evt) {
-        evt.preventDefault();
-        document.body.removeEventListener('mousemove', ref);
-    },
-
     buildFormattedStrings: function(theta0, theta1, units, precision) {
         const diff = Math.max(theta0, theta1) - Math.min(theta0, theta1);
         const a = diff % (Math.PI * 2);
@@ -87,31 +72,23 @@ Display.prototype = {
     },
 
     onUpdate: function(chan, msg) {
-        if (chan === Channels.GUIDE_MOVE) {
-            this.guideThetas[msg.index] = msg.theta;
-
-            const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
-                ...this.guideThetas,
-                this.settings.units,
-                this.settings.precision
-            );
-
-            this.deltaA.innerHTML = deltaA;
-            this.deltaB.innerHTML = deltaB;
-            this.sub0.innerHTML = sub0;
-            this.sub1.innerHTML = sub1;
+        switch(chan) {
+            case Channels.MOVE_GUIDE: this.refresh(msg); break;
         }
+    },
 
-        if (chan === Channels.CONTAINER_LOCK) {
-            const classes = this.node.className.split(' ');
-            const lockedClass = `${this.appId}-display-locked`;
+    refresh: function(msg) {
+        // this.guideThetas[msg.index] = msg.theta;
 
-            if (msg.locked === true) {
-                this.node.className = classes.concat(lockedClass).join(' ');
-            } else {
-                classes.splice(classes.indexOf(lockedClass), 1);
-                this.node.className = classes.join(' ');
-            }
-        }
+        // const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
+        //     ...this.guideThetas,
+        //     this.settings.units,
+        //     this.settings.precision
+        // );
+
+        // this.deltaA.innerHTML = deltaA;
+        // this.deltaB.innerHTML = deltaB;
+        // this.sub0.innerHTML = sub0;
+        // this.sub1.innerHTML = sub1;
     }
 };
