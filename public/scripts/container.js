@@ -2,64 +2,37 @@ Container = function({ appId }) {
     this.node = document.createElement('div');
     this.node.className = `${appId}-container`;
 
-    var move = this.move.bind(this);
-    var onMousedown = this.onMousedown.bind(this, move);
-    var onMouseup = this.onMouseup.bind(this, move);
-
-    // this.node.addEventListener('mousedown', onMousedown);
-    // document.body.addEventListener('mouseup', onMouseup);
-    // document.body.addEventListener('mouseenter', onMouseup);
-
-    this.shiftIsPressed = false;
-
     PubSub.subscribe(Channels.SET_MODE, this);
+    PubSub.subscribe(Channels.MOVE_CIRCLE, this);
     PubSub.subscribe(Channels.MOVE_HANDLE_RESIZE, this);
 
     return this.node;
 };
 
 Container.prototype = { 
-    // Document level listener - never stop propagation!
-    onMousedown: function(cb, evt) {
-        evt.preventDefault();
-        document.body.addEventListener('mousemove', cb);
-    },
-
-    // Document level listener - never stop propagation!
-    onMouseup: function(cb, evt) {
-        evt.preventDefault();
-        document.body.removeEventListener('mousemove', cb);
-    },
-
     onUpdate: function(chan, msg) {
         switch(chan) {
             case Channels.SET_MODE: this.setMode(msg); break;
+            case Channels.MOVE_CIRCLE: this.moveCircle(msg); break;
             case Channels.MOVE_HANDLE_RESIZE: this.moveHandleResize(msg); break;
         }
     },
 
-    move: function(evt) {
-        if (this.mode === "lock") {
-            return;
-        }
-
-        evt.stopPropagation();
-        evt.preventDefault();
-
+    moveCircle: function(msg) {
         const bounds = this.node.getBoundingClientRect();
 
         // Must use documentElement for sites like YouTube. Ben 11/3/19
-        const maxH = document.documentElement.scrollHeight - bounds.height;
-        const maxW = document.documentElement.scrollWidth - bounds.width;
+        const maxX = document.documentElement.scrollWidth - bounds.width;
+        const maxY = document.documentElement.scrollHeight - bounds.height;
 
-        const newX = window.scrollX + bounds.left + evt.movementX;
-        const newY = window.scrollY + bounds.top + evt.movementY;
+        const newX = window.scrollX + bounds.left + msg.x;
+        const newY = window.scrollY + bounds.top + msg.y;
 
         if (newX < 0) {
             this.node.style.left = 0;
         } 
-        else if (newX > maxW) {
-            this.node.style.left = maxW + "px";
+        else if (newX > maxX) {
+            this.node.style.left = maxX + "px";
         } 
         else {
             this.node.style.left = newX + "px";
@@ -68,9 +41,9 @@ Container.prototype = {
         if (newY < 0) {
             this.node.style.top = 0;
         } 
-        else if (newY > maxH) {
+        else if (newY > maxY) {
             
-            this.node.style.top = maxH + "px";
+            this.node.style.top = maxY + "px";
         } 
         else {
             this.node.style.top = newY + "px";
@@ -116,9 +89,5 @@ Container.prototype = {
             centerY: newY + (newH / 2),
             radius: (newW - 2 * pad) / 2,
         });
-    },
-
-    setMode: function(msg) {
-        this.mode = msg.mode;
     },
 };

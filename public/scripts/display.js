@@ -39,14 +39,39 @@ Display = function({ appId, settings }) {
     this.node.appendChild(this.sub0);
     this.node.appendChild(this.sub1);
 
+    var move = this.move.bind(this);
+    var onMousedown = this.onMousedown.bind(this, move);
+    var onMouseup = this.onMouseup.bind(this, move);
+
+    this.node.addEventListener('mousedown', onMousedown);
+    document.body.addEventListener('mouseup', onMouseup);
+    document.body.addEventListener('mouseenter', onMouseup);
 
     PubSub.subscribe(Channels.CONTAINER_LOCK, this);
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
+    PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
 };
 
 Display.prototype = {
+    onMousedown: function(cb, evt) {
+        evt.preventDefault();
+        document.body.addEventListener('mousemove', cb);
+    },
+
+    onMouseup: function(cb, evt) {
+        evt.preventDefault();
+        document.body.removeEventListener('mousemove', cb);
+    },
+
+    onUpdate: function(chan, msg) {
+        switch(chan) {
+            case Channels.MOVE_GUIDE: this.refresh(msg); break;
+            case Channels.SET_MODE: this.setMode(msg); break;
+        }
+    },
+
     buildFormattedStrings: function(theta0, theta1, units, precision) {
         const diff = Math.max(theta0, theta1) - Math.min(theta0, theta1);
         const a = diff % (Math.PI * 2);
@@ -71,10 +96,15 @@ Display.prototype = {
         return { deltaA, deltaB, sub0, sub1 };
     },
 
-    onUpdate: function(chan, msg) {
-        switch(chan) {
-            case Channels.MOVE_GUIDE: this.refresh(msg); break;
+    move: function(evt) {
+        if (this.mode === "lock") {
+            return;
         }
+
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        PubSub.emit(Channels.MOVE_CIRCLE, { x: evt.movementX, y: evt.movementY });
     },
 
     refresh: function(msg) {
@@ -90,5 +120,9 @@ Display.prototype = {
         // this.deltaB.innerHTML = deltaB;
         // this.sub0.innerHTML = sub0;
         // this.sub1.innerHTML = sub1;
-    }
+    },
+
+    setMode: function(msg) {
+        this.mode = msg.mode;
+    },
 };

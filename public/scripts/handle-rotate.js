@@ -69,11 +69,13 @@ HandleRotate.prototype = {
 
         console.log(centerX, y, width, height);
 
-        // TODO buttons to inside display
-        // TODO update benburlingham.com protractor copy to say "any browser document"
+        // TODO nudge buttons
+        // TODO resize buttons
+        // TODO moving
+        // TODO guides
+        // TODO rotate button
         // TODO doesn't work on images/pdf (works in dev mode though?)
-        // TODO nudge button
-        // TODO resize button
+        // TODO update benburlingham.com protractor copy to say "any browser document"
         // TODO firefox
 
         // this.node.style.transform = `rotate(${phi}deg)`;

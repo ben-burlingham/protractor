@@ -1,5 +1,6 @@
 Channels = {
     SET_MODE: 'set_mode',
+    MOVE_CIRCLE: 'move_circle',
     MOVE_CONTAINER: 'move_container',
     MOVE_GUIDE: 'move_guide',
     MOVE_HANDLE_NUDGE: 'move_nudge',

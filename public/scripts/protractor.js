@@ -61,7 +61,7 @@ Protractor.prototype = {
 
         for (let rad = 0; rad < 2 * Math.PI; rad += settings.markerInterval) {
             this.container.appendChild(new Marker({ appId, settings, rad }));
-            this.container.appendChild(new Label({ appId, settings, rad }));
+            // this.container.appendChild(new Label({ appId, settings, rad }));
         }
 
         // Display, guides, arc
