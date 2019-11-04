@@ -14,10 +14,8 @@ Label = function({ appId, settings, rad }) {
     this.node.className = `${appId}-label`;
     this.node.innerHTML = value;
 
-    this.setPosition(settings.radius);
-
-    PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
-    // PubSub.subscribe(Channels.ROTATE_MOVE, this);
+    PubSub.subscribe(Channels.MOVE_CONTAINER, this);
+    // PubSub.subscribe(Channels.MOVE_HANDLE_ROTATE, this);
 
     if (settings.markerLabels === false) {
         this.node.style.display = 'none';
@@ -33,23 +31,43 @@ Label.prototype = {
     },
 
     onUpdate: function(chan, msg) {
-        if (chan === Channels.CONTAINER_RESIZE) {
-            this.setPosition(msg.radius);
-        }
-
-        if (chan === Channels.ROTATE_MOVE) {
-            this.onRotate(msg);
+        switch(chan) {
+            case Channels.MOVE_CONTAINER: this.move(msg); break;
+            // case Channels.MOVE_HANDLE_ROTATE: this.resize(msg); break;
         }
     },
 
-    setPosition: function(radius) {
-        const x = radius * Math.cos(this.rad) + radius;
-        const y = radius * Math.sin(this.rad) + radius;
+    move: function(msg) {
+        const x = (msg.radius + 20) + Math.cos(this.rad) * (msg.radius + 10);
+        const y = (msg.radius + 20) + Math.sin(this.rad) * (msg.radius + 10);
 
-        const xAdjust = (2 - x / radius) * 20;
-        const yAdjust = (2 - y / radius) * 16;
+        this.node.style.left = x + 'px';
+        this.node.style.top = y + 'px';
 
-        this.node.style.left = (x - xAdjust) + 'px';
-        this.node.style.top = (y - yAdjust) + 'px';
+        if (this.rad === 0) {
+            this.node.style.transform = "translate(0, -50%)";
+        }
+        else if (this.rad === Math.PI / 2) {
+            this.node.style.transform = "translate(-50%, 0)";
+        }
+        // Something about marker intervals prevents an exact comparison to Math.PI
+        else if (this.rad < Math.PI + 0.005 && this.rad > Math.PI - 0.005) {
+            this.node.style.transform = "translate(-100%, -50%)";
+        }
+        else if (this.rad === 3 * Math.PI / 2) {
+            this.node.style.transform = "translate(-50%, -100%)";
+        }
+        else if (this.rad < Math.PI / 2) {
+            // (Already positioned top left corner to end of guide)
+        }
+        else if (this.rad > Math.PI / 2 && this.rad < Math.PI) {
+            this.node.style.transform = "translate(-100%, 0)";
+        }
+        else if (this.rad > Math.PI && this.rad < 3 * Math.PI / 2) {
+            this.node.style.transform = "translate(-100%, -50%)";
+        }
+        else if (this.rad > 3 * Math.PI / 2) {
+            this.node.style.transform = "translate(0, -50%)";
+        }
     }
 };

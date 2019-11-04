@@ -8,7 +8,9 @@ Background = {
         "style/label.css",
         "style/arc.css",
         "style/display.css",
-        "style/handle.css",
+        "style/handle-nudge.css",
+        "style/handle-resize.css",
+        "style/handle-rotate.css",
         "style/guide.css",
         "style/rotate.css",
         "style/arc.css",
@@ -20,19 +22,23 @@ Background = {
         "scripts/channels.js",
         "scripts/protractor.js",
         "scripts/container.js",
+        
         "scripts/circle.js",
         "scripts/marker.js",
         "scripts/label.js",
         "scripts/arc.js",
+        "scripts/display.js",
+        "scripts/guide.js",
+
         "scripts/button-close.js",
         "scripts/button-lock.js",
         "scripts/button-nudge.js",
         "scripts/button-resize.js",
         "scripts/button-rotate.js",
-        "scripts/display.js",
-        "scripts/handle.js",
-        "scripts/guide.js",
-        "scripts/rotate.js"
+
+        "scripts/handle-nudge.js",
+        "scripts/handle-rotate.js",
+        "scripts/handle-resize.js",
     ],
 
     handleClick: function(tab) {

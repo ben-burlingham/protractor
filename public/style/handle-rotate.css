@@ -1,30 +1,30 @@
-.__MSG_@@extension_id__-handle {
+.__MSG_@@extension_id__-handle-rotate {
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
-    background-position: -95px -5px;
+    background-position: -200px -50px;
     background-repeat: no-repeat;
-    background-size: 210px 30px;
-    height: 20px;
-    opacity: 0.5;
+    background-size: 400px 100px;
+    height: 50px;
+    opacity: 0.7;
     position: absolute;
     transition: opacity 0.3s ease;
-    width: 20px;
+    width: 50px;
     z-index: 101;
 }
 
-.__MSG_@@extension_id__-handle:hover {
+.__MSG_@@extension_id__-handle-rotate:hover {
     opacity: 1;
 }
 
-.__MSG_@@extension_id__-handle-0 {
-    cursor: nwse-resize;
+.__MSG_@@extension_id__-handle-rotate-0 {
+    cursor: grab;
     left: 0;
     top: 0;
     transform: rotate(-90deg);
 }
 
-.__MSG_@@extension_id__-handle-1 {
+.__MSG_@@extension_id__-handle-rotate-1 {
     bottom: 0;
-    cursor: nwse-resize;
+    cursor: grab;
     right: 0;
     transform: rotate(90deg);
 }

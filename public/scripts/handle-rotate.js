@@ -1,39 +1,47 @@
-Rotate = function({ appId, settings, i }) {
-    const ref = this.move.bind(this);
-    this.index = i;
+HandleRotate = function({ appId, settings, i }) {
     this.isDragging = false;
-    this.center = { x: 736, y: 297 };
 
     this.node = document.createElement('div');
-    this.node.className = `${appId}-rotate ${appId}-rotate-${i}`;
+    this.node.className = `${appId}-handle-rotate ${appId}-handle-rotate-${i}`;
+    this.node.style.display = 'none';
+    this.node.setAttribute('index', i);
 
-    this.node.addEventListener('mousedown', this.dragstart.bind(null, ref));
-    document.body.addEventListener('mouseup', this.dragend.bind(null, ref));
-    document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
+    // this.node.addEventListener('mousedown', this.onMousedown.bind(null, ref));
+    // document.body.addEventListener('mouseup', this.onMouseup.bind(null, ref));
+    // document.body.addEventListener('mouseenter', this.onMouseup.bind(null, ref));
 
-    // PubSub.subscribe(Channels.CONTAINER_ROTATE, this);
-    // PubSub.subscribe(Channels.CONTAINER_MOVE, this);
+    PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
 };
 
-Rotate.prototype = {
-    dragstart: function(ref, evt) {
-        if (this.isDragging) {
-            return;
-        }
+HandleRotate.prototype = {
+    onMousedown: function(ref, evt) {
+        // if (this.isDragging) {  why isdragging here but not on resize
+        //     return;
+        // }
 
-        this.isDragging = true;
+        // this.isDragging = true;
 
-        evt.preventDefault();
-        document.body.addEventListener('mousemove', ref);
+        // evt.preventDefault();
+        // document.body.addEventListener('mousemove', ref);
     },
 
-    dragend: function(ref, evt) {
+    onMouseup: function(ref, evt) {
         this.isDragging = false;
 
         evt.preventDefault();
         document.body.removeEventListener('mousemove', ref);
+    },
+
+    onUpdate: function(chan, msg) {
+        switch(chan) {
+            case Channels.SET_MODE: this.setMode(msg); break;
+        }
+    },
+
+    setMode: function(msg) {
+        this.node.style.display = (msg.mode === "rotate" ? "block" : "none");
     },
 
     move: function(evt) {
@@ -61,13 +69,9 @@ Rotate.prototype = {
 
         console.log(centerX, y, width, height);
 
-        // TODO broadcast container bounds (on show?) and consume in guide, rotate
-        // TODO labels to inside
-        // TODO can resize past bottom of screen
+        // TODO buttons to inside display
         // TODO update benburlingham.com protractor copy to say "any browser document"
-        // TODO doesn't work on youtube
-        // TODO doesn't work on images/pdf
-        // TODO container sizing bug
+        // TODO doesn't work on images/pdf (works in dev mode though?)
         // TODO nudge button
         // TODO resize button
         // TODO firefox
@@ -87,15 +91,4 @@ Rotate.prototype = {
 
         console.log(this.center);
     },
-
-    onUpdate: function(chan, msg) {
-        switch(chan) {
-            case Channels.CONTAINER_ROTATE: this.toggle(msg); break;
-            case Channels.CONTAINER_MOVE: this.setCenter(msg); break;
-        }
-    },
-
-    toggle: function(msg) {
-        this.node.style.display = msg.rotate ? 'block' : 'none';
-    }
 };

@@ -6,14 +6,14 @@ Container = function({ appId }) {
     var onMousedown = this.onMousedown.bind(this, move);
     var onMouseup = this.onMouseup.bind(this, move);
 
-    this.node.addEventListener('mousedown', onMousedown);
-    document.body.addEventListener('mouseup', onMouseup);
-    document.body.addEventListener('mouseenter', onMouseup);
+    // this.node.addEventListener('mousedown', onMousedown);
+    // document.body.addEventListener('mouseup', onMouseup);
+    // document.body.addEventListener('mouseenter', onMouseup);
 
     this.shiftIsPressed = false;
 
     PubSub.subscribe(Channels.SET_MODE, this);
-    PubSub.subscribe(Channels.MOVE_RESIZE_HANDLE, this);
+    PubSub.subscribe(Channels.MOVE_HANDLE_RESIZE, this);
 
     return this.node;
 };
@@ -33,9 +33,8 @@ Container.prototype = {
 
     onUpdate: function(chan, msg) {
         switch(chan) {
-            // case Channels.CONTAINER_LOCK: this.locked = msg.locked; break;
             case Channels.SET_MODE: this.setMode(msg); break;
-            case Channels.MOVE_RESIZE_HANDLE: this.moveResizeHandle(msg); break;
+            case Channels.MOVE_HANDLE_RESIZE: this.moveHandleResize(msg); break;
         }
     },
 
@@ -50,8 +49,8 @@ Container.prototype = {
         const bounds = this.node.getBoundingClientRect();
 
         // Must use documentElement for sites like YouTube. Ben 11/3/19
-        const newH = document.documentElement.scrollHeight - bounds.height;
-        const newW = document.documentElement.scrollWidth - bounds.width;
+        const maxH = document.documentElement.scrollHeight - bounds.height;
+        const maxW = document.documentElement.scrollWidth - bounds.width;
 
         const newX = window.scrollX + bounds.left + evt.movementX;
         const newY = window.scrollY + bounds.top + evt.movementY;
@@ -59,8 +58,8 @@ Container.prototype = {
         if (newX < 0) {
             this.node.style.left = 0;
         } 
-        else if (newX > newW) {
-            this.node.style.left = newW + "px";
+        else if (newX > maxW) {
+            this.node.style.left = maxW + "px";
         } 
         else {
             this.node.style.left = newX + "px";
@@ -69,18 +68,24 @@ Container.prototype = {
         if (newY < 0) {
             this.node.style.top = 0;
         } 
-        else if (newY > newH) {
+        else if (newY > maxH) {
             
-            this.node.style.top = newH + "px";
+            this.node.style.top = maxH + "px";
         } 
         else {
             this.node.style.top = newY + "px";
         }
 
-        // PubSub.emit(Channels.MOVE_CONTAINER, "foo")
+        const pad = 20;
+
+        PubSub.emit(Channels.MOVE_CONTAINER, {  
+            centerX: newX + (bounds.width / 2),
+            centerY: newY + (bounds.height / 2),
+            radius: (bounds.width - 2 * pad) / 2,
+        });
     },
 
-    moveResizeHandle: function(msg) {
+    moveHandleResize: function(msg) {
         const bounds = this.node.getBoundingClientRect();
         const x = bounds.left + msg.offset;
         const y = bounds.top + msg.offset;
@@ -94,8 +99,8 @@ Container.prototype = {
             correctedOffset = (bounds.width - 200) / 2;
         }
 
-        const newW = bounds.width - 2 * correctedOffset;
-        const newH = bounds.height - 2 * correctedOffset;
+        const newW = bounds.width + 2 * correctedOffset;
+        const newH = bounds.height + 2 * correctedOffset;
         const newX = window.scrollX + bounds.left + correctedOffset;
         const newY = window.scrollY + bounds.top + correctedOffset;
         const pad = 20;
@@ -108,7 +113,7 @@ Container.prototype = {
 
         PubSub.emit(Channels.MOVE_CONTAINER, {  
             centerX: newX + (newW / 2),
-            centerY: newY + (newW / 2),
+            centerY: newY + (newH / 2),
             radius: (newW - 2 * pad) / 2,
         });
     },

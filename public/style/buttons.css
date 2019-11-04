@@ -1,27 +1,21 @@
 .__MSG_@@extension_id__-buttons {
     border: 0;
-    height: 30px;
-    line-height: 30px;
+    height: 25px;
+    line-height: 25px;
     position: absolute;
     right: 0;
-    text-align: right;
     top: 0;
-    width: 50%;
 }
 
-.__MSG_@@extension_id__-button-close,
-.__MSG_@@extension_id__-button-lock,
-.__MSG_@@extension_id__-button-locked,
-.__MSG_@@extension_id__-button-nudge,
-.__MSG_@@extension_id__-button-nudging,
-.__MSG_@@extension_id__-button-resize,
-.__MSG_@@extension_id__-button-resizing,
-.__MSG_@@extension_id__-button-rotate,
-.__MSG_@@extension_id__-button-rotating {
+.__MSG_@@extension_id__-buttons:hover .__MSG_@@extension_id__-button {
+    width: 25px;
+}
+
+.__MSG_@@extension_id__-button {
     background: 0;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-repeat: no-repeat;
-    background-size: 150px 50px;
+    background-size: 200px 50px;
     border: 0;
     border-radius: 3px;
     cursor: pointer;
@@ -29,18 +23,22 @@
     height: 25px;
     line-height: 25px;
     text-align: center;
+    transition: width 0.1s ease;
     vertical-align: top;
-    width: 25px;
+    width: 0px;
 }
 
-.__MSG_@@extension_id__-button-nudge path,
-.__MSG_@@extension_id__-button-nudge rect {
-    fill: green;
-    stroke: blue;
+.__MSG_@@extension_id__-button:hover  {
+    background-color: #eee;
+}
+
+.__MSG_@@extension_id__-button-close:focus {
+    outline: 0;
 }
 
 .__MSG_@@extension_id__-button-close {
     background-position: -100px 0;
+    width: 25px;
 }
 
 .__MSG_@@extension_id__-button-lock {
@@ -49,22 +47,25 @@
 
 .__MSG_@@extension_id__-button-locked {
     background-position: 0 -25px;
+    width: 25px;
 }
 
 .__MSG_@@extension_id__-button-nudge {
-    background-position: -75px 0;
-}
-
-.__MSG_@@extension_id__-button-nudging {
-    background-position: -75px -25px;
-}
-
-.__MSG_@@extension_id__-button-resize {
     background-position: -50px 0;
 }
 
-.__MSG_@@extension_id__-button-resizing {
+.__MSG_@@extension_id__-button-nudging {
     background-position: -50px -25px;
+    width: 25px;
+}
+
+.__MSG_@@extension_id__-button-resize {
+    background-position: -75px 0;
+}
+
+.__MSG_@@extension_id__-button-resizing {
+    background-position: -75px -25px;
+    width: 25px;
 }
 
 .__MSG_@@extension_id__-button-rotate {
@@ -73,28 +74,5 @@
 
 .__MSG_@@extension_id__-button-rotating {
     background-position: -25px -25px;
-}
-
-.__MSG_@@extension_id__-button-close:hover,
-.__MSG_@@extension_id__-button-lock:hover,
-.__MSG_@@extension_id__-button-locked:hover,
-.__MSG_@@extension_id__-button-nudge:hover,
-.__MSG_@@extension_id__-button-nudging:hover,
-.__MSG_@@extension_id__-button-resize:hover,
-.__MSG_@@extension_id__-button-resizing:hover,
-.__MSG_@@extension_id__-button-rotate:hover,
-.__MSG_@@extension_id__-button-rotated:hover  {
-    background-color: #eee;
-}
-
-.__MSG_@@extension_id__-button-close:focus,
-.__MSG_@@extension_id__-button-lock:focus,
-.__MSG_@@extension_id__-button-locked:focus,
-.__MSG_@@extension_id__-button-nudge:focus,
-.__MSG_@@extension_id__-button-nudging:focus,
-.__MSG_@@extension_id__-button-resize:focus,
-.__MSG_@@extension_id__-button-resizing:focus,
-.__MSG_@@extension_id__-button-rotate:focus
-.__MSG_@@extension_id__-button-rotated:focus {
-    outline: 0;
+    width: 25px;
 }

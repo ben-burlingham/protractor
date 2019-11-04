@@ -1,16 +1,28 @@
 ButtonResize = function({ appId }) {
+    this.activeClassname = `${appId}-button ${appId}-button-resizing`;
+    this.inactiveClassname = `${appId}-button ${appId}-button-resize`;
+
     this.node = document.createElement('div');
-    this.node.className = `${appId}-button-resize`;
+    this.node.className = this.inactiveClassname;
 
     this.node.addEventListener('click', (evt) => {
-        if (evt.target.className === `${appId}-button-resize`) {
-            evt.target.className = `${appId}-button-resized`;
-            PubSub.emit(Channels.SET_MODE, { mode: "resize" });
-        } 
-        else {
-            evt.target.className = `${appId}-button-resize`;
-        }
+        const mode = (this.node.className === this.activeClassname ? null : "resize")
+        PubSub.emit(Channels.SET_MODE, { mode });
     });
 
+    PubSub.subscribe(Channels.SET_MODE, this);
+
     return this.node;
+};
+
+ButtonResize.prototype = {
+    onUpdate: function(chan, msg) {
+        switch(chan) {
+            case Channels.SET_MODE: this.setMode(msg); break;
+        }
+    },
+
+    setMode: function(msg) {
+        this.node.className = (msg.mode === "resize" ? this.activeClassname : this.inactiveClassname);
+    },
 };

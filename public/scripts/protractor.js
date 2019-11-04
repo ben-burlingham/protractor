@@ -57,37 +57,35 @@ Protractor.prototype = {
         this.container.appendChild(this.buttons);
 
         // Circle, markers
-        this.circle = new Circle({ appId, settings });
-        this.container.appendChild(this.circle);
+        this.container.appendChild(new Circle({ appId, settings }));
 
         for (let rad = 0; rad < 2 * Math.PI; rad += settings.markerInterval) {
-            // this.container.appendChild(new Marker({ appId, settings, rad }));
-            // this.container.appendChild(new Label({ appId, settings, rad }));
+            this.container.appendChild(new Marker({ appId, settings, rad }));
+            this.container.appendChild(new Label({ appId, settings, rad }));
         }
 
         // Display, guides, arc
         this.display = new Display({ appId, settings });
         this.container.appendChild(this.display);
 
-        this.guide0 = new Guide({ appId, settings, i: 0 });
-        this.guide1 = new Guide({ appId, settings, i: 1 });
-        // this.container.appendChild(this.guide0);
-        // this.container.appendChild(this.guide1);
+        // this.container.appendChild(new Guide({ appId, settings, i: 0 }));
+        // this.container.appendChild(new Guide({ appId, settings, i: 1 }));
 
-        this.arc = new Arc({ appId, settings });
-        // this.container.appendChild(this.arc);
+        // this.container.appendChild(new Arc({ appId, settings }));
 
-        // Handle
-        this.handle0 = new Handle({ appId, settings, i: 0 });
-        this.handle1 = new Handle({ appId, settings, i: 1 });
-        // this.container.appendChild(this.handle0);
-        // this.container.appendChild(this.handle1);
+        // Resize handles
+        this.container.appendChild(new HandleResize({ appId, settings, i: 0 }));
+        this.container.appendChild(new HandleResize({ appId, settings, i: 1 }));
 
-        // Rotate
-        this.rotate0 = new Rotate({ appId, settings, i: 0 });
-        this.rotate1 = new Rotate({ appId, settings, i: 1 });
-        // this.container.appendChild(this.rotate0);
-        // this.container.appendChild(this.rotate1);
+        // Rotate handles
+        this.container.appendChild(new HandleRotate({ appId, settings, i: 0 }));
+        this.container.appendChild(new HandleRotate({ appId, settings, i: 1 }));
+
+        // Nudge handles
+        this.container.appendChild(new HandleNudge({ appId, settings, i: 0 }));
+        this.container.appendChild(new HandleNudge({ appId, settings, i: 1 }));
+        this.container.appendChild(new HandleNudge({ appId, settings, i: 2 }));
+        this.container.appendChild(new HandleNudge({ appId, settings, i: 3 }));
 
         this.show();
     },
@@ -97,15 +95,17 @@ Protractor.prototype = {
     },
 
     show: function() {
-        this.container.style.left = `${window.scrollX + (document.documentElement.offsetWidth / 2) - 200}px`;
+        const radius = 200;
+
+        this.container.style.left = `${window.scrollX + (document.documentElement.offsetWidth / 2) - radius}px`;
         this.container.style.top = `${window.scrollY + 100}px`;
-        this.container.style.height = "400px";
-        this.container.style.width = "400px";
+        this.container.style.height = `${radius * 2}px`;
+        this.container.style.width = `${radius * 2}px`;
 
         document.body.appendChild(this.container);
 
         // Fake sizing event to establish container coords.
-        PubSub.emit(Channels.MOVE_RESIZE_HANDLE, { offset: 0 });
+        PubSub.emit(Channels.MOVE_HANDLE_RESIZE, { offset: 0 });
 
         clearTimeout(this.timer);
         this.isShowing = true;
