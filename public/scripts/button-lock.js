@@ -5,10 +5,10 @@ ButtonLock = function({ appId }) {
     this.node.addEventListener('click', (evt) => {
         if (evt.target.className === `${appId}-button-lock`) {
             evt.target.className = `${appId}-button-locked`;
-            PubSub.emit(Channels.CONTAINER_LOCK, { locked: true });
-        } else {
+            PubSub.emit(Channels.SET_MODE, { mode: "lock" });
+        } 
+        else {
             evt.target.className = `${appId}-button-lock`;
-            PubSub.emit(Channels.CONTAINER_LOCK, { locked: false });
         }
     });
 

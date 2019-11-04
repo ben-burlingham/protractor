@@ -2,11 +2,7 @@
     border: 1px solid #ccc;
     box-sizing: border-box;
     cursor: move;
-    height: 100%;
-    left: 0;
     position: absolute;
-    top: 0;
-    width: 100%;
     z-index: 1;
 }
 

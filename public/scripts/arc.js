@@ -24,7 +24,7 @@ Arc = function({ appId, settings }) {
     this.node.appendChild(this.arc);
     this.node.appendChild(this.triangle);
 
-    PubSub.subscribe(Channels.CONTAINER_RESIZE, this);
+    PubSub.subscribe(Channels.RESIZE_CONTAINER, this);
     PubSub.subscribe(Channels.GUIDE_MOVE, this);
     PubSub.subscribe(Channels.ROTATE_MOVE, this);
 

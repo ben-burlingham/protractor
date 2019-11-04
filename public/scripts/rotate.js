@@ -63,6 +63,8 @@ Rotate.prototype = {
 
         // TODO broadcast container bounds (on show?) and consume in guide, rotate
         // TODO labels to inside
+        // TODO can resize past bottom of screen
+        // TODO update benburlingham.com protractor copy to say "any browser document"
         // TODO doesn't work on youtube
         // TODO doesn't work on images/pdf
         // TODO container sizing bug

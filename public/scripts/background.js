@@ -26,6 +26,8 @@ Background = {
         "scripts/arc.js",
         "scripts/button-close.js",
         "scripts/button-lock.js",
+        "scripts/button-nudge.js",
+        "scripts/button-resize.js",
         "scripts/button-rotate.js",
         "scripts/display.js",
         "scripts/handle.js",

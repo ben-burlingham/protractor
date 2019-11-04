@@ -1,12 +1,6 @@
 Container = function({ appId }) {
-    const radius = 200;
-
     this.node = document.createElement('div');
     this.node.className = `${appId}-container`;
-
-    // .top and .left set in Protractor.show()
-    this.node.style.height = `${radius * 2}px`;
-    this.node.style.width = `${radius * 2}px`;
 
     var move = this.move.bind(this);
     var onMousedown = this.onMousedown.bind(this, move);
@@ -19,7 +13,7 @@ Container = function({ appId }) {
     this.shiftIsPressed = false;
 
     PubSub.subscribe(Channels.SET_MODE, this);
-    PubSub.subscribe(Channels.MOVE_RESIZE, this);
+    PubSub.subscribe(Channels.MOVE_RESIZE_HANDLE, this);
 
     return this.node;
 };
@@ -41,63 +35,85 @@ Container.prototype = {
         switch(chan) {
             // case Channels.CONTAINER_LOCK: this.locked = msg.locked; break;
             case Channels.SET_MODE: this.setMode(msg); break;
-            case Channels.MOVE_RESIZE: this.resize(msg); break;
+            case Channels.MOVE_RESIZE_HANDLE: this.moveResizeHandle(msg); break;
         }
     },
 
     move: function(evt) {
-        // if (this.mode !== "move") {
-        //     return;
-        // }
+        if (this.mode === "lock") {
+            return;
+        }
 
         evt.stopPropagation();
         evt.preventDefault();
 
         const bounds = this.node.getBoundingClientRect();
+
+        // Must use documentElement for sites like YouTube. Ben 11/3/19
+        const newH = document.documentElement.scrollHeight - bounds.height;
+        const newW = document.documentElement.scrollWidth - bounds.width;
+
         const newX = window.scrollX + bounds.left + evt.movementX;
         const newY = window.scrollY + bounds.top + evt.movementY;
 
         if (newX < 0) {
             this.node.style.left = 0;
         } 
-        else if ((newX + bounds.width) > document.documentElement.scrollWidth) {
-            // Must use documentElement for sites like YouTube. Ben 11/3/19
-            this.node.style.left = `${document.documentElement.scrollWidth - bounds.width}px`;
+        else if (newX > newW) {
+            this.node.style.left = newW + "px";
         } 
         else {
-            this.node.style.left = `${newX}px`;
+            this.node.style.left = newX + "px";
         }
 
         if (newY < 0) {
             this.node.style.top = 0;
         } 
-        else if ((newY + bounds.height) > document.documentElement.scrollHeight) {
-            this.node.style.top = `${document.documentElement.scrollHeight - bounds.height}px`;
+        else if (newY > newH) {
+            
+            this.node.style.top = newH + "px";
         } 
         else {
-            this.node.style.top = `${newY}px`;
+            this.node.style.top = newY + "px";
         }
+
+        // PubSub.emit(Channels.MOVE_CONTAINER, "foo")
     },
 
-    resize: function(msg) {
-        // const bounds = this.node.getBoundingClientRect();
-        // const x = bounds.left + msg.offset;
-        // const y = bounds.top + msg.offset;
-        // const s = bounds.width - 2 * msg.offset;
+    moveResizeHandle: function(msg) {
+        const bounds = this.node.getBoundingClientRect();
+        const x = bounds.left + msg.offset;
+        const y = bounds.top + msg.offset;
+        const s = bounds.width - 2 * msg.offset;
 
-        // let correctedOffset = msg.offset;
+        let correctedOffset = msg.offset;
 
-        // if (x < 0 || y < 0) {
-        //     correctedOffset = -1 * Math.min(bounds.left, bounds.top);
-        // } else if (s <= 200) {
-        //     correctedOffset = (bounds.width - 200) / 2;
-        // }
+        if (x < 0 || y < 0) {
+            correctedOffset = -1 * Math.min(bounds.left, bounds.top);
+        } else if (s <= 200) {
+            correctedOffset = (bounds.width - 200) / 2;
+        }
 
-        // this.node.style.left = `${window.scrollX + bounds.left + correctedOffset}px`;
-        // this.node.style.top = `${window.scrollY + bounds.top + correctedOffset}px`;
-        // this.node.style.width = `${bounds.width - 2 * correctedOffset}px`;
-        // this.node.style.height = `${bounds.height - 2 * correctedOffset}px`;
+        const newW = bounds.width - 2 * correctedOffset;
+        const newH = bounds.height - 2 * correctedOffset;
+        const newX = window.scrollX + bounds.left + correctedOffset;
+        const newY = window.scrollY + bounds.top + correctedOffset;
+        const pad = 20;
 
-        // PubSub.emit(Channels.CONTAINER_RESIZE, { radius: (this.node.offsetWidth / 2) });
+        this.node.style.left = newX + 'px';
+        this.node.style.top = newY + 'px';
+        this.node.style.width = newW + 'px';
+        this.node.style.height = newH + 'px';
+        this.node.style.padding = pad + 'px';
+
+        PubSub.emit(Channels.MOVE_CONTAINER, {  
+            centerX: newX + (newW / 2),
+            centerY: newY + (newW / 2),
+            radius: (newW - 2 * pad) / 2,
+        });
+    },
+
+    setMode: function(msg) {
+        this.mode = msg.mode;
     },
 };

@@ -12,12 +12,16 @@
 .__MSG_@@extension_id__-button-close,
 .__MSG_@@extension_id__-button-lock,
 .__MSG_@@extension_id__-button-locked,
+.__MSG_@@extension_id__-button-nudge,
+.__MSG_@@extension_id__-button-nudging,
+.__MSG_@@extension_id__-button-resize,
+.__MSG_@@extension_id__-button-resizing,
 .__MSG_@@extension_id__-button-rotate,
-.__MSG_@@extension_id__-button-rotated {
+.__MSG_@@extension_id__-button-rotating {
     background: 0;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-repeat: no-repeat;
-    background-size: 175px 25px;
+    background-size: 150px 50px;
     border: 0;
     border-radius: 3px;
     cursor: pointer;
@@ -29,33 +33,55 @@
     width: 25px;
 }
 
+.__MSG_@@extension_id__-button-nudge path,
+.__MSG_@@extension_id__-button-nudge rect {
+    fill: green;
+    stroke: blue;
+}
+
 .__MSG_@@extension_id__-button-close {
-    background-position: -50px 0;
-    font-size: 16px;
-    right: 0;
-    width: 25px;
+    background-position: -100px 0;
 }
 
 .__MSG_@@extension_id__-button-lock {
-    background-position: -25px 0;
-
-}
-
-.__MSG_@@extension_id__-button-locked {
     background-position: 0 0;
 }
 
-.__MSG_@@extension_id__-button-rotate {
-    background-position: -125px 0;
+.__MSG_@@extension_id__-button-locked {
+    background-position: 0 -25px;
 }
 
-.__MSG_@@extension_id__-button-rotated {
-    background-position: -100px 0;
+.__MSG_@@extension_id__-button-nudge {
+    background-position: -75px 0;
+}
+
+.__MSG_@@extension_id__-button-nudging {
+    background-position: -75px -25px;
+}
+
+.__MSG_@@extension_id__-button-resize {
+    background-position: -50px 0;
+}
+
+.__MSG_@@extension_id__-button-resizing {
+    background-position: -50px -25px;
+}
+
+.__MSG_@@extension_id__-button-rotate {
+    background-position: -25px 0;
+}
+
+.__MSG_@@extension_id__-button-rotating {
+    background-position: -25px -25px;
 }
 
 .__MSG_@@extension_id__-button-close:hover,
 .__MSG_@@extension_id__-button-lock:hover,
 .__MSG_@@extension_id__-button-locked:hover,
+.__MSG_@@extension_id__-button-nudge:hover,
+.__MSG_@@extension_id__-button-nudging:hover,
+.__MSG_@@extension_id__-button-resize:hover,
+.__MSG_@@extension_id__-button-resizing:hover,
 .__MSG_@@extension_id__-button-rotate:hover,
 .__MSG_@@extension_id__-button-rotated:hover  {
     background-color: #eee;
@@ -64,6 +90,10 @@
 .__MSG_@@extension_id__-button-close:focus,
 .__MSG_@@extension_id__-button-lock:focus,
 .__MSG_@@extension_id__-button-locked:focus,
+.__MSG_@@extension_id__-button-nudge:focus,
+.__MSG_@@extension_id__-button-nudging:focus,
+.__MSG_@@extension_id__-button-resize:focus,
+.__MSG_@@extension_id__-button-resizing:focus,
 .__MSG_@@extension_id__-button-rotate:focus
 .__MSG_@@extension_id__-button-rotated:focus {
     outline: 0;

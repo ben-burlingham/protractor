@@ -44,19 +44,17 @@ Protractor.prototype = {
         // Main container, buttons container, close button, lock button
         this.container = new Container({ appId });
         this.container.id = `container-${appId}`;
-        // this.container.style.background = 'rgba(255, 0, 0, 0.2)'
 
         this.buttons = document.createElement('div');
         this.buttons.className = `${appId}-buttons`;
 
-        this.closeBtn = new ButtonClose({ appId });
-        this.lockBtn = new ButtonLock({ appId });
-        this.rotateBtn = new ButtonRotate({ appId });
+        this.buttons.appendChild(new ButtonRotate({ appId }));
+        this.buttons.appendChild(new ButtonResize({ appId }));
+        this.buttons.appendChild(new ButtonNudge({ appId }));
+        this.buttons.appendChild(new ButtonLock({ appId }));
+        this.buttons.appendChild(new ButtonClose({ appId }));
 
-        this.buttons.appendChild(this.lockBtn);
-        this.buttons.appendChild(this.rotateBtn);
-        this.buttons.appendChild(this.closeBtn);
-        // this.container.appendChild(this.buttons);
+        this.container.appendChild(this.buttons);
 
         // Circle, markers
         this.circle = new Circle({ appId, settings });
@@ -99,10 +97,16 @@ Protractor.prototype = {
     },
 
     show: function() {
-        this.container.style.left = `${window.scrollX + (document.body.offsetWidth / 2) - 200}px`;
+        this.container.style.left = `${window.scrollX + (document.documentElement.offsetWidth / 2) - 200}px`;
         this.container.style.top = `${window.scrollY + 100}px`;
+        this.container.style.height = "400px";
+        this.container.style.width = "400px";
 
         document.body.appendChild(this.container);
+
+        // Fake sizing event to establish container coords.
+        PubSub.emit(Channels.MOVE_RESIZE_HANDLE, { offset: 0 });
+
         clearTimeout(this.timer);
         this.isShowing = true;
     },
