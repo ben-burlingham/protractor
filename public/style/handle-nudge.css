@@ -1,44 +1,43 @@
 .__MSG_@@extension_id__-handle-nudge {
+    background-color: white;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-position: -250px -50px;
     background-repeat: no-repeat;
     background-size: 400px 100px;
-    cursor: default;
+    border: 1px solid #444;
+    border-radius: 2px;
+    cursor: pointer;
     height: 50px;
-    opacity: 0.7;
     position: absolute;
-    transition: opacity 0.3s ease;
+    transform-origin: center center;
     width: 50px;
     z-index: 101;
 }
 
 .__MSG_@@extension_id__-handle-nudge:hover {
-    opacity: 1;
+    background-color: #eee;
 }
 
 .__MSG_@@extension_id__-handle-nudge-0 {
-    top: 0;
     left: 50%;
+    top: 0;
     transform: translateX(-50%);
-    transform-origin: center center;
 }
 
-/*
 .__MSG_@@extension_id__-handle-nudge-1 {
-    left: 50%;
-    top: 0;
+    right: 0;
+    top: 50%;
     transform: rotate(90deg) translateX(-50%);
 }
 
 .__MSG_@@extension_id__-handle-nudge-2 {
-    left: 0;
-    top: 50%;
-    transform: rotate(-90deg) translateY(-50%);
+    bottom: 0;
+    left: 50%;
+    transform: rotate(-180deg) translateX(50%);
 }
 
 .__MSG_@@extension_id__-handle-nudge-3 {
-    bottom: 0;
-    left: 50%;
-    transform: rotate(90deg) translateX(-50%);
+    left: 0;
+    top: 50%;
+    transform: rotate(-90deg) translateX(50%);
 }
-*/

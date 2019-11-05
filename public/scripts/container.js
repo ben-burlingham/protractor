@@ -2,8 +2,8 @@ Container = function({ appId }) {
     this.node = document.createElement('div');
     this.node.className = `${appId}-container`;
 
-    PubSub.subscribe(Channels.SET_MODE, this);
     PubSub.subscribe(Channels.MOVE_CIRCLE, this);
+    PubSub.subscribe(Channels.MOVE_HANDLE_NUDGE, this);
     PubSub.subscribe(Channels.MOVE_HANDLE_RESIZE, this);
 
     return this.node;
@@ -13,6 +13,7 @@ Container.prototype = {
     onUpdate: function(chan, msg) {
         switch(chan) {
             case Channels.MOVE_CIRCLE: this.moveCircle(msg); break;
+            case Channels.MOVE_HANDLE_NUDGE: this.moveHandleNudge(msg); break;
             case Channels.MOVE_HANDLE_RESIZE: this.moveHandleResize(msg); break;
         }
     },
@@ -55,6 +56,10 @@ Container.prototype = {
             centerY: newY + (bounds.height / 2),
             radius: (bounds.width - 2 * pad) / 2,
         });
+    },
+
+    moveHandleNudge: function(msg) {
+        this.moveCircle(msg);
     },
 
     moveHandleResize: function(msg) {

@@ -56,5 +56,12 @@ Circle.prototype = {
 
     setMode: function(msg) {
         this.mode = msg.mode;
+
+        if (msg.mode === "lock") {
+            this.node.className = `${this.appId}-circle ${this.appId}-circle-locked`;
+        }
+        else {
+            this.node.className = `${this.appId}-circle`;
+        }
     },
 };
