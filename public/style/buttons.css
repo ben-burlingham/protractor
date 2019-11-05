@@ -12,7 +12,7 @@
 }
 
 .__MSG_@@extension_id__-button {
-    background: 0;
+    background-color: none;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-repeat: no-repeat;
     background-size: 200px 50px;

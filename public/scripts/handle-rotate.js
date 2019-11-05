@@ -4,11 +4,15 @@ HandleRotate = function({ appId, settings, i }) {
     this.node = document.createElement('div');
     this.node.className = `${appId}-handle-rotate ${appId}-handle-rotate-${i}`;
     this.node.style.display = 'none';
-    this.node.setAttribute('index', i);
+    this.node.setAttribute('data-index', i);
 
-    // this.node.addEventListener('mousedown', this.onMousedown.bind(null, ref));
-    // document.body.addEventListener('mouseup', this.onMouseup.bind(null, ref));
-    // document.body.addEventListener('mouseenter', this.onMouseup.bind(null, ref));
+    // var move = this.move.bind(this);
+    // var onMousedown = this.onMousedown.bind(this, move);
+    // var onMouseup = this.onMouseup.bind(this, move);
+
+    // this.node.addEventListener('mousedown', onMousedown);
+    // document.body.addEventListener('mouseup', onMouseup);
+    // document.body.addEventListener('mouseenter', onMouseup);
 
     PubSub.subscribe(Channels.SET_MODE, this);
 
@@ -68,15 +72,6 @@ HandleRotate.prototype = {
         // }
 
         console.log(centerX, y, width, height);
-
-        // TODO nudge buttons
-        // TODO resize buttons
-        // TODO moving
-        // TODO guides
-        // TODO rotate button
-        // TODO doesn't work on images/pdf (works in dev mode though?)
-        // TODO update benburlingham.com protractor copy to say "any browser document"
-        // TODO firefox
 
         // this.node.style.transform = `rotate(${phi}deg)`;
         // this.node.style.left = (evt.pageX - 537) + 'px';

@@ -2,6 +2,7 @@
     box-sizing: border-box;
     font-family: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
     opacity: 1;
+    padding: 20px;
     position: absolute;
     transition: opacity 0.5s ease;
     z-index: 1000000;

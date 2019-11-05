@@ -2,11 +2,15 @@ HandleNudge = function({ appId, settings, i }) {
     this.node = document.createElement('div');
     this.node.className = `${appId}-handle-nudge ${appId}-handle-nudge-${i}`;
     this.node.style.display = 'none';
-    this.node.setAttribute('index', i);
+    this.node.setAttribute('data-index', i);
 
-    this.node.addEventListener('mousedown', this.onMousedown);
-    document.body.addEventListener('mouseup', this.onMouseup);
-    document.body.addEventListener('mouseenter', this.onMouseup);
+    var move = this.move.bind(this);
+    var onMousedown = this.onMousedown.bind(this, move);
+    var onMouseup = this.onMouseup.bind(this, move);
+
+    this.node.addEventListener('mousedown', onMousedown);
+    document.body.addEventListener('mouseup', onMouseup);
+    document.body.addEventListener('mouseenter', onMouseup);
 
     PubSub.subscribe(Channels.SET_MODE, this);
 
@@ -14,14 +18,14 @@ HandleNudge = function({ appId, settings, i }) {
 };
 
 HandleNudge.prototype = {
-    onMousedown: function(evt) {
+    onMousedown: function(ref, evt) {
         evt.preventDefault();
-        document.body.addEventListener('mousemove', HandleNudge.move);
+        document.body.addEventListener('mousemove', ref);
     },
 
-    onMouseup: function(evt) {
+    onMouseup: function(ref, evt) {
         evt.preventDefault();
-        document.body.removeEventListener('mousemove', HandleNudge.move);
+        document.body.removeEventListener('mousemove', ref);
     },
 
     onUpdate: function(chan, msg) {

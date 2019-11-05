@@ -71,6 +71,14 @@ Protractor.prototype = {
         // this.container.appendChild(new Guide({ appId, settings, i: 0 }));
         // this.container.appendChild(new Guide({ appId, settings, i: 1 }));
 
+        // TODO nudge buttons
+        // TODO resize buttons
+        // TODO guides
+        // TODO rotate button
+        // TODO doesn't work on images/pdf (works in dev mode though?)
+        // TODO update benburlingham.com protractor copy to say "any browser document"
+        // TODO firefox
+
         // this.container.appendChild(new Arc({ appId, settings }));
 
         // Resize handles
