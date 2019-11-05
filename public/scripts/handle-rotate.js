@@ -19,6 +19,20 @@ HandleRotate = function({ appId, settings, i }) {
     return this.node;
 };
 
+
+// TODO rotate button
+        // TODO labels
+        // TODO QA all buttons
+        // TODO center all SVGs (particularly nudge)
+        // TODO doesn't work on images/pdf (works in dev mode though?)
+        // TODO update benburlingham.com protractor copy to say "any browser document"
+        // TODO firefox
+
+
+
+
+        
+
 HandleRotate.prototype = {
     onMousedown: function(ref, evt) {
         // if (this.isDragging) {  why isdragging here but not on resize

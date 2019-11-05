@@ -24,9 +24,9 @@ Arc = function({ appId, settings }) {
     this.node.appendChild(this.arc);
     this.node.appendChild(this.triangle);
 
-    PubSub.subscribe(Channels.RESIZE_CONTAINER, this);
-    PubSub.subscribe(Channels.GUIDE_MOVE, this);
-    PubSub.subscribe(Channels.ROTATE_MOVE, this);
+    PubSub.subscribe(Channels.MOVE_CONTAINER, this);
+    PubSub.subscribe(Channels.MOVE_GUIDE, this);
+    // PubSub.subscribe(Channels.ROTATE_MOVE, this);
 
     return this.node;
 };
@@ -59,7 +59,7 @@ Arc.prototype = {
     },
 
     onUpdate: function(chan, msg) {
-        if (chan === Channels.GUIDE_MOVE) {
+        if (chan === Channels.MOVE_GUIDE) {
             this.guideThetas[msg.index] = msg.theta;
 
             const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, this.radius);
@@ -67,7 +67,7 @@ Arc.prototype = {
             this.triangle.setAttribute('d', trianglePath);
         }
 
-        if (chan === Channels.CONTAINER_RESIZE) {
+        if (chan === Channels.MOVE_CONTAINER) {
             const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, msg.radius);
 
             this.node.setAttribute('height', msg.radius * 2);
