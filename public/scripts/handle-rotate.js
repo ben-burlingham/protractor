@@ -21,12 +21,11 @@ HandleRotate = function({ appId, settings, i }) {
 
 
 // TODO rotate button
-        // TODO labels
-        // TODO QA all buttons
-        // TODO center all SVGs (particularly nudge)
-        // TODO doesn't work on images/pdf (works in dev mode though?)
-        // TODO update benburlingham.com protractor copy to say "any browser document"
-        // TODO firefox
+// TODO QA all buttons
+// TODO center all SVGs (particularly nudge)
+// TODO doesn't work on images/pdf (works in dev mode though?)
+// TODO update benburlingham.com protractor copy to say "any browser document"
+// TODO firefox
 
 
 

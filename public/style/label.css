@@ -4,5 +4,6 @@
     height: 16px;
     position: absolute;
     text-align: center;
+    user-select: none;
     width: 30px;
 }

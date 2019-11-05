@@ -52,8 +52,10 @@ Container.prototype = {
         const pad = 20;
 
         PubSub.emit(Channels.MOVE_CONTAINER, {  
-            centerX: newX + (bounds.width / 2),
-            centerY: newY + (bounds.height / 2),
+            centerRelativeX: bounds.width / 2,
+            centerRelativeY: bounds.height / 2,
+            centerViewportX: newX + (bounds.width / 2),
+            centerViewportY: newY + (bounds.height / 2),
             radius: (bounds.width - 2 * pad) / 2,
         });
     },
@@ -95,9 +97,13 @@ Container.prototype = {
         this.node.style.height = newH + 'px';
 
         PubSub.emit(Channels.MOVE_CONTAINER, {  
-            centerX: newX + (newW / 2),
-            centerY: newY + (newH / 2),
+            centerRelativeX: newW / 2,
+            centerRelativeY: newH / 2,
+            centerViewportX: newX + (newW / 2),
+            centerViewportY: newY + (newH / 2),
+            height: newH,
             radius: (newW - 2 * pad) / 2,
+            width: newW
         });
     },
 };

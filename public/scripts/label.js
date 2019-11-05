@@ -38,38 +38,15 @@ Label.prototype = {
     },
 
     move: function(msg) {
-        const x = (msg.radius + 20) + Math.cos(this.rad) * (msg.radius - 10);
-        const y = (msg.radius + 20) + Math.sin(this.rad) * (msg.radius - 10);
+        const h = this.node.offsetHeight;
+        const w = this.node.offsetWidth;
 
-this.node.style.background = 'orange';
+        const x = msg.centerRelativeX - w / 2;
+        const y = msg.centerRelativeY - h / 2;
 
-        this.node.style.left = x + 'px';
-        this.node.style.top = y + 'px';
+        this.node.style.left = (x + (msg.radius - 20) * Math.cos(this.rad)) + 'px';
+        this.node.style.top = (y + (msg.radius - 20) * Math.sin(this.rad)) + 'px';
 
-        if (this.rad === 0) {
-            this.node.style.transform = "translate(-100%, -100%)";
-        }
-        else if (this.rad === Math.PI / 2) {
-            this.node.style.transform = "translate(0, -100%)";
-        }
-        else if (this.rad === 3 * Math.PI / 2) {
-            this.node.style.transform = "translate(-100%, 0)";
-        }
-        // else if (this.rad < Math.PI / 2) {
-        //     this.node.style.background = 'green';
-        //     this.node.style.transform = "translate(-50%, -100%)";
-        // }
-        // else if (this.rad > Math.PI / 2 && this.rad < Math.PI) {
-            //this.node.style.background = 'green';
-        //     this.node.style.transform = "translate(-100%, 0)";
-        // }
-        // else if (this.rad > Math.PI && this.rad < 3 * Math.PI / 2) {
-            //this.node.style.background = 'green';
-        //     this.node.style.transform = "translate(-100%, -50%)";
-        // }
-        else if (this.rad > 3 * Math.PI / 2) {
-            this.node.style.background = 'green';
-            this.node.style.transform = `translate(-100%, -100%) rotate(${this.rad}rad)`;
-        }
+        this.node.style.transform = `rotate(${this.rad + Math.PI / 2}rad)`;
     }
 };
