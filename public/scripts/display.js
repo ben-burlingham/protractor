@@ -48,7 +48,7 @@ Display = function({ appId, settings }) {
     document.body.addEventListener('mouseenter', onMouseup);
 
     PubSub.subscribe(Channels.CONTAINER_LOCK, this);
-    PubSub.subscribe(Channels.GUIDE_MOVE, this);
+    PubSub.subscribe(Channels.MOVE_GUIDE, this);
     PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
@@ -108,18 +108,18 @@ Display.prototype = {
     },
 
     refresh: function(msg) {
-        // this.guideThetas[msg.index] = msg.theta;
+        this.guideThetas[msg.index] = msg.theta;
 
-        // const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
-        //     ...this.guideThetas,
-        //     this.settings.units,
-        //     this.settings.precision
-        // );
+        const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
+            ...this.guideThetas,
+            this.settings.units,
+            this.settings.precision
+        );
 
-        // this.deltaA.innerHTML = deltaA;
-        // this.deltaB.innerHTML = deltaB;
-        // this.sub0.innerHTML = sub0;
-        // this.sub1.innerHTML = sub1;
+        this.deltaA.innerHTML = deltaA;
+        this.deltaB.innerHTML = deltaB;
+        this.sub0.innerHTML = sub0;
+        this.sub1.innerHTML = sub1;
     },
 
     setMode: function(msg) {

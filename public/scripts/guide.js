@@ -8,8 +8,6 @@ Guide = function({ appId, settings, i }) {
     this.phi = 0;
     this.theta = 0;
 
-    const ref = this.move.bind(this);
-
     this.handle = document.createElement('div');
     this.handle.className = `${appId}-guide-handle`;
     this.handle.title = "Double click to lock/unlock";
@@ -30,13 +28,18 @@ Guide = function({ appId, settings, i }) {
     const deg = settings[`theta${i}`] * 180 / Math.PI;
     this.node.style.transform = `rotate(${-1 * deg}deg)`;
 
+    var move = this.move.bind(this);
+    var onMousedown = this.onMousedown.bind(this, move);
+    var onMouseup = this.onMouseup.bind(this, move);
+
     this.node.addEventListener('click', this.click.bind(this));
-    this.node.addEventListener('mousedown', this.dragstart.bind(this, ref));
+    this.node.addEventListener('mousedown', onMousedown);
 
-    document.body.addEventListener('mouseup', this.dragend.bind(this, ref));
-    document.body.addEventListener('mouseenter', this.dragend.bind(null, ref));
+    document.body.addEventListener('mouseup', onMouseup);
+    document.body.addEventListener('mouseenter', onMouseup);
 
-    PubSub.subscribe(Channels.ROTATE_MOVE, this);
+    PubSub.subscribe(Channels.MOVE_CONTAINER, this);
+    PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
 };
@@ -71,12 +74,12 @@ Guide.prototype = {
         }
     },
 
-    dragstart: function(ref, evt) {
+    onMousedown: function(ref, evt) {
         evt.preventDefault();
         document.body.addEventListener('mousemove', ref);
     },
 
-    dragend: function(ref, evt) {
+    onMouseup: function(ref, evt) {
         evt.preventDefault();
         document.body.removeEventListener('mousemove', ref);
     },
@@ -85,7 +88,7 @@ Guide.prototype = {
         evt.stopPropagation();
         evt.preventDefault();
 
-        if (this.locked) {
+        if (this.locked || this.mode === "lock") {
             return;
         }
 
@@ -119,7 +122,11 @@ Guide.prototype = {
 
         this.theta = -1 * theta * 180 / Math.PI;
         this.transform();
-        PubSub.emit(Channels.GUIDE_MOVE, { index: this.index, theta });
+        PubSub.emit(Channels.MOVE_GUIDE, { index: this.index, theta });
+    },
+
+    moveContainer: function(msg) {
+        this.node.style.width = `${msg.radius}px`;
     },
 
     transform: function() {
@@ -132,8 +139,13 @@ Guide.prototype = {
     },
 
     onUpdate: function(chan, msg) {
-        if (chan === Channels.ROTATE_MOVE) {
-            this.onRotate(msg);
+        switch(chan) {
+            case Channels.MOVE_CONTAINER: this.moveContainer(msg); break;
+            case Channels.SET_MODE: this.setMode(msg); break;
         }
+    },
+
+    setMode: function(msg) {
+        this.mode = msg.mode;
     },
 };

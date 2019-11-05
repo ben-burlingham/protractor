@@ -38,36 +38,38 @@ Label.prototype = {
     },
 
     move: function(msg) {
-        const x = (msg.radius + 20) + Math.cos(this.rad) * (msg.radius + 10);
-        const y = (msg.radius + 20) + Math.sin(this.rad) * (msg.radius + 10);
+        const x = (msg.radius + 20) + Math.cos(this.rad) * (msg.radius - 10);
+        const y = (msg.radius + 20) + Math.sin(this.rad) * (msg.radius - 10);
+
+this.node.style.background = 'orange';
 
         this.node.style.left = x + 'px';
         this.node.style.top = y + 'px';
 
         if (this.rad === 0) {
-            this.node.style.transform = "translate(0, -50%)";
+            this.node.style.transform = "translate(-100%, -100%)";
         }
         else if (this.rad === Math.PI / 2) {
-            this.node.style.transform = "translate(-50%, 0)";
-        }
-        // Something about marker intervals prevents an exact comparison to Math.PI
-        else if (this.rad < Math.PI + 0.005 && this.rad > Math.PI - 0.005) {
-            this.node.style.transform = "translate(-100%, -50%)";
+            this.node.style.transform = "translate(0, -100%)";
         }
         else if (this.rad === 3 * Math.PI / 2) {
-            this.node.style.transform = "translate(-50%, -100%)";
-        }
-        else if (this.rad < Math.PI / 2) {
-            // (Already positioned top left corner to end of guide)
-        }
-        else if (this.rad > Math.PI / 2 && this.rad < Math.PI) {
             this.node.style.transform = "translate(-100%, 0)";
         }
-        else if (this.rad > Math.PI && this.rad < 3 * Math.PI / 2) {
-            this.node.style.transform = "translate(-100%, -50%)";
-        }
+        // else if (this.rad < Math.PI / 2) {
+        //     this.node.style.background = 'green';
+        //     this.node.style.transform = "translate(-50%, -100%)";
+        // }
+        // else if (this.rad > Math.PI / 2 && this.rad < Math.PI) {
+            //this.node.style.background = 'green';
+        //     this.node.style.transform = "translate(-100%, 0)";
+        // }
+        // else if (this.rad > Math.PI && this.rad < 3 * Math.PI / 2) {
+            //this.node.style.background = 'green';
+        //     this.node.style.transform = "translate(-100%, -50%)";
+        // }
         else if (this.rad > 3 * Math.PI / 2) {
-            this.node.style.transform = "translate(0, -50%)";
+            this.node.style.background = 'green';
+            this.node.style.transform = `translate(-100%, -100%) rotate(${this.rad}rad)`;
         }
     }
 };

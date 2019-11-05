@@ -68,13 +68,13 @@ Protractor.prototype = {
         this.display = new Display({ appId, settings });
         this.container.appendChild(this.display);
 
-        // this.container.appendChild(new Guide({ appId, settings, i: 0 }));
-        // this.container.appendChild(new Guide({ appId, settings, i: 1 }));
+        this.container.appendChild(new Guide({ appId, settings, i: 0 }));
+        this.container.appendChild(new Guide({ appId, settings, i: 1 }));
 
-        // TODO labels
         // TODO arc
-        // TODO guides
         // TODO rotate button
+        // TODO labels
+        // TODO QA all buttons
         // TODO center all SVGs (particularly nudge)
         // TODO doesn't work on images/pdf (works in dev mode though?)
         // TODO update benburlingham.com protractor copy to say "any browser document"

@@ -44,10 +44,6 @@ HandleRotate.prototype = {
         }
     },
 
-    setMode: function(msg) {
-        this.node.style.display = (msg.mode === "rotate" ? "block" : "none");
-    },
-
     move: function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -79,6 +75,10 @@ HandleRotate.prototype = {
 
 
         // PubSub.emit(Channels.ROTATE_MOVE, { phi: -1 * phi });
+    },
+
+    setMode: function(msg) {
+        this.node.style.display = (msg.mode === "rotate" ? "block" : "none");
     },
 
     setCenter: function(msg) {
