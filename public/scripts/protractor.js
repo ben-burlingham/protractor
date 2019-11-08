@@ -78,7 +78,7 @@ Protractor.prototype = {
 
         // Rotate handles
         this.container.appendChild(new HandleRotate({ appId, settings, i: 0 }));
-        this.container.appendChild(new HandleRotate({ appId, settings, i: 1 }));
+        // this.container.appendChild(new HandleRotate({ appId, settings, i: 1 }));
 
         // Nudge handles
         this.container.appendChild(new HandleNudge({ appId, settings, i: 0 }));

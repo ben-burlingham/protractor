@@ -6,7 +6,7 @@ Guide = function({ appId, settings, i }) {
     this.locked = false;
 
     this.phi = 0;
-    this.theta = 0;
+    this.theta = settings[`theta${i}`];
 
     this.handle = document.createElement('div');
     this.handle.className = `${appId}-guide-handle`;
@@ -25,9 +25,6 @@ Guide = function({ appId, settings, i }) {
         this.handle.style.borderColor = settings.guide1Fill;
     }
 
-    const deg = settings[`theta${i}`] * 180 / Math.PI;
-    this.node.style.transform = `rotate(${-1 * deg}deg)`;
-
     var move = this.move.bind(this);
     var onMousedown = this.onMousedown.bind(this, move);
     var onMouseup = this.onMouseup.bind(this, move);
@@ -39,6 +36,7 @@ Guide = function({ appId, settings, i }) {
     document.body.addEventListener('mouseenter', onMouseup);
 
     PubSub.subscribe(Channels.MOVE_CONTAINER, this);
+    PubSub.subscribe(Channels.MOVE_HANDLE_ROTATE, this);
     PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
@@ -120,17 +118,23 @@ Guide.prototype = {
             }
         }
 
-        this.theta = -1 * theta * 180 / Math.PI;
+        this.theta = -1 * theta;
         this.transform();
         PubSub.emit(Channels.MOVE_GUIDE, { index: this.index, theta });
     },
 
     moveContainer: function(msg) {
         this.node.style.width = `${msg.radius}px`;
+        this.transform();
+    },
+
+    moveHandleRotate: function(msg) {
+        this.phi = msg.phi;
+        this.transform();
     },
 
     transform: function() {
-        this.node.style.transform = `rotate(${this.theta + this.phi}deg)`;
+        this.node.style.transform = `rotate(${-1 * this.theta + this.phi}rad)`;
     },
 
     onRotate: function(msg) {
@@ -141,6 +145,7 @@ Guide.prototype = {
     onUpdate: function(chan, msg) {
         switch(chan) {
             case Channels.MOVE_CONTAINER: this.moveContainer(msg); break;
+            case Channels.MOVE_HANDLE_ROTATE: this.moveHandleRotate(msg); break;
             case Channels.SET_MODE: this.setMode(msg); break;
         }
     },

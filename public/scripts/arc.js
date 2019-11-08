@@ -3,8 +3,7 @@ Arc = function({ appId, settings }) {
 
     this.guideThetas = [settings.theta0, settings.theta1];
     this.radius = settings.radius;
-
-    const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, this.radius);
+    this.phi = 0;
 
     this.node = document.createElementNS(ns, 'svg');
     this.node.setAttribute('class', `${appId}-arc`);
@@ -12,27 +11,27 @@ Arc = function({ appId, settings }) {
     this.node.setAttribute('width', settings.radius * 2);
 
     this.arc = document.createElementNS(ns, 'path');
-    this.arc.setAttribute('d', arcPath);
     this.arc.style.fill = settings.arcFill;
     this.arc.setAttribute('class', `${appId}-path`);
 
     this.triangle = document.createElementNS(ns, 'path');
-    this.triangle.setAttribute('d', trianglePath);
     this.triangle.style.fill = settings.arcFill;
     this.triangle.setAttribute('class', `${appId}-path`);
 
     this.node.appendChild(this.arc);
     this.node.appendChild(this.triangle);
 
+    this.refresh(...this.guideThetas, this.radius, this.phi);
+
     PubSub.subscribe(Channels.MOVE_CONTAINER, this);
     PubSub.subscribe(Channels.MOVE_GUIDE, this);
-    // PubSub.subscribe(Channels.ROTATE_MOVE, this);
+    // PubSub.subscribe(Channels.MOVE_HANDLE_ROTATE, this);
 
     return this.node;
 };
 
 Arc.prototype = {
-    buildPaths: function(theta0, theta1, radius) {
+    refresh: function(theta0, theta1, radius, phi) {
         const rX = radius;
         const rY = radius;
 
@@ -47,39 +46,36 @@ Arc.prototype = {
         const endX = rX + rX * Math.cos(theta1);
         const endY = rY - rY * Math.sin(theta1);
 
-        return {
-            arcPath: `M ${startX} ${startY} A ${rX} ${rY} 0 0 ${flip} ${endX} ${endY}`,
-            trianglePath: `M ${startX} ${startY} L ${endX} ${endY} L ${rX} ${rY} Z`
-        }
+        const arcPath = `M ${startX} ${startY} A ${rX} ${rY} 0 0 ${flip} ${endX} ${endY}`;
+        const trianglePath = `M ${startX} ${startY} L ${endX} ${endY} L ${rX} ${rY} Z`;
 
+        this.arc.setAttribute('d', arcPath);
+        this.triangle.setAttribute('d', trianglePath);
     },
 
-    onRotate: function(msg) {
-        this.node.style.transform = `rotate(${msg.phi}deg)`;
+    onMoveContainer: function(msg) {
+        this.refresh(...this.guideThetas, msg.radius, this.phi);
+
+        this.node.setAttribute('height', msg.radius * 2);
+        this.node.setAttribute('width', msg.radius * 2);
+        this.radius = msg.radius;
+    },
+
+    onMoveGuide: function(msg) {
+        this.guideThetas[msg.index] = msg.theta;
+        this.refresh(...this.guideThetas, this.radius, this.phi);
+    },
+
+    onMoveHandleRotate: function(msg) {
+        this.phi = msg.phi;
+        this.refresh(...this.guideThetas, this.radius, this.phi);
     },
 
     onUpdate: function(chan, msg) {
-        if (chan === Channels.MOVE_GUIDE) {
-            this.guideThetas[msg.index] = msg.theta;
-
-            const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, this.radius);
-            this.arc.setAttribute('d', arcPath);
-            this.triangle.setAttribute('d', trianglePath);
+        switch(chan) {
+            case Channels.MOVE_CONTAINER: this.onMoveContainer(msg); break;
+            case Channels.MOVE_GUIDE: this.onMoveGuide(msg); break;
+            case Channels.MOVE_HANDLE_ROTATE: this.onMoveHandleRotate(msg); break;
         }
-
-        if (chan === Channels.MOVE_CONTAINER) {
-            const { arcPath, trianglePath } = this.buildPaths(...this.guideThetas, msg.radius);
-
-            this.node.setAttribute('height', msg.radius * 2);
-            this.node.setAttribute('width', msg.radius * 2);
-            this.radius = msg.radius;
-
-            this.arc.setAttribute('d', arcPath);
-            this.triangle.setAttribute('d', trianglePath);
-        }
-
-        if (chan === Channels.ROTATE_MOVE) {
-            this.onRotate(msg);
-        }
-    }
+    },
 };
