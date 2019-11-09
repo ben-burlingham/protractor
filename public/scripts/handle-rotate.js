@@ -21,7 +21,7 @@ HandleRotate = function({ appId, settings, i }) {
     document.body.addEventListener('mouseenter', onMouseup);
 
     PubSub.subscribe(Channels.MOVE_CONTAINER, this);
-    // PubSub.subscribe(Channels.SET_MODE, this);
+    PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
 };
@@ -42,7 +42,6 @@ HandleRotate.prototype = {
 
     onMoveContainer: function(msg) {
         this.node.style.width = `${msg.radius}px`;
-        // this.transform();
     },
 
     onUpdate: function(chan, msg) {

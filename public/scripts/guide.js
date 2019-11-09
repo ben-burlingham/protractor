@@ -7,6 +7,8 @@ Guide = function({ appId, settings, i }) {
 
     this.phi = 0;
     this.theta = -1 * settings[`theta${i}`];
+    this.centerX = 0;
+    this.centerY = 0;
 
     this.knob = document.createElement('div');
     this.knob.className = `${appId}-guide-knob`;
@@ -105,6 +107,8 @@ Guide.prototype = {
             theta = Math.PI * 2 - theta;
         }
 
+        theta += this.phi;
+
         if (this.settings.markerSnap === true) {
             const interval = this.settings.markerInterval;
             const delta = theta % interval;
@@ -125,6 +129,8 @@ Guide.prototype = {
 
     moveContainer: function(msg) {
         this.node.style.width = `${msg.radius}px`;
+        this.centerX = msg.centerViewportX;
+        this.centerY = msg.centerViewportY;
         this.transform();
     },
 

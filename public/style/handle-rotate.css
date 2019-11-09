@@ -11,15 +11,20 @@
 }
 
 .__MSG_@@extension_id__-handle-rotate-knob {
-    background: #000;
-    border-radius: 10px;
+    background: white;
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
+    background-position: -240px -40px;
+    background-repeat: no-repeat;
+    background-size: 320px 80px;
+    border: 1px solid #000;
+    border-radius: 20px;
     box-sizing: border-box;
     cursor: move;
-    height: 20px;
+    height: 40px;
     left: 100%;
-    margin-left: 5px;
-    margin-top: -8px;
+    margin-left: -20px;
+    margin-top: -20px;
     position: absolute;
     top: 0;
-    width: 20px;
+    width: 40px;
 }
