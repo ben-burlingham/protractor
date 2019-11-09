@@ -34,7 +34,6 @@ Protractor.prototype = {
             markerInterval: options.markerInterval,
             longMarker: (options.markerLength === 'center'),
             precision: options.precision,
-            radius: 200,
             theta0: Math.PI / 4,
             theta1: 3 * Math.PI / 4,
             units: options.units

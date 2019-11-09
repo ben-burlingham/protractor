@@ -2,13 +2,11 @@ Arc = function({ appId, settings }) {
     const ns = 'http://www.w3.org/2000/svg';
 
     this.guideThetas = [settings.theta0, settings.theta1];
-    this.radius = settings.radius;
+    this.radius = 0;
     this.phi = 0;
 
     this.node = document.createElementNS(ns, 'svg');
     this.node.setAttribute('class', `${appId}-arc`);
-    this.node.setAttribute('height', settings.radius * 2);
-    this.node.setAttribute('width', settings.radius * 2);
 
     this.arc = document.createElementNS(ns, 'path');
     this.arc.style.fill = settings.arcFill;
@@ -35,7 +33,7 @@ Arc.prototype = {
         const rX = radius;
         const rY = radius;
 
-        const delta = theta1 - theta0;
+        const delta = (theta1 - theta0) % (2 * Math.PI);
 
         const flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
             ? 1

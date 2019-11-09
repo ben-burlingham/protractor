@@ -1,6 +1,7 @@
 Marker = function({ appId, settings, rad }) {
     const long = settings.longMarker ? `${appId}-marker-long` : "";
 
+    this.appId = appId;
     this.theta = rad;
     this.phi = 0;
     this.settings = settings;
@@ -46,5 +47,9 @@ Marker.prototype = {
 
     transform: function() {
         this.node.style.transform = `rotate(${this.theta + this.phi}rad)`;
-    }
+    },
+
+    setMode: function() {
+        this.node.className = (msg.mode === "lock" ? `${this.appId}-marker ${this.appId}-marker-locked` : `${this.appId}-marker`);
+    },
 };

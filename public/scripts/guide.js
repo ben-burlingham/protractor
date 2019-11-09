@@ -12,7 +12,6 @@ Guide = function({ appId, settings, i }) {
 
     this.knob = document.createElement('div');
     this.knob.className = `${appId}-guide-knob`;
-    this.knob.title = "Double click to lock/unlock";
     this.node.appendChild(this.knob);
 
     this.node.className = `${appId}-guide`;
@@ -31,7 +30,6 @@ Guide = function({ appId, settings, i }) {
     var onMousedown = this.onMousedown.bind(this, move);
     var onMouseup = this.onMouseup.bind(this, move);
 
-    this.node.addEventListener('click', this.click.bind(this));
     this.node.addEventListener('mousedown', onMousedown);
 
     document.body.addEventListener('mouseup', onMouseup);
@@ -45,35 +43,6 @@ Guide = function({ appId, settings, i }) {
 };
 
 Guide.prototype = {
-    click: function() {
-        function resetDoubleClick() {
-            clearTimeout(this.doubleClickTimer);
-            this.doubleClickTimer = null;
-        }
-
-        if (this.doubleClickTimer) {
-            resetDoubleClick.call(this);
-            this.doubleClick();
-        } else {
-            this.doubleClickTimer = setTimeout(resetDoubleClick.bind(this), 500)
-        }
-    },
-
-    doubleClick: function() {
-        if (this.locked) {
-            const classes = this.node.className.split(' ');
-            const index = classes.indexOf(`${this.appId}-guide-locked`);
-
-            classes.splice(index, 1);
-            this.node.className = classes.join(' ');
-            this.locked = false;
-        } else {
-            this.node.className = this.node.className.split(' ')
-                .concat(`${this.appId}-guide-locked`).join(' ');
-            this.locked = true;
-        }
-    },
-
     onMousedown: function(ref, evt) {
         evt.preventDefault();
         document.body.addEventListener('mousemove', ref);
@@ -158,5 +127,6 @@ Guide.prototype = {
 
     setMode: function(msg) {
         this.mode = msg.mode;
+        this.node.className = (msg.mode === "lock" ? `${this.appId}-guide ${this.appId}-guide-locked` : `${this.appId}-guide`);
     },
 };

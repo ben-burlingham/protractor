@@ -42,8 +42,12 @@ function onPrecisionChange(evt) {
     const precision = parseInt(evt.target.value);
     updatePrecision(precision);
 
+    function save() {
+        chrome.storage.sync.set({ precision });
+    }
+
     clearTimeout(timers.precision);
-    timers.precision = setTimeout(chrome.storage.sync.set.bind(null, { precision }), 200);
+    timers.precision = setTimeout(save, 200);
 }
 
 function onMarkerIntervalChange(evt) {

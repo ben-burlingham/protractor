@@ -3,6 +3,7 @@ ButtonRotate = function({ appId }) {
     this.inactiveClassname = `${appId}-button ${appId}-button-rotate`;
 
     this.node = document.createElement('div');
+    this.node.title = 'Rotate';
     this.node.className = this.inactiveClassname;
 
     this.node.addEventListener('click', (evt) => {

@@ -3,6 +3,7 @@ ButtonNudge = function({ appId }) {
     this.inactiveClassname = `${appId}-button ${appId}-button-nudge`;
 
     this.node = document.createElement('div');
+    this.node.title = "Nudge"
     this.node.className = this.inactiveClassname;
 
     this.node.addEventListener('click', (evt) => {

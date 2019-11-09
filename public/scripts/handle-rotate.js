@@ -9,6 +9,7 @@ HandleRotate = function({ appId, settings, i }) {
     this.handle.className = `${appId}-handle-rotate-knob`;
 
     this.node.className = `${appId}-handle-rotate`;
+    this.node.style.display = 'none';
     this.node.appendChild(this.handle);
 
     var move = this.move.bind(this);
@@ -106,15 +107,12 @@ HandleRotate.prototype = {
 
         PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi: this.theta });
 
-        // TODO rotate button
-        // TODO add titles to buttons
-        // TODO QA all buttons
-        // TODO kill settings radius (and others?)
-        // TODO center all SVGs (particularly nudge)
         // TODO doesn't work on images/pdf (works in dev mode though?)
-        // TODO update benburlingham.com protractor copy to say "any browser document"
-        // TODO firefox
+        // TODO remove "double click to lock/unlock" from description
+        // TODO update screenshots: PDF, YouTube, JPG, regular page. Different marker lengths/counts. Rad/deg. Precision.
         // TODO respond to reviews
+        
+        // TODO firefox
     },
 
     transform: function() {

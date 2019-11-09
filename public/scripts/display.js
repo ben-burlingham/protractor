@@ -124,5 +124,7 @@ Display.prototype = {
 
     setMode: function(msg) {
         this.mode = msg.mode;
+
+        this.node.className = (msg.mode === "lock" ? `${this.appId}-display ${this.appId}-display-locked` : `${this.appId}-display`);
     },
 };

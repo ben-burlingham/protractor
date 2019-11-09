@@ -44,7 +44,7 @@
      id="namedview4608"
      showgrid="false"
      inkscape:zoom="5.6568542"
-     inkscape:cx="236.43793"
+     inkscape:cx="244.1542"
      inkscape:cy="16.602701"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
@@ -324,7 +324,7 @@
   </g>
   <g
      id="g5375"
-     transform="scale(1.6666667)">
+     transform="matrix(1.6666667,0,0,1.6666667,1,-1)">
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
@@ -473,20 +473,24 @@
      id="path4650-1-1-3-6-5-6-2-4-8-3"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="cccc" />
-  <path
-     style="fill:#444444;fill-opacity:1;stroke:#444444;stroke-width:1.6934756px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 269.95569,73.386554 11.15583,-0.01768 -5.53599,-5.75222 z"
-     id="path4650-1-1-3-6-5-6-9"
-     inkscape:connector-curvature="0"
-     sodipodi:nodetypes="cccc" />
-  <rect
-     style="opacity:1;fill:#444444;fill-opacity:1;stroke:#444444;stroke-width:2.32078409;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     id="rect4841-4-4-7-9"
-     width="4.7533355"
-     height="1.7525371"
-     x="75.195641"
-     y="-276.21814"
-     transform="rotate(90)" />
+  <g
+     id="g4723"
+     transform="translate(-1)">
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path4650-1-1-3-6-5-6-9"
+       d="m 269.95569,73.386554 11.15583,-0.01768 -5.53599,-5.75222 z"
+       style="fill:#444444;fill-opacity:1;stroke:#444444;stroke-width:1.6934756px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <rect
+       transform="rotate(90)"
+       y="-276.21814"
+       x="75.195641"
+       height="1.7525371"
+       width="4.7533355"
+       id="rect4841-4-4-7-9"
+       style="opacity:1;fill:#444444;fill-opacity:1;stroke:#444444;stroke-width:2.32078409;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
   <path
      style="fill:#444444;fill-opacity:1;stroke:#444444;stroke-width:1.48389387px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      d="m 225.96155,90.559276 -5.19275,-8.281885 -1.70384,6.784698 z"

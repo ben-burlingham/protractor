@@ -3,6 +3,7 @@ ButtonResize = function({ appId }) {
     this.inactiveClassname = `${appId}-button ${appId}-button-resize`;
 
     this.node = document.createElement('div');
+    this.node.title = 'Resize';
     this.node.className = this.inactiveClassname;
 
     this.node.addEventListener('click', (evt) => {

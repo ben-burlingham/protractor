@@ -2,7 +2,6 @@ Circle = function({ appId, settings }) {
     this.appId = appId;
     this.node = document.createElement('div');
     this.node.className = `${appId}-circle`;
-    this.node.style.borderRadius = `${settings.radius}px`;
     this.node.style.backgroundColor = settings.circleFill;
 
     var move = this.move.bind(this);

@@ -9,11 +9,6 @@
     z-index: 99;
 }
 
-.__MSG_@@extension_id__-guide.__MSG_@@extension_id__-guide-locked {
-    background: #c31212;
-    border-right-color: #c31212;
-}
-
 .__MSG_@@extension_id__-guide-knob {
     background-repeat: no-repeat;
     background-size: 64px 16px;
@@ -31,6 +26,5 @@
 }
 
 .__MSG_@@extension_id__-guide-locked .__MSG_@@extension_id__-guide-knob {
-    background: #c31012;
-    cursor: not-allowed;
+    cursor: default;
 }

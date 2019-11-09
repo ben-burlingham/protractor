@@ -13,8 +13,9 @@
     z-index: 100;
 }
 
-.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked {
-    cursor: not-allowed;
+.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked,
+.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked * {
+    cursor: default;
 }
 
 .__MSG_@@extension_id__-display-delta-a {
