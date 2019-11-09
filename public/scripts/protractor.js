@@ -2,6 +2,8 @@ Protractor = function({ appId }) {
     this.appId = appId;
     this.timer = null;
 
+    // chrome.storage.sync.clear();
+
     chrome.storage.sync.get({
         arcFill: 'rgba(50, 243, 150, 0.1)',
         circleFill: 'rgba(200, 200, 200, 0.03)',
@@ -9,7 +11,7 @@ Protractor = function({ appId }) {
         guide0Fill: 'rgba(46,198,86,1)',
         guide1Fill: 'rgba(0,0,255,1)',
         markerFill: 'rgba(160, 160, 160, 1)',
-        markerLabels: false,
+        markerLabels: true,
         markerLength: 'center',
         markerSnap: true,
         markerInterval: Math.PI / 6,

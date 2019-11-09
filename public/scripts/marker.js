@@ -2,7 +2,7 @@ Marker = function({ appId, settings, rad }) {
     const long = settings.longMarker ? `${appId}-marker-long` : "";
 
     this.appId = appId;
-    this.theta = rad;
+    this.theta = rad - Math.PI / 2;
     this.phi = 0;
     this.settings = settings;
 

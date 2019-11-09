@@ -106,13 +106,6 @@ HandleRotate.prototype = {
         this.transform();
 
         PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi: this.theta });
-
-        // TODO doesn't work on images/pdf (works in dev mode though?)
-        // TODO remove "double click to lock/unlock" from description
-        // TODO update screenshots: PDF, YouTube, JPG, regular page. Different marker lengths/counts. Rad/deg. Precision.
-        // TODO respond to reviews
-        
-        // TODO firefox
     },
 
     transform: function() {
