@@ -6,23 +6,23 @@ Guide = function({ appId, settings, i }) {
     this.locked = false;
 
     this.phi = 0;
-    this.theta = settings[`theta${i}`];
+    this.theta = -1 * settings[`theta${i}`];
 
-    this.handle = document.createElement('div');
-    this.handle.className = `${appId}-guide-handle`;
-    this.handle.title = "Double click to lock/unlock";
-    this.node.appendChild(this.handle);
+    this.knob = document.createElement('div');
+    this.knob.className = `${appId}-guide-knob`;
+    this.knob.title = "Double click to lock/unlock";
+    this.node.appendChild(this.knob);
 
     this.node.className = `${appId}-guide`;
 
     if (i === 0) {
         this.node.style.backgroundColor = settings.guide0Fill;
         this.node.style.borderRightColor = settings.guide0Fill;
-        this.handle.style.borderColor = settings.guide0Fill;
+        this.knob.style.borderColor = settings.guide0Fill;
     } else {
         this.node.style.backgroundColor = settings.guide1Fill;
         this.node.style.borderRightColor = settings.guide1Fill;
-        this.handle.style.borderColor = settings.guide1Fill;
+        this.knob.style.borderColor = settings.guide1Fill;
     }
 
     var move = this.move.bind(this);
@@ -134,7 +134,7 @@ Guide.prototype = {
     },
 
     transform: function() {
-        this.node.style.transform = `rotate(${-1 * this.theta + this.phi}rad)`;
+        this.node.style.transform = `rotate(${this.theta + this.phi}rad)`;
     },
 
     onRotate: function(msg) {

@@ -25,7 +25,7 @@ Arc = function({ appId, settings }) {
 
     PubSub.subscribe(Channels.MOVE_CONTAINER, this);
     PubSub.subscribe(Channels.MOVE_GUIDE, this);
-    // PubSub.subscribe(Channels.MOVE_HANDLE_ROTATE, this);
+    PubSub.subscribe(Channels.MOVE_HANDLE_ROTATE, this);
 
     return this.node;
 };
@@ -41,10 +41,10 @@ Arc.prototype = {
             ? 1
             : 0;
 
-        const startX = rX + rX * Math.cos(theta0);
-        const startY = rY - rY * Math.sin(theta0);
-        const endX = rX + rX * Math.cos(theta1);
-        const endY = rY - rY * Math.sin(theta1);
+        const startX = rX + rX * Math.cos(theta0 - phi);
+        const startY = rY - rY * Math.sin(theta0 - phi);
+        const endX = rX + rX * Math.cos(theta1 - phi);
+        const endY = rY - rY * Math.sin(theta1 - phi);
 
         const arcPath = `M ${startX} ${startY} A ${rX} ${rY} 0 0 ${flip} ${endX} ${endY}`;
         const trianglePath = `M ${startX} ${startY} L ${endX} ${endY} L ${rX} ${rY} Z`;

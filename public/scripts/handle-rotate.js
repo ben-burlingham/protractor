@@ -1,26 +1,27 @@
 HandleRotate = function({ appId, settings, i }) {
+    this.node = document.createElement('div');
+    this.appId = appId;
     this.settings = settings;
 
-    this.node = document.createElement('div');
-    this.node.className = `${appId}-handle-rotate ${appId}-handle-rotate-${i}`;
-    this.node.style.display = 'none';
-    this.node.setAttribute('data-index', i);
+    this.phi = 0;
 
-    this.dragstartTheta = 0;
-    this.centerViewportX = 0;
-    this.centerViewportY = 0;
-    this.rotation = 0;
+    this.handle = document.createElement('div');
+    this.handle.className = `${appId}-handle-rotate-knob`;
+
+    this.node.className = `${appId}-handle-rotate`;
+    this.node.appendChild(this.handle);
 
     var move = this.move.bind(this);
     var onMousedown = this.onMousedown.bind(this, move);
     var onMouseup = this.onMouseup.bind(this, move);
 
     this.node.addEventListener('mousedown', onMousedown);
+
     document.body.addEventListener('mouseup', onMouseup);
     document.body.addEventListener('mouseenter', onMouseup);
 
     PubSub.subscribe(Channels.MOVE_CONTAINER, this);
-    PubSub.subscribe(Channels.SET_MODE, this);
+    // PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
 };
@@ -40,17 +41,8 @@ HandleRotate.prototype = {
     },
 
     onMoveContainer: function(msg) {
-        this.centerViewportX = msg.centerViewportX;
-        this.centerViewportY = msg.centerViewportY;
-        this.radius = msg.radius;
-
-        const t = 40;
-
-        this.node.style.width = `${2 * msg.radius - 2 * t}px`;
-        this.node.style.height = `${2 * msg.radius - 2 * t}px`;
-        this.node.style.left = `${msg.centerRelativeX - msg.radius + t}px`;
-        this.node.style.top = `${msg.centerRelativeY - msg.radius + t}px`;
-        this.node.style.borderRadius = `${msg.radius}px`;
+        this.node.style.width = `${msg.radius}px`;
+        // this.transform();
     },
 
     onUpdate: function(chan, msg) {
@@ -81,20 +73,42 @@ HandleRotate.prototype = {
         evt.stopPropagation();
         evt.preventDefault();
 
-        if (this.locked) {
-            return;
+
+        const bounds = this.node.parentNode.getBoundingClientRect();
+
+        const centerX = bounds.left + bounds.width / 2;
+        const centerY = bounds.top + bounds.height / 2;
+
+        let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
+
+        if (evt.clientX < centerX && evt.clientY > centerY) {
+            theta = Math.PI + theta;
+        } else if (evt.clientX < centerX) {
+            theta = Math.PI - theta;
+        } else if (evt.clientY > centerY) {
+            theta = Math.PI * 2 - theta;
         }
 
-        const theta = this.getTheta(evt.pageX, evt.pageY)
-        const delta = theta - this.dragstartTheta;
+        if (this.settings.markerSnap === true) {
+            const interval = this.settings.markerInterval;
+            const delta = theta % interval;
+            const lowerBound = 0.03;
+            const upperBound = this.settings.markerInterval - 0.03;
 
-        this.rotation += -0.01//delta;
-        //console.log(this.dragstartTheta * 180 / Math.PI, theta * 180 / Math.PI, delta * 180 / Math.PI)
+            if (delta < lowerBound) {
+                theta -= delta;
+            } else if (delta > upperBound) {
+                theta += (interval - delta);
+            }
+        }
 
-        PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi: this.rotation });
+        this.theta = -1 * theta;
+        this.transform();
+
+        PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi: this.theta });
 
         // TODO rotate button
-        // TODO rotate buttons to inside, follow mouse
+        // TODO add titles to buttons
         // TODO QA all buttons
         // TODO kill settings radius (and others?)
         // TODO center all SVGs (particularly nudge)
@@ -102,6 +116,10 @@ HandleRotate.prototype = {
         // TODO update benburlingham.com protractor copy to say "any browser document"
         // TODO firefox
         // TODO respond to reviews
+    },
+
+    transform: function() {
+        this.node.style.transform = `rotate(${this.theta + this.phi}rad)`;
     },
 
     setMode: function(msg) {
