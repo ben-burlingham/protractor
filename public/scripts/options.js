@@ -34,6 +34,7 @@ function updateMarkerInterval(interval, units) {
         ? `${Math.round(deg * 100) / 100}&deg;`
         : `${Math.round(rad * 100) / 100} rad`);
 
+    document.getElementById('marker-interval-slider').value = intervals.indexOf(rad);
     document.getElementById('marker-interval-value').innerHTML = str;
 }
 
@@ -220,10 +221,8 @@ function restore() {
         units: 'deg'
     }, ({ precision, markerFill, markerLabels, markerLength, markerSnap, markerInterval, displayFill, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
         updatePrecision(precision);
-        document.getElementById('precision-slider').value = precision;
 
         updateMarkerInterval(markerInterval, units);
-        document.getElementById('marker-interval-slider').value = markerInterval;
 
         const form = document['options-form'];
         form.units.value = units;
