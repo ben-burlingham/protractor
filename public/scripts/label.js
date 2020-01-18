@@ -55,9 +55,11 @@ Label.prototype = {
         const x = this.centerRelativeX - w / 2;
         const y = this.centerRelativeY - h / 2;
 
+        // FLIP: this.node.style.left = (x - (this.radius - 20) * Math.cos(this.rad + this.phi)) + 'px';
         this.node.style.left = (x + (this.radius - 20) * Math.cos(this.rad + this.phi)) + 'px';
-        this.node.style.top = (y + (this.radius - 20) * Math.sin(this.rad + this.phi)) + 'px';
+        this.node.style.top = (y - (this.radius - 20) * Math.sin(this.rad + this.phi)) + 'px';
+        // this.node.style.top = (y + (this.radius - 20) * Math.sin(this.rad + this.phi)) + 'px';
 
-        this.node.style.transform = `rotate(${this.phi + this.rad + Math.PI / 2}rad)`;
+        // this.node.style.transform = `rotate(${this.phi + this.rad + Math.PI / 2}rad)`;
     },
 };

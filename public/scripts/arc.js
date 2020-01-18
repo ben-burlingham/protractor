@@ -35,14 +35,27 @@ Arc.prototype = {
 
         const delta = (theta1 - theta0) % (2 * Math.PI);
 
+        // CW
         const flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
-            ? 1
-            : 0;
+            ? 0
+            : 1;
 
+        // CCW
+        // const flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
+        //     ? 1
+        //     : 0;
+
+        // CW
         const startX = rX + rX * Math.cos(theta0 - phi);
-        const startY = rY - rY * Math.sin(theta0 - phi);
+        const startY = rY + rY * Math.sin(theta0 - phi);
         const endX = rX + rX * Math.cos(theta1 - phi);
-        const endY = rY - rY * Math.sin(theta1 - phi);
+        const endY = rY + rY * Math.sin(theta1 - phi);
+
+        // CCW
+        // const startX = rX + rX * Math.cos(theta0 - phi);
+        // const startY = rY - rY * Math.sin(theta0 - phi);
+        // const endX = rX + rX * Math.cos(theta1 - phi);
+        // const endY = rY - rY * Math.sin(theta1 - phi);
 
         const arcPath = `M ${startX} ${startY} A ${rX} ${rY} 0 0 ${flip} ${endX} ${endY}`;
         const trianglePath = `M ${startX} ${startY} L ${endX} ${endY} L ${rX} ${rY} Z`;

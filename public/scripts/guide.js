@@ -5,8 +5,10 @@ Guide = function({ appId, settings, i }) {
     this.index = i;
     this.locked = false;
 
+    // -1 here because CSS transforms clockwise.
+    this.theta = settings[`theta${i}`];
+    // this.theta = -1 * settings[`theta${i}`];
     this.phi = 0;
-    this.theta = -1 * settings[`theta${i}`];
     this.centerX = 0;
     this.centerY = 0;
 
@@ -67,14 +69,24 @@ Guide.prototype = {
         const centerY = bounds.top + bounds.height / 2;
 
         let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
-
-        if (evt.clientX < centerX && evt.clientY > centerY) {
+        
+        // CW
+        if (evt.clientX > centerX && evt.clientY < centerY) {
+            theta = Math.PI * 2 - theta;
+        } else if (evt.clientY < centerY) {
             theta = Math.PI + theta;
         } else if (evt.clientX < centerX) {
             theta = Math.PI - theta;
-        } else if (evt.clientY > centerY) {
-            theta = Math.PI * 2 - theta;
-        }
+        } 
+
+        // CCW
+        // if (evt.clientX < centerX && evt.clientY > centerY) {
+        //     theta = Math.PI + theta;
+        // } else if (evt.clientX < centerX) {
+        //     theta = Math.PI - theta;
+        // } else if (evt.clientY > centerY) {
+        //     theta = Math.PI * 2 - theta;
+        // }
 
         theta += this.phi;
 
@@ -91,7 +103,8 @@ Guide.prototype = {
             }
         }
 
-        this.theta = -1 * theta;
+        // this.theta = -1 * theta;
+        this.theta = theta;
         this.transform();
         PubSub.emit(Channels.MOVE_GUIDE, { index: this.index, theta });
     },
