@@ -75,7 +75,7 @@ Protractor.prototype = {
         this.container.appendChild(new Guide({ appId, settings, i: 0 }));
         this.container.appendChild(new Guide({ appId, settings, i: 1 }));
 
-        // this.container.appendChild(new Arc({ appId, settings }));
+        this.container.appendChild(new Arc({ appId, settings }));
 
         // Resize handles
         this.container.appendChild(new HandleResize({ appId, settings, i: 0 }));

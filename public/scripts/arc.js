@@ -1,7 +1,6 @@
 Arc = function({ appId, settings }) {
     const ns = 'http://www.w3.org/2000/svg';
 
-    this.settings = settings;
     this.guideThetas = [settings.theta0, settings.theta1];
     this.radius = 0;
     this.phi = 0;
@@ -36,33 +35,15 @@ Arc.prototype = {
 
         const delta = (theta1 - theta0) % (2 * Math.PI);
 
-        let flip;
-        let startX;
-        let startY;
-        let endX;
-        let endY;
-
-        if (this.settings.rotation === 'ccw') {
-            flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
+        const flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
                 ? 0
                 : 1;
-        } else {
-            flip = (delta > Math.PI || (delta < 0 && delta > -Math.PI))
-                ? 1
-                : 0;
-        }
 
-        if (this.settings.rotation === 'ccw') {
-            startX = rX + rX * Math.cos(theta0 - phi);
-            startY = rY + rY * Math.sin(theta0 - phi);
-            endX = rX + rX * Math.cos(theta1 - phi);
-            endY = rY + rY * Math.sin(theta1 - phi);
-        } else {
-            startX = rX + rX * Math.cos(theta0 - phi);
-            startY = rY - rY * Math.sin(theta0 - phi);
-            endX = rX + rX * Math.cos(theta1 - phi);
-            endY = rY - rY * Math.sin(theta1 - phi);
-        }
+        const startX = rX + rX * Math.cos(theta0 - phi);
+        const startY = rY + rY * Math.sin(theta0 - phi);
+        const endX = rX + rX * Math.cos(theta1 - phi);
+        const endY = rY + rY * Math.sin(theta1 - phi);
+        
         
         const arcPath = `M ${startX} ${startY} A ${rX} ${rY} 0 0 ${flip} ${endX} ${endY}`;
         const trianglePath = `M ${startX} ${startY} L ${endX} ${endY} L ${rX} ${rY} Z`;
@@ -85,10 +66,7 @@ Arc.prototype = {
     },
 
     onMoveHandleRotate: function(msg) {
-        this.phi = (this.settings.rotation === "ccw" 
-            ? (-1 * msg.phi)
-            : msg.phi 
-        );
+        this.phi = msg.phi 
 
         this.refresh(...this.guideThetas, this.radius, this.phi);
     },
