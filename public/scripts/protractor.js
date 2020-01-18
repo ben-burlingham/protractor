@@ -93,7 +93,7 @@ Protractor.prototype = {
         this.show();
 
         //////////////// TEMPORARY
-        // PubSub.emit(Channels.SET_MODE, { mode: 'rotate' });
+        PubSub.emit(Channels.SET_MODE, { mode: 'rotate' });
         //////////////// TEMPORARY
     },
 

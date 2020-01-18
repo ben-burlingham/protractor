@@ -97,41 +97,23 @@ Guide.prototype = {
         const centerX = bounds.left + bounds.width / 2;
         const centerY = bounds.top + bounds.height / 2;
 
-        // // Must account for global rotation.
-        // let evtTheta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
-
-        // // Bottom left quadrant
-        // if (evt.clientX < centerX && evt.clientY > centerY) {
-        //     evtTheta = Math.PI - evtTheta;
-        // } 
-        // // Top left quadrant
-        // else if (evt.clientX < centerX) {
-        //     evtTheta = Math.PI + evtTheta;
-        // } 
-        // // Top right quadrant
-        // else if (evt.clientY < centerY) {
-        //     evtTheta = Math.PI * 2 - evtTheta;
-        // }
-
-
-
-
-        // console.log(evtTheta + this.phi)
-
-        let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
+        // Must account for global rotation.
+        let evtTheta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
 
         // Bottom left quadrant
         if (evt.clientX < centerX && evt.clientY > centerY) {
-            theta = Math.PI - theta;
+            evtTheta = Math.PI - evtTheta;
         } 
         // Top left quadrant
         else if (evt.clientX < centerX) {
-            theta = Math.PI + theta;
+            evtTheta = Math.PI + evtTheta;
         } 
         // Top right quadrant
         else if (evt.clientY < centerY) {
-            theta = Math.PI * 2 - theta;
+            evtTheta = Math.PI * 2 - evtTheta;
         }
+
+        let theta = (evtTheta - this.phi) % (2 * Math.PI);
 
         if (this.settings.markerSnap === true) {
             const interval = this.settings.markerInterval;
@@ -145,8 +127,6 @@ Guide.prototype = {
                 theta += (interval - delta);
             }
         }
-
-        // console.log(theta)
 
         this.theta = theta;
         this.transform();
@@ -168,8 +148,7 @@ Guide.prototype = {
     },
 
     transform: function() {
-        const rot = (this.theta + this.phi) % (Math.PI * 2);
-        
+        const rot = (this.phi + this.theta) % (Math.PI * 2);
         this.node.style.transform = `rotate(${rot}rad)`;
     },
 
