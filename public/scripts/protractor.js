@@ -16,6 +16,7 @@ Protractor = function({ appId }) {
         markerSnap: true,
         markerInterval: Math.PI / 6,
         precision: 1,
+        rotation: 'ccw',
         units: 'deg'
     }, this.build.bind(this));
 };
@@ -36,6 +37,7 @@ Protractor.prototype = {
             markerInterval: options.markerInterval,
             longMarker: (options.markerLength === 'center'),
             precision: options.precision,
+            rotation: options.rotation,
             theta0: Math.PI / 4,
             theta1: 3 * Math.PI / 4,
             units: options.units

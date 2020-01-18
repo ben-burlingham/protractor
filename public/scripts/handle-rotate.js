@@ -81,28 +81,38 @@ HandleRotate.prototype = {
 
         let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
 
-        if (evt.clientX < centerX && evt.clientY > centerY) {
-            theta = Math.PI + theta;
-        } else if (evt.clientX < centerX) {
-            theta = Math.PI - theta;
-        } else if (evt.clientY > centerY) {
-            theta = Math.PI * 2 - theta;
+        if (this.settings.rotation === "ccw") {
+            if (evt.clientX > centerX && evt.clientY < centerY) {
+                theta = Math.PI * 2 - theta;
+            } else if (evt.clientY < centerY) {
+                theta = Math.PI + theta;
+            } else if (evt.clientX < centerX) {
+                theta = Math.PI - theta;
+            } 
+        } else {
+            if (evt.clientX < centerX && evt.clientY > centerY) {
+                theta = Math.PI + theta;
+            } else if (evt.clientX < centerX) {
+                theta = Math.PI - theta;
+            } else if (evt.clientY > centerY) {
+                theta = Math.PI * 2 - theta;
+            } 
         }
 
-        if (this.settings.markerSnap === true) {
-            const interval = this.settings.markerInterval;
-            const delta = theta % interval;
-            const lowerBound = 0.03;
-            const upperBound = this.settings.markerInterval - 0.03;
+        // if (this.settings.markerSnap === true) {
+        //     const interval = this.settings.markerInterval;
+        //     const delta = theta % interval;
+        //     const lowerBound = 0.03;
+        //     const upperBound = this.settings.markerInterval - 0.03;
 
-            if (delta < lowerBound) {
-                theta -= delta;
-            } else if (delta > upperBound) {
-                theta += (interval - delta);
-            }
-        }
+        //     if (delta < lowerBound) {
+        //         theta -= delta;
+        //     } else if (delta > upperBound) {
+        //         theta += (interval - delta);
+        //     }
+        // }
 
-        this.theta = -1 * theta;
+        this.theta = (this.settings.rotation === "ccw" ? theta : (-1 * theta));
         this.transform();
 
         PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi: this.theta });

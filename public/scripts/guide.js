@@ -70,38 +70,39 @@ Guide.prototype = {
 
         let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
         
-        // CW
-        if (evt.clientX > centerX && evt.clientY < centerY) {
-            theta = Math.PI * 2 - theta;
-        } else if (evt.clientY < centerY) {
-            theta = Math.PI + theta;
-        } else if (evt.clientX < centerX) {
-            theta = Math.PI - theta;
-        } 
-
-        // CCW
-        // if (evt.clientX < centerX && evt.clientY > centerY) {
-        //     theta = Math.PI + theta;
-        // } else if (evt.clientX < centerX) {
-        //     theta = Math.PI - theta;
-        // } else if (evt.clientY > centerY) {
-        //     theta = Math.PI * 2 - theta;
-        // }
-
-        theta += this.phi;
-
-        if (this.settings.markerSnap === true) {
-            const interval = this.settings.markerInterval;
-            const delta = theta % interval;
-            const lowerBound = 0.03;
-            const upperBound = this.settings.markerInterval - 0.03;
-
-            if (delta < lowerBound) {
-                theta -= delta;
-            } else if (delta > upperBound) {
-                theta += (interval - delta);
-            }
+        if (this.settings.rotation === "ccw") {
+            if (evt.clientX > centerX && evt.clientY < centerY) {
+                theta = Math.PI * 2 - theta;
+            } else if (evt.clientY < centerY) {
+                theta = Math.PI + theta;
+            } else if (evt.clientX < centerX) {
+                theta = Math.PI - theta;
+            } 
+        } else {
+            if (evt.clientX < centerX && evt.clientY > centerY) {
+                theta = Math.PI + theta;
+            } else if (evt.clientX < centerX) {
+                theta = Math.PI - theta;
+            } else if (evt.clientY > centerY) {
+                theta = Math.PI * 2 - theta;
+            } 
         }
+
+        // theta += this.phi;
+        theta -= this.phi;
+
+        // if (this.settings.markerSnap === true) {
+        //     const interval = this.settings.markerInterval;
+        //     const delta = theta % interval;
+        //     const lowerBound = 0.03;
+        //     const upperBound = this.settings.markerInterval - 0.03;
+
+        //     if (delta < lowerBound) {
+        //         theta -= delta;
+        //     } else if (delta > upperBound) {
+        //         theta += (interval - delta);
+        //     }
+        // }
 
         // this.theta = -1 * theta;
         this.theta = theta;
