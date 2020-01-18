@@ -23,11 +23,7 @@ Display = function({ appId, settings }) {
 
     this.guideThetas = [settings.theta0, settings.theta1];
 
-    const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
-        ...this.guideThetas,
-        this.settings.units,
-        this.settings.precision
-    );
+    const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(...this.guideThetas);
 
     this.deltaA.innerHTML = deltaA;
     this.deltaB.innerHTML = deltaB;
@@ -72,7 +68,22 @@ Display.prototype = {
         }
     },
 
-    buildFormattedStrings: function(theta0, theta1, units, precision) {
+    buildFormattedStrings: function(theta0, theta1) {
+        const { precision, rotation, units } = this.settings;
+
+        if (rotation === "ccw") {
+            theta0 = (2 * Math.PI) - theta0;
+            theta1 = (2 * Math.PI) - theta1;
+        }
+
+        if (theta0 === (2 * Math.PI)) {
+            theta0 = 0;
+        }
+
+        if (theta1 === (2 * Math.PI)) {
+            theta0 = 0;
+        }
+
         const diff = Math.max(theta0, theta1) - Math.min(theta0, theta1);
         const a = diff % (Math.PI * 2);
         const b = Math.PI * 2 - a;
@@ -110,11 +121,7 @@ Display.prototype = {
     refresh: function(msg) {
         this.guideThetas[msg.index] = msg.theta;
 
-        const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(
-            ...this.guideThetas,
-            this.settings.units,
-            this.settings.precision
-        );
+        const { sub0, sub1, deltaA, deltaB } = this.buildFormattedStrings(...this.guideThetas);
 
         this.deltaA.innerHTML = deltaA;
         this.deltaB.innerHTML = deltaB;

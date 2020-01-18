@@ -97,9 +97,28 @@ Guide.prototype = {
         const centerX = bounds.left + bounds.width / 2;
         const centerY = bounds.top + bounds.height / 2;
 
-        let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
+        // // Must account for global rotation.
+        // let evtTheta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
 
-        // there's display theta, and base theta
+        // // Bottom left quadrant
+        // if (evt.clientX < centerX && evt.clientY > centerY) {
+        //     evtTheta = Math.PI - evtTheta;
+        // } 
+        // // Top left quadrant
+        // else if (evt.clientX < centerX) {
+        //     evtTheta = Math.PI + evtTheta;
+        // } 
+        // // Top right quadrant
+        // else if (evt.clientY < centerY) {
+        //     evtTheta = Math.PI * 2 - evtTheta;
+        // }
+
+
+
+
+        // console.log(evtTheta + this.phi)
+
+        let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
 
         // Bottom left quadrant
         if (evt.clientX < centerX && evt.clientY > centerY) {
@@ -127,11 +146,13 @@ Guide.prototype = {
             }
         }
 
+        // console.log(theta)
+
         this.theta = theta;
         this.transform();
 
         // Always emit angles CW between 0 and Θ ➝ lim(2π)
-        // PubSub.emit(Channels.MOVE_GUIDE, { index: this.index, theta });
+        PubSub.emit(Channels.MOVE_GUIDE, { index: this.index, theta });
     },
 
     moveContainer: function(msg) {

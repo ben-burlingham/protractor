@@ -39,8 +39,8 @@ Protractor.prototype = {
             longMarker: (options.markerLength === 'center'),
             precision: options.precision,
             rotation: options.rotation,
-            theta0: Math.PI / 4,
-            theta1: 3 * Math.PI / 4,
+            theta0: options.rotation === "ccw" ? (7 * Math.PI / 4) : (Math.PI / 4),
+            theta1: options.rotation === "ccw" ? (5 * Math.PI / 4) : (3 * Math.PI / 4),
             units: options.units
         };
 
@@ -70,10 +70,10 @@ Protractor.prototype = {
 
         // Display, guides, arc
         this.display = new Display({ appId, settings });
-        // this.container.appendChild(this.display);
+        this.container.appendChild(this.display);
 
         this.container.appendChild(new Guide({ appId, settings, i: 0 }));
-        // this.container.appendChild(new Guide({ appId, settings, i: 1 }));
+        this.container.appendChild(new Guide({ appId, settings, i: 1 }));
 
         // this.container.appendChild(new Arc({ appId, settings }));
 
@@ -93,7 +93,7 @@ Protractor.prototype = {
         this.show();
 
         //////////////// TEMPORARY
-        PubSub.emit(Channels.SET_MODE, { mode: 'rotate' });
+        // PubSub.emit(Channels.SET_MODE, { mode: 'rotate' });
         //////////////// TEMPORARY
     },
 
