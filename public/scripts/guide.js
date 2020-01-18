@@ -97,7 +97,6 @@ Guide.prototype = {
         const centerX = bounds.left + bounds.width / 2;
         const centerY = bounds.top + bounds.height / 2;
 
-        // Must account for global rotation.
         let evtTheta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
 
         // Bottom left quadrant
@@ -113,7 +112,8 @@ Guide.prototype = {
             evtTheta = Math.PI * 2 - evtTheta;
         }
 
-        let theta = (evtTheta - this.phi) % (2 * Math.PI);
+        // Must account for global rotation. Base formula: Θevt - Φ = Θguide
+        let theta = ((2 * Math.PI) + (evtTheta - this.phi)) % (2 * Math.PI);
 
         if (this.settings.markerSnap === true) {
             const interval = this.settings.markerInterval;
