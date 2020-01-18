@@ -13,6 +13,7 @@ Guide = function({ appId, settings, i }) {
     this.centerY = 0;
 
     this.knob = document.createElement('div');
+    this.knob.title = "Double click to lock/unlock";
     this.knob.className = `${appId}-guide-knob`;
     this.node.appendChild(this.knob);
 
@@ -33,6 +34,7 @@ Guide = function({ appId, settings, i }) {
     var onMouseup = this.onMouseup.bind(this, move);
 
     this.node.addEventListener('mousedown', onMousedown);
+    this.node.addEventListener('click', this.click.bind(this));
 
     document.body.addEventListener('mouseup', onMouseup);
     document.body.addEventListener('mouseenter', onMouseup);
@@ -45,6 +47,35 @@ Guide = function({ appId, settings, i }) {
 };
 
 Guide.prototype = {
+    click: function() {
+        function resetDoubleClick() {
+            clearTimeout(this.doubleClickTimer);
+            this.doubleClickTimer = null;
+        }
+
+        if (this.doubleClickTimer) {
+            resetDoubleClick.call(this);
+            this.doubleClick();
+        } else {
+            this.doubleClickTimer = setTimeout(resetDoubleClick.bind(this), 500)
+        }
+    },
+
+    doubleClick: function() {
+        if (this.locked) {
+            const classes = this.node.className.split(' ');
+            const index = classes.indexOf(`${this.appId}-guide-locked`);
+
+            classes.splice(index, 1);
+            this.node.className = classes.join(' ');
+            this.locked = false;
+        } else {
+            this.node.className = this.node.className.split(' ')
+                .concat(`${this.appId}-guide-locked`).join(' ');
+            this.locked = true;
+        }
+    },
+
     onMousedown: function(ref, evt) {
         evt.preventDefault();
         document.body.addEventListener('mousemove', ref);
@@ -78,6 +109,8 @@ Guide.prototype = {
             } else if (evt.clientX < centerX) {
                 theta = Math.PI - theta;
             } 
+
+            theta -= this.phi;
         } else {
             if (evt.clientX < centerX && evt.clientY > centerY) {
                 theta = Math.PI + theta;
@@ -86,26 +119,27 @@ Guide.prototype = {
             } else if (evt.clientY > centerY) {
                 theta = Math.PI * 2 - theta;
             } 
+
+            theta += this.phi;
         }
-
-        // theta += this.phi;
-        theta -= this.phi;
-
+        
         // if (this.settings.markerSnap === true) {
         //     const interval = this.settings.markerInterval;
         //     const delta = theta % interval;
         //     const lowerBound = 0.03;
         //     const upperBound = this.settings.markerInterval - 0.03;
 
-        //     if (delta < lowerBound) {
+        //     if (this.settings.rotation === 'ccw' && delta < lowerBound) {
         //         theta -= delta;
-        //     } else if (delta > upperBound) {
+        //     } else if (this.settings.rotation === 'ccw' && delta > upperBound) {
         //         theta += (interval - delta);
         //     }
         // }
 
-        // this.theta = -1 * theta;
-        this.theta = theta;
+        this.theta = (this.settings.rotation === "ccw" 
+            ? theta
+            : (-1 * theta));
+
         this.transform();
         PubSub.emit(Channels.MOVE_GUIDE, { index: this.index, theta });
     },

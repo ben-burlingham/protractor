@@ -26,5 +26,6 @@
 }
 
 .__MSG_@@extension_id__-guide-locked .__MSG_@@extension_id__-guide-knob {
+    background: red;
     cursor: default;
 }

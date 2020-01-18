@@ -16,7 +16,7 @@ Protractor = function({ appId }) {
         markerSnap: true,
         markerInterval: Math.PI / 6,
         precision: 1,
-        rotation: 'ccw',
+        rotation: 'cw',
         units: 'deg'
     }, this.build.bind(this));
 };
