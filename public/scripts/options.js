@@ -190,6 +190,11 @@ function onUnitsChange(evt) {
         ({ markerInterval }) => updateMarkerInterval(markerInterval, units));
 }
 
+function onRotationChange(evt) {
+    const rotation = evt.target.value;
+    chrome.storage.sync.set({ rotation });
+}
+
 function onMarkerLabelsChange(evt) {
     const markerLabels = evt.target.value;
     chrome.storage.sync.set({ markerLabels });
@@ -218,14 +223,16 @@ function restore() {
         markerSnap: true,
         markerInterval: Math.PI / 6,
         precision: 1,
+        rotation: 'ccw',
         units: 'deg'
-    }, ({ precision, markerFill, markerLabels, markerLength, markerSnap, markerInterval, displayFill, circleFill, arcFill, guide0Fill, guide1Fill, units }) => {
+    }, ({ precision, markerFill, markerLabels, markerLength, markerSnap, markerInterval, displayFill, circleFill, arcFill, guide0Fill, guide1Fill, units, rotation }) => {
         updatePrecision(precision);
 
         updateMarkerInterval(markerInterval, units);
 
         const form = document['options-form'];
         form.units.value = units;
+        form.rotation.value = rotation;
         form.markerLabels.value = markerLabels;
         form.markerLength.value = markerLength;
         form.markerSnap.value = markerSnap;
@@ -281,6 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.units[0].addEventListener('change', onUnitsChange);
     form.units[1].addEventListener('change', onUnitsChange);
+
+    form.rotation[0].addEventListener('change', onRotationChange);
+    form.rotation[1].addEventListener('change', onRotationChange);
 
     form.markerLabels[0].addEventListener('change', onMarkerLabelsChange);
     form.markerLabels[1].addEventListener('change', onMarkerLabelsChange);

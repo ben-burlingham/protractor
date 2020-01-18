@@ -1,6 +1,7 @@
 .__MSG_@@extension_id__-marker {
     background: 0;;
     box-sizing: border-box;
+    cursor: move;
     left: 50%;
     position: absolute;
     transform-origin: 0.5px 0;

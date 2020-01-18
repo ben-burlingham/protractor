@@ -2,6 +2,7 @@ Protractor = function({ appId }) {
     this.appId = appId;
     this.timer = null;
 
+    // Dev only!
     // chrome.storage.sync.clear();
 
     chrome.storage.sync.get({
@@ -16,7 +17,7 @@ Protractor = function({ appId }) {
         markerSnap: true,
         markerInterval: Math.PI / 6,
         precision: 1,
-        rotation: 'cw',
+        rotation: 'ccw',
         units: 'deg'
     }, this.build.bind(this));
 };
@@ -61,27 +62,27 @@ Protractor.prototype = {
         // Circle, markers
         this.container.appendChild(new Circle({ appId, settings }));
 
-        for (let rad = 0; rad < 2 * Math.PI; rad += settings.markerInterval) {
+        const upperlimit = (2 * Math.PI) - 0.0001; // Numeric precision correction
+        for (let rad = 0; rad < upperlimit; rad += settings.markerInterval) {
             this.container.appendChild(new Marker({ appId, settings, rad }));
             this.container.appendChild(new Label({ appId, settings, rad }));
         }
 
         // Display, guides, arc
         this.display = new Display({ appId, settings });
-        this.container.appendChild(this.display);
+        // this.container.appendChild(this.display);
 
         this.container.appendChild(new Guide({ appId, settings, i: 0 }));
-        this.container.appendChild(new Guide({ appId, settings, i: 1 }));
+        // this.container.appendChild(new Guide({ appId, settings, i: 1 }));
 
-        this.container.appendChild(new Arc({ appId, settings }));
+        // this.container.appendChild(new Arc({ appId, settings }));
 
         // Resize handles
         this.container.appendChild(new HandleResize({ appId, settings, i: 0 }));
         this.container.appendChild(new HandleResize({ appId, settings, i: 1 }));
 
-        // Rotate handles
-        this.container.appendChild(new HandleRotate({ appId, settings, i: 0 }));
-        // this.container.appendChild(new HandleRotate({ appId, settings, i: 1 }));
+        // Rotate handle
+        this.container.appendChild(new HandleRotate({ appId, settings}));
 
         // Nudge handles
         this.container.appendChild(new HandleNudge({ appId, settings, i: 0 }));
@@ -90,6 +91,10 @@ Protractor.prototype = {
         this.container.appendChild(new HandleNudge({ appId, settings, i: 3 }));
 
         this.show();
+
+        //////////////// TEMPORARY
+        PubSub.emit(Channels.SET_MODE, { mode: 'rotate' });
+        //////////////// TEMPORARY
     },
 
     hide: function() {

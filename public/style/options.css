@@ -54,6 +54,11 @@
 
 }
 
+.arrow {
+    font-size: 32px;
+    user-select: none;
+}
+
 [type=radio] {
     cursor: pointer;
     margin-right: 5px;
@@ -62,35 +67,6 @@
 [type=range] {
     width: 200px;
 }
-
-/* Credit: Alex Char http://stackoverflow.com/a/26024834/385273 */
-/*input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    cursor:pointer;
-    display:block;
-    width:8px;
-    color: #333;
-    text-align:center;
-    position:relative;
-}*/
-
-/*input[type=number]::-webkit-inner-spin-button:before,
-input[type=number]::-webkit-inner-spin-button:after {
-    content: "^";
-    position:absolute;
-    right: 0;
-    font-family:monospace;
-    line-height:
-}*/
-
-/*input[type=number]::-webkit-inner-spin-button:before {
-    top:0px;
-}
-
-input[type=number]::-webkit-inner-spin-button:after {
-    bottom:0px;
-    -webkit-transform: rotate(180deg);
-}*/
 
 .range-value {
     padding: 0 10px;

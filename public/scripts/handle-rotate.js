@@ -1,13 +1,11 @@
-HandleRotate = function({ appId, settings, i }) {
-    this.node = document.createElement('div');
-    this.appId = appId;
+HandleRotate = function({ appId, settings }) {
     this.settings = settings;
-
-    this.phi = 0;
+    this.appId = appId;
 
     this.handle = document.createElement('div');
     this.handle.className = `${appId}-handle-rotate-knob`;
 
+    this.node = document.createElement('div');
     this.node.className = `${appId}-handle-rotate`;
     this.node.style.display = 'none';
     this.node.appendChild(this.handle);
@@ -30,9 +28,6 @@ HandleRotate = function({ appId, settings, i }) {
 HandleRotate.prototype = {
     onMousedown: function(ref, evt) {
         evt.preventDefault();
-
-        this.dragstartTheta = this.getTheta(evt.pageX, evt.pageY);
-
         document.body.addEventListener('mousemove', ref);
     },
 
@@ -52,78 +47,47 @@ HandleRotate.prototype = {
         }
     },
 
-    getTheta: function(x, y) {
-        const legX = x - this.centerViewportX;
-        const legY = this.centerViewportY - y;
-
-        let theta = Math.atan(legY / legX);
-
-        if (legX >= 0 && legY >= 0) {
-            return theta;
-        } else if (legX <= 0 && legY >= 0) {
-            return Math.PI + theta;
-        } else if (legX <= 0) {
-            return Math.PI + theta;
-        } else if (legY <= 0) {
-            return Math.PI * 2 + theta;
-        } 
-    },
-
     move: function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
-
 
         const bounds = this.node.parentNode.getBoundingClientRect();
 
         const centerX = bounds.left + bounds.width / 2;
         const centerY = bounds.top + bounds.height / 2;
 
-        let theta = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
+        let phi = Math.abs(Math.atan((evt.clientY - centerY) / (evt.clientX - centerX)));
 
-        if (this.settings.rotation === "ccw") {
-            if (evt.clientX > centerX && evt.clientY < centerY) {
-                theta = Math.PI * 2 - theta;
-            } else if (evt.clientY < centerY) {
-                theta = Math.PI + theta;
-            } else if (evt.clientX < centerX) {
-                theta = Math.PI - theta;
-            } 
-        } else {
-            if (evt.clientX < centerX && evt.clientY > centerY) {
-                theta = Math.PI + theta;
-            } else if (evt.clientX < centerX) {
-                theta = Math.PI - theta;
-            } else if (evt.clientY > centerY) {
-                theta = Math.PI * 2 - theta;
-            } 
+        // Bottom left quadrant
+        if (evt.clientX < centerX && evt.clientY > centerY) {
+            phi = Math.PI - phi;
+        } 
+        // Top left quadrant
+        else if (evt.clientX < centerX) {
+            phi = Math.PI + phi;
+        } 
+        // Top right quadrant
+        else if (evt.clientY < centerY) {
+            phi = Math.PI * 2 - phi;
         }
 
         if (this.settings.markerSnap === true) {
             const interval = this.settings.markerInterval;
-            const delta = theta % interval;
-            const lowerBound = 0.03;
-            const upperBound = this.settings.markerInterval - 0.03;
+            const delta = phi % interval;
+            const boundA = 0.03;
+            const boundB = interval - 0.03;
 
-            if (this.settings.rotation === 'ccw' && delta < lowerBound) {
-                theta -= delta;
-            } else if (this.settings.rotation === 'ccw' && delta > upperBound) {
-                theta += (interval - delta);
-            } else if (delta < lowerBound) {
-                theta -= delta;
-            } else if (delta > upperBound) {
-                theta += (interval - delta);
+            if (delta < boundA) {
+                phi -= delta;
+            } else if (delta > boundB) {
+                phi += (interval - delta);
             }
         }
 
-        this.theta = (this.settings.rotation === "ccw" ? theta : (-1 * theta));
-        this.transform();
+        this.node.style.transform = `rotate(${phi}rad)`;
 
-        PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi: this.theta });
-    },
-
-    transform: function() {
-        this.node.style.transform = `rotate(${this.theta + this.phi}rad)`;
+        // Always emit angles CW between 0 and Φ ➝ lim(2π)
+        PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi });
     },
 
     setMode: function(msg) {
