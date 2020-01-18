@@ -99,18 +99,22 @@ HandleRotate.prototype = {
             } 
         }
 
-        // if (this.settings.markerSnap === true) {
-        //     const interval = this.settings.markerInterval;
-        //     const delta = theta % interval;
-        //     const lowerBound = 0.03;
-        //     const upperBound = this.settings.markerInterval - 0.03;
+        if (this.settings.markerSnap === true) {
+            const interval = this.settings.markerInterval;
+            const delta = theta % interval;
+            const lowerBound = 0.03;
+            const upperBound = this.settings.markerInterval - 0.03;
 
-        //     if (delta < lowerBound) {
-        //         theta -= delta;
-        //     } else if (delta > upperBound) {
-        //         theta += (interval - delta);
-        //     }
-        // }
+            if (this.settings.rotation === 'ccw' && delta < lowerBound) {
+                theta -= delta;
+            } else if (this.settings.rotation === 'ccw' && delta > upperBound) {
+                theta += (interval - delta);
+            } else if (delta < lowerBound) {
+                theta -= delta;
+            } else if (delta > upperBound) {
+                theta += (interval - delta);
+            }
+        }
 
         this.theta = (this.settings.rotation === "ccw" ? theta : (-1 * theta));
         this.transform();
