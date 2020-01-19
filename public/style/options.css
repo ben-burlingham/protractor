@@ -1,52 +1,55 @@
 * {
     box-sizing: border-box;
-    font: sans-serif;
     margin: 0;
     padding: 0;
 }
 
-.title {
-    border-bottom: 3px solid #35D45E;
-    color: #35D45E;
-    font-size: 28px;
-    letter-spacing: 1.2px;
-    margin: 0 auto;
-    padding: 30px 20px;
-    text-align: center;
-    width: 550px;
-}
-
 .container {
-    margin: 0 auto;
-    padding: 20px 0;
-    width: 550px;
+    padding: 12px 20px;
 }
 
 .option {
+    align-items: center;
     border-bottom: 1px solid #ddd;
     display: flex;
     flex-direction: row;
-    line-height: 30px;
     padding: 20px 0;
 }
 
 .option-title {
     flex: 0;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
-    max-width: 220px;
-    min-width: 220px;
+    max-width: 200px;
+    min-width: 200px;
 }
 
 .radio-label {
     border-radius: 3px;
     cursor: pointer;
-    padding: 0 10px;
+    font-size: 0;
+    padding: 5px 10px;
     width: 150px;
+}
+
+.radio-label span {
+    font-size: 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.radio-label span.arrow {
+    font-size: 18px;
 }
 
 .radio-label:hover {
     background: #e0e0e0;
+}
+
+.range-value {
+    padding: 0 10px;
+    text-align: center;
+    width: 100px;
 }
 
 .rgba-label {
@@ -60,14 +63,11 @@
 
 }
 
-.arrow {
-    font-size: 32px;
-    user-select: none;
-}
-
-[type=radio] {
+input[type=radio] {
     cursor: pointer;
+    display: inline-block;
     margin-right: 5px;
+    vertical-align: middle;
 }
 
 [type=range] {
@@ -78,10 +78,4 @@
     flex: 0;
     max-width: 50px;
     min-width: 50px;
-}
-
-.range-value {
-    padding: 0 10px;
-    text-align: center;
-    width: 100px;
 }

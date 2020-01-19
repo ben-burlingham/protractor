@@ -13,17 +13,14 @@
         "default_title": "Protractor"
     },
     "background": {
-        "scripts": ["scripts/background.js"]
-    },
-    "applications": {
-        "gecko": {
-            "id": "{45901444-0fab-46ba-b063-baf5a582994d}"
-        }
+        "scripts": [
+            "scripts/background.js"
+        ],
+        "persistent": false
     },
     "options_ui": {
       "page": "options.html",
       "browser_style": true
-      FIX THIS
     },
     "permissions": ["activeTab", "storage"],
     "web_accessible_resources": [ "images/*.svg" ]
