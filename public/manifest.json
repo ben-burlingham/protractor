@@ -13,13 +13,15 @@
         "default_title": "Protractor"
     },
     "background": {
-        "scripts": [
-            "scripts/background.js"
-        ],
-        "persistent": false
+        "scripts": ["scripts/background.js"]
     },
-    "offline_enabled": true,
-    "options_page": "options.html",
+    "applications": {
+        "gecko": {
+            "id": "{45901444-0fab-46ba-b063-baf5a582994d}"
+        }
+    },
+    // "offline_enabled": true,
+    // "options_page": "options.html",
     "permissions": ["activeTab", "storage"],
     "web_accessible_resources": [ "images/*.svg" ]
 }

@@ -5,7 +5,7 @@ Protractor = function({ appId }) {
     // Dev only!
     // chrome.storage.sync.clear();
 
-    chrome.storage.sync.get({
+    const options = {
         arcFill: 'rgba(50, 243, 150, 0.1)',
         circleFill: 'rgba(200, 200, 200, 0.03)',
         displayFill: 'rgba(240,240,240,0.5)',
@@ -19,7 +19,14 @@ Protractor = function({ appId }) {
         precision: 1,
         rotation: 'ccw',
         units: 'deg'
-    }, this.build.bind(this));
+    };
+
+    // Non-chrome (Firefox et al)
+    if (typeof browser !== "undefined") {
+        browser.storage.sync.get(options).then(this.build.bind(this))
+    } else {
+        chrome.storage.sync.get(options, this.build.bind(this));
+    }
 };
 
 Protractor.prototype = {
@@ -90,6 +97,8 @@ Protractor.prototype = {
         this.container.appendChild(new HandleNudge({ appId, settings, i: 2 }));
         this.container.appendChild(new HandleNudge({ appId, settings, i: 3 }));
 
+        console.log(this.container.childNodes)
+
         this.show();
 
         //////////////// TEMPORARY
@@ -119,8 +128,9 @@ Protractor.prototype = {
     },
 
     toggle: function() {
-        const hidden = (this.container.parentNode === null);
-        hidden ? this.show() : this.hide();
+        // const hidden = (this.container.parentNode === null);
+        // hidden ? this.show() : this.hide();
+        const hidden = true;
         return hidden;
     },
 };
