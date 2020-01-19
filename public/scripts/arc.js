@@ -39,10 +39,10 @@ Arc.prototype = {
                 ? 0
                 : 1;
 
-        const startX = rX + rX * Math.cos(theta0 - phi);
-        const startY = rY + rY * Math.sin(theta0 - phi);
-        const endX = rX + rX * Math.cos(theta1 - phi);
-        const endY = rY + rY * Math.sin(theta1 - phi);
+        const startX = rX + rX * Math.cos(theta0 + phi);
+        const startY = rY + rY * Math.sin(theta0 + phi);
+        const endX = rX + rX * Math.cos(theta1 + phi);
+        const endY = rY + rY * Math.sin(theta1 + phi);
         
         
         const arcPath = `M ${startX} ${startY} A ${rX} ${rY} 0 0 ${flip} ${endX} ${endY}`;

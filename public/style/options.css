@@ -70,11 +70,12 @@ input[type=radio] {
     vertical-align: middle;
 }
 
-[type=range] {
-    
+input[type=range] {
+    max-width: 200px;
+    min-width: 200px;
 }
 
-[type=number] {
+input[type=number] {
     flex: 0;
     max-width: 50px;
     min-width: 50px;
