@@ -31,8 +31,11 @@
 }
 
 .option-title {
+    flex: 0;
+    font-size: 14px;
     font-weight: bold;
-    width: 250px;
+    max-width: 220px;
+    min-width: 220px;
 }
 
 .radio-label {
@@ -47,7 +50,10 @@
 }
 
 .rgba-label {
-    margin-right: 10px;
+    flex: 0;
+    margin: 0 5px;
+    max-width: 80px;
+    min-width: 80px;
 }
 
 .rgba-label:hover {
@@ -65,7 +71,13 @@
 }
 
 [type=range] {
-    width: 200px;
+    
+}
+
+[type=number] {
+    flex: 0;
+    max-width: 50px;
+    min-width: 50px;
 }
 
 .range-value {

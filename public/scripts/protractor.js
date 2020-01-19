@@ -97,8 +97,6 @@ Protractor.prototype = {
         this.container.appendChild(new HandleNudge({ appId, settings, i: 2 }));
         this.container.appendChild(new HandleNudge({ appId, settings, i: 3 }));
 
-        console.log(this.container.childNodes)
-
         this.show();
 
         //////////////// TEMPORARY
