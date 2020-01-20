@@ -1,6 +1,7 @@
 Background = {
     blocking: {},
     tabId: null,
+    instantiated: false,
 
     css: [
         "style/buttons.css",
@@ -20,7 +21,6 @@ Background = {
     js: [
         "scripts/pubsub.js",
         "scripts/channels.js",
-        "scripts/protractor.js",
         "scripts/container.js",
         
         "scripts/circle.js",
@@ -39,9 +39,11 @@ Background = {
         "scripts/handle-nudge.js",
         "scripts/handle-rotate.js",
         "scripts/handle-resize.js",
+
+        "scripts/protractor.js",
     ],
 
-    instantiate: function() {
+    instantiate: function(tab) {
         console.log("Protractor: Instantiating...");
 
         function injectJS(i, values) {
@@ -49,29 +51,27 @@ Background = {
                 console.log('Protractor: JS injected');
                 console.log('Protractor: Instantiation complete.');
 
-                browser.tabs.executeScript(
-                    Background.tabId, 
-                    { code: "window.Protractor = new Protractor({ appId: '" + browser.runtime.id + "' });" },
-                    Background.toggle
-                );
-                return;
+               
+                    Background.instantiated = true;
+                    Background.blocking[tab.id] = false; 
+                            return;
             }
 
             const file = Background.js[i];
-            browser.tabs.executeScript(Background.tabId, { file }, injectJS.bind(null, i + 1));
+            browser.tabs.executeScript(tab.id, { file }, injectJS.bind(null, i + 1));
         }
 
-        Background.css.forEach(file => browser.tabs.insertCSS(Background.tabId, { file }));
+        Background.css.forEach(file => browser.tabs.insertCSS(tab.id, { file }));
         console.log('Protractor: CSS inserted');
 
         injectJS(0);
     },
 
-    toggle: function() {
+    toggle: function(tab) {
         console.log("Protractor: Toggling");
         
-        browser.tabs.executeScript(Background.tabId, {
-            code: "window.Protractor.toggle();"
+        browser.tabs.executeScript(tab.id, {
+            code: "window.ProtractorExtensionInstance.toggle();"
         }, ([isHidden]) => {
             if (isHidden) {
                 browser.browserAction.setIcon({
@@ -80,13 +80,13 @@ Background = {
                         "48": "images/icon48-off.png",
                         "128":  "images/icon128-off.png"
                     },
-                    tabId: Background.tabId
-                }, () => { Background.blocking[Background.tabId] = false; })
+                    tabId: tab.id
+                }, () => { Background.blocking[tab.id] = false; })
             } else {
                 browser.browserAction.setIcon({
                     path: browser.runtime.getManifest().icons,
-                    tabId: Background.tabId
-                }, () => { Background.blocking[Background.tabId] = false; });
+                    tabId: tab.id
+                }, () => { Background.blocking[tab.id] = false; });
             }
         });
     },
@@ -97,16 +97,13 @@ Background = {
         }
 
         Background.blocking[tab.id] = true;
-        Background.tabId = tab.id;
 
-        function onCheckExists([exists]) {
-            exists 
-                ? Background.toggle() 
-                : Background.instantiate();
+        if (Background.instantiated === false) {
+            Background.instantiate(tab);
+            return;
         }
 
-        console.log("Protractor: Checking existence");
-        browser.tabs.executeScript(tab.id, { code: "window.Protractor" }, onCheckExists);
+        Background.toggle(tab);
     },
 };
 
@@ -115,7 +112,11 @@ if (window.browser === undefined) {
 }
 
 browser.runtime.onMessage.addListener((msg, sender) => {
-    Background.handleClick(sender.tab);
+    if (msg === "close") {
+        Background.handleClick(sender.tab);
+    }
 });
 
 browser.browserAction.onClicked.addListener(Background.handleClick);
+
+browser.webNavigation.onCompleted.addListener(Background.instantiate);

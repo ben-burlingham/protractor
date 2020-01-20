@@ -1,4 +1,4 @@
-Protractor = function() {
+ProtractorExtension = function() {
     this.timer = null;
 
     // Dev only!
@@ -24,13 +24,15 @@ Protractor = function() {
     if (typeof browser !== "undefined") {
         browser.storage.sync.get(options).then(this.build.bind(this))
         this.buttonSpriteUrl = browser.runtime.getURL('images/sprite-buttons.svg');
+        this.onClose = () => { browser.runtime.sendMessage('close'); };
     } else {
         chrome.storage.sync.get(options, this.build.bind(this));
         this.buttonSpriteUrl = chrome.runtime.getURL('images/sprite-buttons.svg');
+        this.onClose = () => { chrome.runtime.sendMessage('close'); };
     }
 };
 
-Protractor.prototype = {
+ProtractorExtension.prototype = {
     build: function(options) {
         const appId = this.appId;
         const buttonSpriteUrl = this.buttonSpriteUrl;
@@ -64,7 +66,7 @@ Protractor.prototype = {
         this.buttons.appendChild(new ButtonResize({ buttonSpriteUrl }));
         this.buttons.appendChild(new ButtonNudge({ buttonSpriteUrl }));
         this.buttons.appendChild(new ButtonLock({ buttonSpriteUrl }));
-        this.buttons.appendChild(new ButtonClose({ buttonSpriteUrl }));
+        this.buttons.appendChild(new ButtonClose({ buttonSpriteUrl, cb: this.onClose }));
 
         this.container.appendChild(this.buttons);
 
@@ -98,8 +100,6 @@ Protractor.prototype = {
         this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 1 }));
         this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 2 }));
         this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 3 }));
-
-        this.show();
     },
 
     hide: function() {
@@ -120,13 +120,21 @@ Protractor.prototype = {
         PubSub.emit(Channels.MOVE_HANDLE_RESIZE, { offset: 0 });
 
         clearTimeout(this.timer);
-        this.isShowing = true;
     },
 
     toggle: function() {
-        // const hidden = (this.container.parentNode === null);
-        // hidden ? this.show() : this.hide();
-        const hidden = true;
+        if (window.ProtractorExtensionInstance === undefined) {
+             new ProtractorExtension();
+             return true;
+        }
+
+        const instance = window.ProtractorExtensionInstance;
+
+        const hidden = (instance.container.parentNode === null);
+        hidden ? instance.show() : instance.hide();
+        
         return hidden;
     },
 };
+
+(function() { window.ProtractorExtensionInstance = new ProtractorExtension(); }())
