@@ -13,14 +13,16 @@
         "default_title": "Protractor"
     },
     "background": {
-        "scripts": [
-            "scripts/background.js"
-        ],
-        "persistent": false
+        "scripts": ["scripts/background.js"]
+    },
+    "applications": {
+        "gecko": {
+            "id": "{45901444-0fab-46ba-b063-baf5a582994d}"
+        }
     },
     "options_ui": {
       "page": "options.html",
-      "chrome_style": true
+      "browser_style": true
     },
     "permissions": ["activeTab", "storage", "webNavigation"],
     "web_accessible_resources": [ "images/sprite-buttons.svg" ]

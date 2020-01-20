@@ -6,7 +6,7 @@ Guide = function({ settings, i }) {
     this.locked = false;
 
     this.theta = settings[`theta${i}`];
-    this.phi = 0;
+    this.phi = settings.phi;
     this.centerX = 0;
     this.centerY = 0;
 

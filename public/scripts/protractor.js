@@ -15,6 +15,7 @@ ProtractorExtension = function() {
         markerLength: 'center',
         markerSnap: true,
         markerInterval: Math.PI / 6,
+        phi: 0,
         precision: 1,
         rotation: 'ccw',
         units: 'deg'
@@ -48,6 +49,7 @@ ProtractorExtension.prototype = {
             markerSnap: JSON.parse(options.markerSnap),
             markerInterval: options.markerInterval,
             longMarker: (options.markerLength === 'center'),
+            phi: options.phi,
             precision: options.precision,
             rotation: options.rotation,
             theta0: options.rotation === "ccw" ? (7 * Math.PI / 4) : (Math.PI / 4),

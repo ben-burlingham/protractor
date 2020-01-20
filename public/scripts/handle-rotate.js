@@ -8,7 +8,11 @@ HandleRotate = function({ buttonSpriteUrl, settings }) {
     this.node = document.createElement('div');
     this.node.className = 'protractor-extension-handle-rotate';
     this.node.style.display = 'none';
+    this.node.style.transform = `rotate(${settings.phi}rad)`;
     this.node.appendChild(this.handle);
+
+    // Non-chrome (Firefox et al)
+    this.debouncedSave = HandleRotate.debouncedStorageSet(1000);
 
     var move = this.move.bind(this);
     var onMousedown = this.onMousedown.bind(this, move);
@@ -23,6 +27,21 @@ HandleRotate = function({ buttonSpriteUrl, settings }) {
     PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
+};
+
+HandleRotate.debouncedStorageSet = function (ms) { 
+    let timer;
+    
+    return function() { 
+        const args = arguments;
+        clearTimeout(timer);
+
+        timer = setTimeout(function() {
+            typeof browser !== "undefined" 
+                ? browser.storage.sync.set(args[0])
+                : chrome.storage.sync.set(args[0]);
+        }, ms) 
+    };
 };
 
 HandleRotate.prototype = {
@@ -88,6 +107,8 @@ HandleRotate.prototype = {
 
         // Always emit angles CW between 0 and Φ ➝ lim(2π)
         PubSub.emit(Channels.MOVE_HANDLE_ROTATE, { phi });
+
+       this.debouncedSave({ phi });
     },
 
     setMode: function(msg) {

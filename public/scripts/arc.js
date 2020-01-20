@@ -3,7 +3,7 @@ Arc = function({ settings }) {
 
     this.guideThetas = [settings.theta0, settings.theta1];
     this.radius = 0;
-    this.phi = 0;
+    this.phi = settings.phi;
 
     this.node = document.createElementNS(ns, 'svg');
     this.node.setAttribute('class', 'protractor-extension-arc');

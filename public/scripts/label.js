@@ -16,7 +16,7 @@ Label = function({ settings, rad }) {
     }
 
     this.rad = rad;
-    this.phi = 0;
+    this.phi = settings.phi;
     this.centerRelativeX = 0;
     this.centerRelativeY = 0;
     this.radius = 0;

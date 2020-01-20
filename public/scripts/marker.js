@@ -2,7 +2,7 @@ Marker = function({ settings, rad }) {
     const long = settings.longMarker ? 'protractor-extension-marker-long' : "";
 
     this.theta = rad - Math.PI / 2;
-    this.phi = 0;
+    this.phi = settings.phi;
     this.settings = settings;
 
     this.node = document.createElement('div');
