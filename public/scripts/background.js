@@ -51,10 +51,19 @@ Background = {
                 console.log('Protractor: JS injected');
                 console.log('Protractor: Instantiation complete.');
 
-               
+                browser.browserAction.setIcon({
+                    path : {
+                        "16": "images/icon16-off.png",
+                        "48": "images/icon48-off.png",
+                        "128":  "images/icon128-off.png"
+                    },
+                    tabId: tab.id
+                }, () => { 
                     Background.instantiated = true;
                     Background.blocking[tab.id] = false; 
-                            return;
+                })
+
+                return;
             }
 
             const file = Background.js[i];
@@ -119,4 +128,5 @@ browser.runtime.onMessage.addListener((msg, sender) => {
 
 browser.browserAction.onClicked.addListener(Background.handleClick);
 
-browser.webNavigation.onCompleted.addListener(Background.instantiate);
+// On page refresh, the window object is unloaded and the instance is lost.
+browser.webNavigation.onCompleted.addListener(() => { Background.instantiated = false; });

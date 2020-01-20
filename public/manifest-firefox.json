@@ -24,6 +24,6 @@
       "page": "options.html",
       "browser_style": true
     },
-    "permissions": ["activeTab", "storage"],
+    "permissions": ["activeTab", "storage", "webNavigation"],
     "web_accessible_resources": [ "images/sprite-buttons.svg" ]
 }

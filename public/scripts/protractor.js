@@ -100,6 +100,9 @@ ProtractorExtension.prototype = {
         this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 1 }));
         this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 2 }));
         this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 3 }));
+
+        // Since this method is async, background won't easily be aware it's completed.
+        this.show();
     },
 
     hide: function() {
@@ -123,11 +126,6 @@ ProtractorExtension.prototype = {
     },
 
     toggle: function() {
-        if (window.ProtractorExtensionInstance === undefined) {
-             new ProtractorExtension();
-             return true;
-        }
-
         const instance = window.ProtractorExtensionInstance;
 
         const hidden = (instance.container.parentNode === null);
@@ -137,4 +135,5 @@ ProtractorExtension.prototype = {
     },
 };
 
+// Runs when script is injected from background.
 (function() { window.ProtractorExtensionInstance = new ProtractorExtension(); }())
