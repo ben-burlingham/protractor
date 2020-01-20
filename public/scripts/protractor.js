@@ -1,5 +1,4 @@
-Protractor = function({ appId }) {
-    this.appId = appId;
+Protractor = function() {
     this.timer = null;
 
     // Dev only!
@@ -24,14 +23,17 @@ Protractor = function({ appId }) {
     // Non-chrome (Firefox et al)
     if (typeof browser !== "undefined") {
         browser.storage.sync.get(options).then(this.build.bind(this))
+        this.buttonSpriteUrl = browser.runtime.getURL('images/sprite-buttons.svg');
     } else {
         chrome.storage.sync.get(options, this.build.bind(this));
+        this.buttonSpriteUrl = chrome.runtime.getURL('images/sprite-buttons.svg');
     }
 };
 
 Protractor.prototype = {
     build: function(options) {
         const appId = this.appId;
+        const buttonSpriteUrl = this.buttonSpriteUrl;
 
         const settings = {
             arcFill: options.arcFill,
@@ -52,56 +54,52 @@ Protractor.prototype = {
         };
 
         // Main container, buttons container, close button, lock button
-        this.container = new Container({ appId });
-        this.container.id = `container-${appId}`;
+        this.container = new Container();
+        this.container.id = 'protractor-extension-container';
 
         this.buttons = document.createElement('div');
-        this.buttons.className = `${appId}-buttons`;
+        this.buttons.className = `protractor-extension-buttons`;
 
-        this.buttons.appendChild(new ButtonRotate({ appId }));
-        this.buttons.appendChild(new ButtonResize({ appId }));
-        this.buttons.appendChild(new ButtonNudge({ appId }));
-        this.buttons.appendChild(new ButtonLock({ appId }));
-        this.buttons.appendChild(new ButtonClose({ appId }));
+        this.buttons.appendChild(new ButtonRotate({ buttonSpriteUrl }));
+        this.buttons.appendChild(new ButtonResize({ buttonSpriteUrl }));
+        this.buttons.appendChild(new ButtonNudge({ buttonSpriteUrl }));
+        this.buttons.appendChild(new ButtonLock({ buttonSpriteUrl }));
+        this.buttons.appendChild(new ButtonClose({ buttonSpriteUrl }));
 
         this.container.appendChild(this.buttons);
 
         // Circle, markers
-        this.container.appendChild(new Circle({ appId, settings }));
+        this.container.appendChild(new Circle({ settings }));
 
         const upperlimit = (2 * Math.PI) - 0.0001; // Numeric precision correction
         for (let rad = 0; rad < upperlimit; rad += settings.markerInterval) {
-            this.container.appendChild(new Marker({ appId, settings, rad }));
-            this.container.appendChild(new Label({ appId, settings, rad }));
+            this.container.appendChild(new Marker({ settings, rad }));
+            this.container.appendChild(new Label({ settings, rad }));
         }
 
         // Display, guides, arc
-        this.display = new Display({ appId, settings });
+        this.display = new Display({ settings });
         this.container.appendChild(this.display);
 
-        this.container.appendChild(new Guide({ appId, settings, i: 0 }));
-        this.container.appendChild(new Guide({ appId, settings, i: 1 }));
+        this.container.appendChild(new Guide({ settings, i: 0 }));
+        this.container.appendChild(new Guide({ settings, i: 1 }));
 
-        this.container.appendChild(new Arc({ appId, settings }));
+        this.container.appendChild(new Arc({ settings }));
 
         // Resize handles
-        this.container.appendChild(new HandleResize({ appId, settings, i: 0 }));
-        this.container.appendChild(new HandleResize({ appId, settings, i: 1 }));
+        this.container.appendChild(new HandleResize({ buttonSpriteUrl, settings, i: 0 }));
+        this.container.appendChild(new HandleResize({ buttonSpriteUrl, settings, i: 1 }));
 
         // Rotate handle
-        this.container.appendChild(new HandleRotate({ appId, settings}));
+        this.container.appendChild(new HandleRotate({ buttonSpriteUrl, settings }));
 
         // Nudge handles
-        this.container.appendChild(new HandleNudge({ appId, settings, i: 0 }));
-        this.container.appendChild(new HandleNudge({ appId, settings, i: 1 }));
-        this.container.appendChild(new HandleNudge({ appId, settings, i: 2 }));
-        this.container.appendChild(new HandleNudge({ appId, settings, i: 3 }));
+        this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 0 }));
+        this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 1 }));
+        this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 2 }));
+        this.container.appendChild(new HandleNudge({ buttonSpriteUrl, settings, i: 3 }));
 
         this.show();
-
-        //////////////// TEMPORARY
-        PubSub.emit(Channels.SET_MODE, { mode: 'rotate' });
-        //////////////// TEMPORARY
     },
 
     hide: function() {

@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-display {
+.protractor-extension-display {
     border-radius: 3px;
     box-sizing: border-box;
     cursor: move;
@@ -13,26 +13,26 @@
     z-index: 100;
 }
 
-.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked,
-.__MSG_@@extension_id__-display.__MSG_@@extension_id__-display-locked * {
+.protractor-extension-display.protractor-extension-display-locked,
+.protractor-extension-display.protractor-extension-display-locked * {
     cursor: default;
 }
 
-.__MSG_@@extension_id__-display-delta-a {
+.protractor-extension-display-delta-a {
     height: 20px;
     line-height: 20px;
     text-align: center;
 }
 
-.__MSG_@@extension_id__-display-delta-b {
+.protractor-extension-display-delta-b {
     height: 20px;
     line-height: 20px;
     margin-top: 10px;
     text-align: center;
 }
 
-.__MSG_@@extension_id__-display-sub0,
-.__MSG_@@extension_id__-display-sub1 {
+.protractor-extension-display-sub0,
+.protractor-extension-display-sub1 {
     bottom: 2px;
     color: #999;
     cursor: move;
@@ -45,12 +45,12 @@
     width: 50px;
 }
 
-.__MSG_@@extension_id__-display-sub0 {
+.protractor-extension-display-sub0 {
     left: 2px;
     text-align: left;
 }
 
-.__MSG_@@extension_id__-display-sub1 {
+.protractor-extension-display-sub1 {
     right: 2px;
     text-align: right;
 }

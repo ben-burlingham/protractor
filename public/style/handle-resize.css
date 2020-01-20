@@ -1,6 +1,5 @@
-.__MSG_@@extension_id__-handle-resize {
+.protractor-extension-handle-resize {
     background: white;
-    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-position: -250px 0px;
     background-repeat: no-repeat;
     background-size: 400px 100px;
@@ -12,18 +11,18 @@
     z-index: 101;
 }
 
-.__MSG_@@extension_id__-handle-resize:hover {
+.protractor-extension-handle-resize:hover {
     background-color: #eee;
 }
 
-.__MSG_@@extension_id__-handle-resize-0 {
+.protractor-extension-handle-resize-0 {
     cursor: grab;
     left: 0;
     top: 0;
     transform: rotate(-90deg);
 }
 
-.__MSG_@@extension_id__-handle-resize-1 {
+.protractor-extension-handle-resize-1 {
     bottom: 0;
     cursor: grab;
     right: 0;

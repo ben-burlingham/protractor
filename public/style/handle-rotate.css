@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-handle-rotate {
+.protractor-extension-handle-rotate {
     background: #000;
     border-right: 5px solid #000;
     height: 1px;
@@ -10,9 +10,8 @@
     z-index: 99;
 }
 
-.__MSG_@@extension_id__-handle-rotate-knob {
+.protractor-extension-handle-rotate-knob {
     background: white;
-    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-position: -240px -40px;
     background-repeat: no-repeat;
     background-size: 320px 80px;

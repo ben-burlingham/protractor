@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-marker {
+.protractor-extension-marker {
     background: 0;;
     box-sizing: border-box;
     cursor: move;
@@ -10,7 +10,7 @@
     z-index: 2;
 }
 
-.__MSG_@@extension_id__-marker.__MSG_@@extension_id__-marker-locked,
-.__MSG_@@extension_id__-marker.__MSG_@@extension_id__-marker-locked * {
+.protractor-extension-marker.protractor-extension-marker-locked,
+.protractor-extension-marker.protractor-extension-marker-locked * {
     cursor: default;
 }

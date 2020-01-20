@@ -1,12 +1,12 @@
-HandleRotate = function({ appId, settings }) {
+HandleRotate = function({ buttonSpriteUrl, settings }) {
     this.settings = settings;
-    this.appId = appId;
 
     this.handle = document.createElement('div');
-    this.handle.className = `${appId}-handle-rotate-knob`;
+    this.handle.className = 'protractor-extension-handle-rotate-knob';
+    this.handle.style.backgroundImage = `url('${buttonSpriteUrl}')`;
 
     this.node = document.createElement('div');
-    this.node.className = `${appId}-handle-rotate`;
+    this.node.className = 'protractor-extension-handle-rotate';
     this.node.style.display = 'none';
     this.node.appendChild(this.handle);
 

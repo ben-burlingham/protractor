@@ -1,6 +1,7 @@
-HandleResize = function({ appId, settings, i }) {
+HandleResize = function({ buttonSpriteUrl, settings, i }) {
     this.node = document.createElement('div');
-    this.node.className = `${appId}-handle-resize ${appId}-handle-resize-${i}`;
+    this.node.className = `protractor-extension-handle-resize protractor-extension-handle-resize-${i}`;
+    this.node.style.backgroundImage = `url('${buttonSpriteUrl}')`;
     this.node.style.display = 'none';
     this.index = i;
 

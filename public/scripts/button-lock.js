@@ -1,10 +1,11 @@
-ButtonLock = function({ appId }) {
-    this.activeClassname = `${appId}-button ${appId}-button-locked`;
-    this.inactiveClassname = `${appId}-button ${appId}-button-lock`;
+ButtonLock = function({ buttonSpriteUrl }) {
+    this.activeClassname = 'protractor-extension-button protractor-extension-button-locked';
+    this.inactiveClassname = 'protractor-extension-button protractor-extension-button-lock';
 
     this.node = document.createElement('div');
     this.node.title = "Lock"
     this.node.className = this.inactiveClassname;
+    this.node.style.backgroundImage = `url('${buttonSpriteUrl}')`;
 
     this.node.addEventListener('click', (evt) => {
         const mode = (this.node.className === this.activeClassname ? null : "lock")

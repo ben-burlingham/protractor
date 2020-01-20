@@ -49,7 +49,6 @@ Background = {
                 console.log('Protractor: JS injected');
                 console.log('Protractor: Instantiation complete.');
 
-                console.log(browser.runtime)
                 browser.tabs.executeScript(
                     Background.tabId, 
                     { code: "window.Protractor = new Protractor({ appId: '" + browser.runtime.id + "' });" },
@@ -62,8 +61,6 @@ Background = {
             browser.tabs.executeScript(Background.tabId, { file }, injectJS.bind(null, i + 1));
         }
 
-        console.log(Background.tabId);
-        
         Background.css.forEach(file => browser.tabs.insertCSS(Background.tabId, { file }));
         console.log('Protractor: CSS inserted');
 

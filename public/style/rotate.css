@@ -1,5 +1,5 @@
-.__MSG_@@extension_id__-rotate {
-    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
+.protractor-extension-rotate {
+    background-image:url('chrome-extension://protractor-extension/images/sprite-buttons.svg');
     background-position: -540px 0;
     background-repeat: no-repeat;
     background-size: 630px 90px;
@@ -14,24 +14,24 @@
     z-index: 101;
 }
 
-.__MSG_@@extension_id__-rotate:hover {
+.protractor-extension-rotate:hover {
     background-color: #eee;
     cursor: -webkit-grab;
     opacity: 1;
 }
 
-.__MSG_@@extension_id__-rotate:active {
+.protractor-extension-rotate:active {
     cursor: -webkit-grabbing;
 }
 
-.__MSG_@@extension_id__-rotate-0 {
+.protractor-extension-rotate-0 {
     left: 0;
     margin-top: -45px;
     top: 50%;
     transform: rotate(180deg);
 }
 
-.__MSG_@@extension_id__-rotate-1 {
+.protractor-extension-rotate-1 {
     margin-top: -45px;
     right: 0;
     top: 50%;

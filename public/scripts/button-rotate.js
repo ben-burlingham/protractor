@@ -1,10 +1,11 @@
-ButtonRotate = function({ appId }) {
-    this.activeClassname = `${appId}-button ${appId}-button-rotating`;
-    this.inactiveClassname = `${appId}-button ${appId}-button-rotate`;
+ButtonRotate = function({ buttonSpriteUrl }) {
+    this.activeClassname = 'protractor-extension-button protractor-extension-button-rotating';
+    this.inactiveClassname = 'protractor-extension-button protractor-extension-button-rotate';
 
     this.node = document.createElement('div');
     this.node.title = 'Rotate';
     this.node.className = this.inactiveClassname;
+    this.node.style.backgroundImage = `url('${buttonSpriteUrl}')`;
 
     this.node.addEventListener('click', (evt) => {
         const mode = (this.node.className === this.activeClassname ? null : "rotate")

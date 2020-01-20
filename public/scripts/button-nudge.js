@@ -1,10 +1,11 @@
-ButtonNudge = function({ appId }) {
-    this.activeClassname = `${appId}-button ${appId}-button-nudging`;
-    this.inactiveClassname = `${appId}-button ${appId}-button-nudge`;
+ButtonNudge = function({ buttonSpriteUrl }) {
+    this.activeClassname = 'protractor-extension-button protractor-extension-button-nudging';
+    this.inactiveClassname = 'protractor-extension-button protractor-extension-button-nudge';
 
     this.node = document.createElement('div');
     this.node.title = "Nudge"
     this.node.className = this.inactiveClassname;
+    this.node.style.backgroundImage = `url('${buttonSpriteUrl}')`;
 
     this.node.addEventListener('click', (evt) => {
         const mode = (this.node.className === this.activeClassname ? null : "nudge")

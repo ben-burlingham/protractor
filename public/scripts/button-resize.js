@@ -1,10 +1,11 @@
-ButtonResize = function({ appId }) {
-    this.activeClassname = `${appId}-button ${appId}-button-resizing`;
-    this.inactiveClassname = `${appId}-button ${appId}-button-resize`;
+ButtonResize = function({ buttonSpriteUrl }) {
+    this.activeClassname = 'protractor-extension-button protractor-extension-button-resizing';
+    this.inactiveClassname = 'protractor-extension-button protractor-extension-button-resize';
 
     this.node = document.createElement('div');
     this.node.title = 'Resize';
     this.node.className = this.inactiveClassname;
+    this.node.style.backgroundImage = `url('${buttonSpriteUrl}')`;
 
     this.node.addEventListener('click', (evt) => {
         const mode = (this.node.className === this.activeClassname ? null : "resize")

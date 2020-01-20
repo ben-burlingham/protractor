@@ -1,6 +1,6 @@
-Guide = function({ appId, settings, i }) {
+Guide = function({ settings, i }) {
     this.node = document.createElement('div');
-    this.appId = appId;
+
     this.settings = settings;
     this.index = i;
     this.locked = false;
@@ -12,10 +12,10 @@ Guide = function({ appId, settings, i }) {
 
     this.knob = document.createElement('div');
     this.knob.title = "Double click to lock/unlock";
-    this.knob.className = `${appId}-guide-knob`;
+    this.knob.className = 'protractor-extension-guide-knob';
     this.node.appendChild(this.knob);
 
-    this.node.className = `${appId}-guide`;
+    this.node.className = 'protractor-extension-guide';
 
     if (i === 0) {
         this.node.style.backgroundColor = settings.guide0Fill;
@@ -62,14 +62,14 @@ Guide.prototype = {
     doubleClick: function() {
         if (this.locked) {
             const classes = this.node.className.split(' ');
-            const index = classes.indexOf(`${this.appId}-guide-locked`);
+            const index = classes.indexOf('protractor-extension-guide-locked');
 
             classes.splice(index, 1);
             this.node.className = classes.join(' ');
             this.locked = false;
         } else {
             this.node.className = this.node.className.split(' ')
-                .concat(`${this.appId}-guide-locked`).join(' ');
+                .concat('protractor-extension-guide-locked').join(' ');
             this.locked = true;
         }
     },
@@ -162,6 +162,6 @@ Guide.prototype = {
 
     setMode: function(msg) {
         this.mode = msg.mode;
-        this.node.className = (msg.mode === "lock" ? `${this.appId}-guide ${this.appId}-guide-locked` : `${this.appId}-guide`);
+        this.node.className = (msg.mode === "lock" ? 'protractor-extension-guide protractor-extension-guide-locked' : 'protractor-extension-guide');
     },
 };

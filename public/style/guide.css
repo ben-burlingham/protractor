@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-guide {
+.protractor-extension-guide {
     background: #2EC656;
     border-right: 5px solid #2EC656;
     height: 1px;
@@ -9,7 +9,7 @@
     z-index: 99;
 }
 
-.__MSG_@@extension_id__-guide-knob {
+.protractor-extension-guide-knob {
     background-repeat: no-repeat;
     background-size: 64px 16px;
     border: 3px solid #2EC656;
@@ -25,7 +25,7 @@
     width: 20px;
 }
 
-.__MSG_@@extension_id__-guide-locked .__MSG_@@extension_id__-guide-knob {
+.protractor-extension-guide-locked .protractor-extension-guide-knob {
     background: red;
     cursor: default;
 }

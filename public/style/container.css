@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-container {
+.protractor-extension-container {
     box-sizing: border-box;
     font-family: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
     opacity: 1;
@@ -8,6 +8,6 @@
     z-index: 1000000;
 }
 
-.__MSG_@@extension_id__-container-hidden {
+.protractor-extension-container-hidden {
     opacity: 0;
 }

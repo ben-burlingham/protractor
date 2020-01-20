@@ -1,24 +1,23 @@
-Display = function({ appId, settings }) {
-    this.appId = appId;
+Display = function({ settings }) {
     this.settings = settings;
 
     const ref = PubSub.emit.bind(null, Channels.CONTAINER_MOVE);
     this.node = document.createElement('div');
-    this.node.className = `${appId}-display`;
+    this.node.className = 'protractor-extension-display';
     this.node.style.background = settings.displayFill;
 
     this.deltaA = document.createElement('div');
-    this.deltaA.className = `${appId}-display-delta-a`;
+    this.deltaA.className = 'protractor-extension-display-delta-a';
 
     this.deltaB = document.createElement('div');
-    this.deltaB.className = `${appId}-display-delta-b`;
+    this.deltaB.className = 'protractor-extension-display-delta-b';
 
     this.sub0 = document.createElement('div');
-    this.sub0.className = `${appId}-display-sub0`;
+    this.sub0.className = 'protractor-extension-display-sub0';
     this.sub0.style.color = settings.guide0Fill;
 
     this.sub1 = document.createElement('div');
-    this.sub1.className = `${appId}-display-sub1`;
+    this.sub1.className = 'protractor-extension-display-sub1';
     this.sub1.style.color = settings.guide1Fill;
 
     this.guideThetas = [settings.theta0, settings.theta1];
@@ -132,6 +131,10 @@ Display.prototype = {
     setMode: function(msg) {
         this.mode = msg.mode;
 
-        this.node.className = (msg.mode === "lock" ? `${this.appId}-display ${this.appId}-display-locked` : `${this.appId}-display`);
+        this.node.className = (
+            msg.mode === "lock" 
+                ? 'protractor-extension-display protractor-extension-display-locked' 
+                : 'protractor-extension-display'
+        );
     },
 };

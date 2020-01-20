@@ -1,13 +1,12 @@
-Marker = function({ appId, settings, rad }) {
-    const long = settings.longMarker ? `${appId}-marker-long` : "";
+Marker = function({ settings, rad }) {
+    const long = settings.longMarker ? 'protractor-extension-marker-long' : "";
 
-    this.appId = appId;
     this.theta = rad - Math.PI / 2;
     this.phi = 0;
     this.settings = settings;
 
     this.node = document.createElement('div');
-    this.node.className = `${appId}-marker ${long}`;
+    this.node.className = `protractor-extension-marker ${long}`;
     this.node.style.borderBottom = `20px solid ${settings.markerFill}`;
 
     PubSub.subscribe(Channels.MOVE_CONTAINER, this);
@@ -50,6 +49,6 @@ Marker.prototype = {
     },
 
     setMode: function() {
-        this.node.className = (msg.mode === "lock" ? `${this.appId}-marker ${this.appId}-marker-locked` : `${this.appId}-marker`);
+        this.node.className = (msg.mode === "lock" ? 'protractor-extension-marker protractor-extension-marker-locked' : 'protractor-extension-marker');
     },
 };

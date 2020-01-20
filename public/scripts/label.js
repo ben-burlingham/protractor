@@ -1,4 +1,4 @@
-Label = function({ appId, settings, rad }) {
+Label = function({ settings, rad }) {
     let value = rad;
 
     if (settings.rotation === "ccw") {
@@ -22,7 +22,7 @@ Label = function({ appId, settings, rad }) {
     this.radius = 0;
 
     this.node = document.createElement('div');
-    this.node.className = `${appId}-label`;
+    this.node.className = 'protractor-extension-label';
     this.node.innerHTML = value;
 
     PubSub.subscribe(Channels.MOVE_CONTAINER, this);

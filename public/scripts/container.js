@@ -1,6 +1,6 @@
-Container = function({ appId }) {
+Container = function() {
     this.node = document.createElement('div');
-    this.node.className = `${appId}-container`;
+    this.node.className = `protractor-extension-container`;
 
     PubSub.subscribe(Channels.MOVE_CIRCLE, this);
     PubSub.subscribe(Channels.MOVE_HANDLE_NUDGE, this);

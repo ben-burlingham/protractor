@@ -1,4 +1,4 @@
-Arc = function({ appId, settings }) {
+Arc = function({ settings }) {
     const ns = 'http://www.w3.org/2000/svg';
 
     this.guideThetas = [settings.theta0, settings.theta1];
@@ -6,15 +6,15 @@ Arc = function({ appId, settings }) {
     this.phi = 0;
 
     this.node = document.createElementNS(ns, 'svg');
-    this.node.setAttribute('class', `${appId}-arc`);
+    this.node.setAttribute('class', 'protractor-extension-arc');
 
     this.arc = document.createElementNS(ns, 'path');
     this.arc.style.fill = settings.arcFill;
-    this.arc.setAttribute('class', `${appId}-path`);
+    this.arc.setAttribute('class', 'protractor-extension-path');
 
     this.triangle = document.createElementNS(ns, 'path');
     this.triangle.style.fill = settings.arcFill;
-    this.triangle.setAttribute('class', `${appId}-path`);
+    this.triangle.setAttribute('class', 'protractor-extension-path');
 
     this.node.appendChild(this.arc);
     this.node.appendChild(this.triangle);

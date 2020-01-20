@@ -1,6 +1,7 @@
-HandleNudge = function({ appId, settings, i }) {
+HandleNudge = function({ buttonSpriteUrl, settings, i }) {
     this.node = document.createElement('div');
-    this.node.className = `${appId}-handle-nudge ${appId}-handle-nudge-${i}`;
+    this.node.className = `protractor-extension-handle-nudge protractor-extension-handle-nudge-${i}`;
+    this.node.style.backgroundImage = `url('${buttonSpriteUrl}')`;
     this.node.style.display = 'none';
     this.node.setAttribute('data-index', i);
 

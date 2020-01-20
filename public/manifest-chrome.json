@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Protractor",
     "short_name": "Protractor",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "Easily measure angles in your browser window.",
     "icons": {
         "16": "images/icon16-on.png",
@@ -20,8 +20,8 @@
     },
     "options_ui": {
       "page": "options.html",
-      "browser_style": true
+      "chrome_style": true
     },
     "permissions": ["activeTab", "storage"],
-    "web_accessible_resources": [ "images/*.svg" ]
+    "web_accessible_resources": [ "images/sprite-buttons.svg" ]
 }

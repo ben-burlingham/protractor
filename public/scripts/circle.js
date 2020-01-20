@@ -1,7 +1,6 @@
-Circle = function({ appId, settings }) {
-    this.appId = appId;
+Circle = function({ settings }) {
     this.node = document.createElement('div');
-    this.node.className = `${appId}-circle`;
+    this.node.className = 'protractor-extension-circle';
     this.node.style.backgroundColor = settings.circleFill;
 
     var move = this.move.bind(this);
@@ -57,10 +56,10 @@ Circle.prototype = {
         this.mode = msg.mode;
 
         if (msg.mode === "lock") {
-            this.node.className = `${this.appId}-circle ${this.appId}-circle-locked`;
+            this.node.className = 'protractor-extension-circle protractor-extension-circle-locked';
         }
         else {
-            this.node.className = `${this.appId}-circle`;
+            this.node.className = 'protractor-extension-circle';
         }
     },
 };

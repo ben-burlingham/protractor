@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-circle {
+.protractor-extension-circle {
     border: 1px solid #ccc;
     box-sizing: border-box;
     cursor: move;
@@ -6,6 +6,6 @@
     z-index: 1;
 }
 
-.__MSG_@@extension_id__-circle.__MSG_@@extension_id__-circle-locked {
+.protractor-extension-circle.protractor-extension-circle-locked {
     cursor: default;
 }

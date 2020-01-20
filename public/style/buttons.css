@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-buttons {
+.protractor-extension-buttons {
     border: 0;
     height: 25px;
     line-height: 25px;
@@ -7,13 +7,12 @@
     top: 0;
 }
 
-.__MSG_@@extension_id__-buttons:hover .__MSG_@@extension_id__-button {
+.protractor-extension-buttons:hover .protractor-extension-button {
     width: 25px;
 }
 
-.__MSG_@@extension_id__-button {
+.protractor-extension-button {
     background-color: none;
-    background-image:url('chrome-extension://__MSG_@@extension_id__/images/sprite-buttons.svg');
     background-repeat: no-repeat;
     background-size: 200px 50px;
     border: 0;
@@ -28,51 +27,51 @@
     width: 0px;
 }
 
-.__MSG_@@extension_id__-button:hover  {
+.protractor-extension-button:hover  {
     background-color: #eee;
 }
 
-.__MSG_@@extension_id__-button-close:focus {
+.protractor-extension-button-close:focus {
     outline: 0;
 }
 
-.__MSG_@@extension_id__-button-close {
+.protractor-extension-button-close {
     background-position: -100px 0;
     width: 25px;
 }
 
-.__MSG_@@extension_id__-button-lock {
+.protractor-extension-button-lock {
     background-position: 0 0;
 }
 
-.__MSG_@@extension_id__-button-locked {
+.protractor-extension-button-locked {
     background-position: 0 -25px;
     width: 25px;
 }
 
-.__MSG_@@extension_id__-button-nudge {
+.protractor-extension-button-nudge {
     background-position: -50px 0;
 }
 
-.__MSG_@@extension_id__-button-nudging {
+.protractor-extension-button-nudging {
     background-position: -50px -25px;
     width: 25px;
 }
 
-.__MSG_@@extension_id__-button-resize {
+.protractor-extension-button-resize {
     background-position: -75px 0;
 }
 
-.__MSG_@@extension_id__-button-resizing {
+.protractor-extension-button-resizing {
     background-position: -75px -25px;
     width: 25px;
 }
 
-.__MSG_@@extension_id__-button-rotate {
+.protractor-extension-button-rotate {
     background-position: -25px 0;
 }
 
-.__MSG_@@extension_id__-button-rotating {
+.protractor-extension-button-rotating {
     background-position: -25px -25px;
     width: 25px;
 }
