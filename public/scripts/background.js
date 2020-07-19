@@ -131,3 +131,8 @@ browser.runtime.onMessage.addListener((msg, sender) => {
 });
 
 browser.browserAction.onClicked.addListener(Background.handleClick);
+
+// https://stackoverflow.com/a/14957674/385273
+chrome && chrome.runtime && chrome.runtime.onInstalled.addListener(function() {
+    chrome.tabs.create({ url: "welcome.html" });
+});

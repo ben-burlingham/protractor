@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding-bottom: 80px;
+}
+
+.container {
+    font-size: 16px;
+    padding: 12px 20px;
+}
+
+.title {
+    background: #7cde8d;
+    color: #222;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 24px;
+}
+
+.title.main {
+    font-size: 24px;
+}
+
+ul {
+    list-style-type: square;
+    padding: 12px 20px;
+}
+
+li {
+    margin: 8px 0;
+}
+
+img {
+    border: 1px solid #eee;
+    display: block;
+    margin: 8px 0;
+}
+
+code {
+    background: #eee;
+    cursor: default;
+    padding: 0 4px;
+}

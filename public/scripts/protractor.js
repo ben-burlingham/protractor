@@ -140,4 +140,6 @@ ProtractorExtension.prototype = {
 };
 
 // Runs when script is injected from background.
-(function() { window.ProtractorExtensionInstance = new ProtractorExtension(); }())
+(function() { 
+    window.ProtractorExtensionInstance = new ProtractorExtension(); 
+}())

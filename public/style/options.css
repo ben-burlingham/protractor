@@ -8,6 +8,21 @@
     padding: 12px 20px;
 }
 
+.questions {
+    background: #7cde8d;
+    font-size: 20px;
+    text-align: center;
+}
+
+.questions a {
+    color: #0c3b17;
+    padding: 2px;
+}
+
+.questions a:hover {
+    background: green;
+}
+
 .option {
     align-items: center;
     border-bottom: 1px solid #ddd;
