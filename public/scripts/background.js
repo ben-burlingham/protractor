@@ -107,12 +107,16 @@ Background = {
 
         Background.blocking[tab.id] = true;
 
-        if (Background.instantiated === false) {
-            Background.instantiate(tab);
-            return;
-        }
+        browser.tabs.executeScript(tab.id, {
+            code: "typeof window.ProtractorExtensionInstance;"
+        }, ([type]) => {
+            if (type === "undefined") {
+               Background.instantiate(tab);
+               return; 
+            }
 
-        Background.toggle(tab);
+            Background.toggle(tab);
+        });
     },
 };
 
@@ -127,6 +131,3 @@ browser.runtime.onMessage.addListener((msg, sender) => {
 });
 
 browser.browserAction.onClicked.addListener(Background.handleClick);
-
-// On page refresh, the window object is unloaded and the instance is lost.
-browser.webNavigation.onCompleted.addListener(() => { Background.instantiated = false; });

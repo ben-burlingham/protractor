@@ -11,8 +11,7 @@ HandleRotate = function({ buttonSpriteUrl, settings }) {
     this.node.style.transform = `rotate(${settings.phi}rad)`;
     this.node.appendChild(this.handle);
 
-    // Non-chrome (Firefox et al)
-    this.debouncedSave = HandleRotate.debouncedStorageSet(1000);
+    this.debouncedSave = HandleRotate.debouncedStorageSet(500);
 
     var move = this.move.bind(this);
     var onMousedown = this.onMousedown.bind(this, move);

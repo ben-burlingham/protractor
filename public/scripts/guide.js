@@ -10,6 +10,8 @@ Guide = function({ settings, i }) {
     this.centerX = 0;
     this.centerY = 0;
 
+    this.debouncedSave = Guide.debouncedStorageSet(500);
+
     this.knob = document.createElement('div');
     this.knob.title = "Double click to lock/unlock";
     this.knob.className = 'protractor-extension-guide-knob';
@@ -42,6 +44,21 @@ Guide = function({ settings, i }) {
     PubSub.subscribe(Channels.SET_MODE, this);
 
     return this.node;
+};
+
+Guide.debouncedStorageSet = function (ms) { 
+    let timer;
+    
+    return function() { 
+        const args = arguments;
+        clearTimeout(timer);
+
+        timer = setTimeout(function() {
+            typeof browser !== "undefined" 
+                ? browser.storage.sync.set(args[0])
+                : chrome.storage.sync.set(args[0]);
+        }, ms) 
+    };
 };
 
 Guide.prototype = {
@@ -133,6 +150,11 @@ Guide.prototype = {
 
         // Always emit angles CW between 0 and Θ ➝ lim(2π)
         PubSub.emit(Channels.MOVE_GUIDE, { index: this.index, theta });
+
+        const obj = {};
+        obj[`theta${this.index}`] = theta;
+
+        this.debouncedSave(obj);
     },
 
     moveContainer: function(msg) {

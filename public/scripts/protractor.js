@@ -18,6 +18,8 @@ ProtractorExtension = function() {
         phi: 0,
         precision: 1,
         rotation: 'ccw',
+        theta0: (Math.PI / 4),
+        theta1: (3 * Math.PI / 4),
         units: 'deg'
     };
 
@@ -52,8 +54,8 @@ ProtractorExtension.prototype = {
             phi: options.phi,
             precision: options.precision,
             rotation: options.rotation,
-            theta0: options.rotation === "ccw" ? (7 * Math.PI / 4) : (Math.PI / 4),
-            theta1: options.rotation === "ccw" ? (5 * Math.PI / 4) : (3 * Math.PI / 4),
+            theta0: options.theta0,
+            theta1: options.theta1,
             units: options.units
         };
 
