@@ -2,6 +2,8 @@
 
 Measure angles in the browser.  
 
+Published: https://chrome.google.com/webstore/detail/protractor/kpjldaeddnfokhmgdlmpdlecmobaonnj?hl=en
+
 ## Notes
 
 All internal operations are performed in radians. 
