@@ -1,3 +1,2 @@
-landing page
-    - donate link
-    - explain how to turn on access for local files
+- "bisector" line + value
+- type in angle

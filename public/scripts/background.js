@@ -1,9 +1,9 @@
-Background = {
-    blocking: {},
-    tabId: null,
-    instantiated: false,
+// Runs IN BACKGROUND and sends messages to protractor.js content script
+const Background = {
+    startedOnTab: {},
+    isShowingOnTab: {},
 
-    css: [
+    cssFiles: [
         "style/buttons.css",
         "style/circle.css",
         "style/marker.css",
@@ -18,11 +18,11 @@ Background = {
         "style/container.css"
     ],
 
-    js: [
+    jsFiles: [
         "scripts/pubsub.js",
         "scripts/channels.js",
         "scripts/container.js",
-        
+
         "scripts/circle.js",
         "scripts/marker.js",
         "scripts/label.js",
@@ -33,6 +33,7 @@ Background = {
         "scripts/button-close.js",
         "scripts/button-lock.js",
         "scripts/button-nudge.js",
+        "scripts/button-options.js",
         "scripts/button-resize.js",
         "scripts/button-rotate.js",
 
@@ -43,96 +44,88 @@ Background = {
         "scripts/protractor.js",
     ],
 
-    instantiate: function(tab) {
-        console.log("Protractor: Instantiating...");
-
-        function injectJS(i, values) {
-            if (i === Background.js.length) {
-                console.log('Protractor: JS injected');
-                console.log('Protractor: Instantiation complete.');
-
-                browser.browserAction.setIcon({
-                    path : {
-                        "16": "images/icon16-off.png",
-                        "48": "images/icon48-off.png",
-                        "128":  "images/icon128-off.png"
-                    },
-                    tabId: tab.id
-                }, () => { 
-                    Background.instantiated = true;
-                    Background.blocking[tab.id] = false; 
-                })
-
-                return;
-            }
-
-            const file = Background.js[i];
-            browser.tabs.executeScript(tab.id, { file }, injectJS.bind(null, i + 1));
-        }
-
-        Background.css.forEach(file => browser.tabs.insertCSS(tab.id, { file }));
-        console.log('Protractor: CSS inserted');
-
-        injectJS(0);
-    },
-
-    toggle: function(tab) {
-        console.log("Protractor: Toggling");
-        
-        browser.tabs.executeScript(tab.id, {
-            code: "window.ProtractorExtensionInstance.toggle();"
-        }, ([isHidden]) => {
-            if (isHidden) {
-                browser.browserAction.setIcon({
-                    path : {
-                        "16": "images/icon16-off.png",
-                        "48": "images/icon48-off.png",
-                        "128":  "images/icon128-off.png"
-                    },
-                    tabId: tab.id
-                }, () => { Background.blocking[tab.id] = false; })
-            } else {
-                browser.browserAction.setIcon({
-                    path: browser.runtime.getManifest().icons,
-                    tabId: tab.id
-                }, () => { Background.blocking[tab.id] = false; });
-            }
-        });
-    },
-
-    handleClick: function(tab) {
-        if (Background.blocking[tab.id] === true) {
+    instantiate: (tab) => new Promise((resolve) => {
+        if (Background.startedOnTab[tab.id]) {
+            resolve(tab);
             return;
         }
 
-        Background.blocking[tab.id] = true;
+        chrome.scripting.insertCSS({
+            target: { tabId: tab.id },
+            files: Background.cssFiles
+        });
 
-        browser.tabs.executeScript(tab.id, {
-            code: "typeof window.ProtractorExtensionInstance;"
-        }, ([type]) => {
-            if (type === "undefined") {
-               Background.instantiate(tab);
-               return; 
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: Background.jsFiles,
+        })
+        .then(() => {
+            Background.startedOnTab[tab.id] = true;
+            resolve(tab);
+        });
+    }),
+
+    handleClick: (tab) => {
+        chrome.tabs.query({active: true, currentWindow: true, status: 'complete'}, (result) => {
+            if (result.length === 0) {
+                return;
             }
 
-            Background.toggle(tab);
+            Background.instantiate(tab)
+                .then(() => {
+                    Background.isShowingOnTab[tab.id]
+                        ? Background.hide(tab)
+                        : Background.show(tab);
+                });
         });
+    },
+
+    hide: (tab) => {
+        Background.isShowingOnTab[tab.id] = false;
+
+        chrome.action.setIcon({
+            path : {
+                "16": "/images/icon16-on.png",
+                "48": "/images/icon48-on.png",
+                "128":  "/images/icon128-on.png"
+            },
+            tabId: tab.id
+        });
+
+        chrome.tabs.sendMessage(tab.id, { action: 'hide' });
+    },
+
+    show: (tab) => {
+        Background.isShowingOnTab[tab.id] = true;
+
+        chrome.action.setIcon({
+            path : {
+                "16": "/images/icon16-off.png",
+                "48": "/images/icon48-off.png",
+                "128":  "/images/icon128-off.png"
+            },
+            tabId: tab.id
+        });
+
+        chrome.tabs.sendMessage(tab.id, { action: 'show' });
     },
 };
 
-if (window.browser === undefined) {
-    window.browser = chrome;
-}
+chrome.runtime.onMessage.addListener((msg, sender) => {
+    if (msg.action === 'close') {
+        Background.hide(sender.tab);
+    }
 
-browser.runtime.onMessage.addListener((msg, sender) => {
-    if (msg === "close") {
-        Background.handleClick(sender.tab);
+    if (msg.action === 'options') {
+        chrome.runtime.openOptionsPage();
     }
 });
 
-browser.browserAction.onClicked.addListener(Background.handleClick);
+chrome.action.onClicked.addListener(Background.handleClick);
 
 // https://stackoverflow.com/a/14957674/385273
-chrome && chrome.runtime && chrome.runtime.onInstalled.addListener(function() {
-    chrome.tabs.create({ url: "welcome.html" });
+chrome && chrome.runtime && chrome.runtime.onInstalled.addListener(function(details) {
+    if (details.reason == "install"){
+        chrome.tabs.create({ url: "welcome.html" });
+    }
 });

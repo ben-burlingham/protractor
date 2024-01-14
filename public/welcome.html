@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Protractor: Welcome FAQs</title>
     <link rel="stylesheet" href="style/welcome.css">
 </head>
 <body>
@@ -12,7 +12,12 @@
     <div class="container text">Here's some frequently asked questions about offline files, licensing, and more.</div>
     <div class="container text">If you're enjoying Protractor, I'd appreciate a review or <a href="http://buymeacoff.ee/5EGitAV">a coffee</a>! &#9749; &#128512;</div>
 
-    <div class="container title">How can I use Protractor on a JPGs or PDFs?</div>
+    <div class="container title">Does Protractor collect any data?</div>
+    <div class="container text">
+        Protractor requests permissions to the page only to place the tool on the page. Protractor does not collect or store any data at all.
+    </div>
+
+    <div class="container title">How can I use Protractor on JPGs or PDFs?</div>
 
     <div class="container text">
         You need to enable offline file access for this extension in the Chrome settings. Here's how:
@@ -20,7 +25,7 @@
             <li>
                 Enter <code>chrome://extensions</code> in the address bar
                 <img src="images/faq-extensions-url.png" alt="Screenshot: Chrome extensions URL">
-            </li> 
+            </li>
             <li>Find Protractor, and click <code>Details</code></li>
             <li>
                 Toggle <code>Allow access to file URLs</code>
@@ -33,15 +38,19 @@
 
     <div class="container text">
         You can choose clockwise or counterclockwise rotation in the options:
-        
+
         <ul>
             <li>
                 Enter <code>chrome://extensions</code> in the address bar
                 <img src="images/faq-extensions-url.png" alt="Screenshot: Chrome extensions URL">
-            </li> 
+            </li>
             <li>Find Protractor, and click <code>Details</code></li>
             <li>
-                Toggle <code>Allow access to file URLs</code>
+                Find and click <code>Extension Options</code>
+                <img src="images/faq-options.png" alt="Screenshot: Extension options">
+            </li>
+            <li>
+                Toggle <code>Rotation Direction</code>
                 <img src="images/faq-rotation.png" alt="Screenshot: Rotation option">
             </li>
         </ul>
@@ -54,7 +63,7 @@
     </div>
 
     <div class="container text">
-        Protractor will not work on any URL starting with `chrome-extension://`.
+        Protractor will not work on any URL starting with <code>chrome-extension://</code>.
         <img src="images/faq-blocked-url.png" alt="Screenshot: Blocked URL.">
     </div>
 
@@ -64,12 +73,8 @@
             <li>
                 Enter <code>chrome://extensions</code> in the address bar
                 <img src="images/faq-extensions-url.png" alt="Screenshot: Chrome extensions URL">
-            </li> 
-            <li>Find Protractor, and click <code>Details</code></li>
-            <li>
-                Find and click <code>Extension Options</code>
-                <img src="images/faq-options.png" alt="Screenshot: Extension options">
             </li>
+            <li>Find Protractor, and click <code>Details</code></li>
             <li>
                 Toggle <code>Allow in incognito</code>
                 <img src="images/faq-incognito.png" alt="Screenshot: Incognito toggle">
@@ -81,7 +86,7 @@
 
     <div class="container text">
         Many schools and government agencies use Protractor.  It's licensed under the <a href='https://opensource.org/licenses/MIT'>MIT license</a>,
-        which is an extremely permissive distribution license. 
+        which is an extremely permissive distribution license.
     </div>
 
     <div class="container text">

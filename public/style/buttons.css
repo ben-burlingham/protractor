@@ -75,3 +75,7 @@
     background-position: -25px -25px;
     width: 25px;
 }
+
+.protractor-extension-button-options {
+    background-position: -150px 0;
+}
