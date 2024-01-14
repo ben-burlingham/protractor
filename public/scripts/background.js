@@ -1,6 +1,5 @@
 // Runs IN BACKGROUND and sends messages to protractor.js content script
 const Background = {
-    startedOnTab: {},
     isShowingOnTab: {},
 
     cssFiles: [
@@ -45,27 +44,31 @@ const Background = {
     ],
 
     instantiate: (tab) => new Promise((resolve) => {
-        if (Background.startedOnTab[tab.id]) {
-            resolve(tab);
-            return;
-        }
+        // Check if the content exists to only instantiate on load and refresh.
+        chrome.tabs.sendMessage(tab.id, { action: 'ping' }, (response) => {
+            // Suppress "Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist."
+            chrome.runtime.lastError;
 
-        chrome.scripting.insertCSS({
-            target: { tabId: tab.id },
-            files: Background.cssFiles
-        });
+            if (response !== undefined) {
+                resolve();
+                return;
+            }
 
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: Background.jsFiles,
-        })
-        .then(() => {
-            Background.startedOnTab[tab.id] = true;
-            resolve(tab);
+            chrome.scripting.insertCSS({
+                target: { tabId: tab.id },
+                files: Background.cssFiles
+            });
+
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: Background.jsFiles,
+            })
+            .then(resolve);
         });
     }),
 
     handleClick: (tab) => {
+        // Make sure that content is ready to receive messages.
         chrome.tabs.query({active: true, currentWindow: true, status: 'complete'}, (result) => {
             if (result.length === 0) {
                 return;
@@ -76,7 +79,7 @@ const Background = {
                     Background.isShowingOnTab[tab.id]
                         ? Background.hide(tab)
                         : Background.show(tab);
-                });
+                })
         });
     },
 

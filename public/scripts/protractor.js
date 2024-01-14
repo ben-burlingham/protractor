@@ -138,15 +138,20 @@
     }
 
     // The frontend does no toggling on its own, it only responds to events from the service worker.
-    chrome.runtime.onMessage.addListener(msg => {
+    chrome.runtime.onMessage.addListener((msg, _, sendResponse) => {
         if (msg.action === 'show') {
             window.ProtractorExtensionInstance.show();
+            return false;
         }
 
         if (msg.action === 'hide') {
             window.ProtractorExtensionInstance.hide();
+            return false;
         }
 
-        return false;
+        if (msg.action === 'ping') {
+            sendResponse('pong');
+            return true;
+        }
     });
 }());
