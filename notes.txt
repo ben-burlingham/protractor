@@ -1,2 +1,5 @@
 - "bisector" line + value
 - type in angle
+- reset to default (?)
+- be able to drag off the window
+- Snap to nearest quarter degree
